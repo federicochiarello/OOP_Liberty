@@ -16,7 +16,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        model/abselement.cpp
+        model/abselement.cpp \
+        model/date.cpp \
+        model/datetime.cpp \
+        model/time.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -24,4 +27,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    model/abselement.h
+    model/abselement.h \
+    model/date.h \
+    model/datetime.h \
+    model/time.h
