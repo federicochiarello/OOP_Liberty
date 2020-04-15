@@ -16,7 +16,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        model/abselement.cpp \
+        model/abstractelement.cpp \
+        model/container.cpp \
         model/date.cpp \
         model/datetime.cpp \
         model/time.cpp
@@ -27,7 +28,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    model/abselement.h \
+    model/abstractelement.h \
+    model/container.h \
     model/date.h \
     model/datetime.h \
     model/time.h

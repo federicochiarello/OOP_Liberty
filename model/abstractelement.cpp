@@ -1,4 +1,4 @@
-#include "abselement.h"
+#include "abstractelement.h"
 
 AbstractElement::AbstractElement(const AbstractElement* p_parent) : m_parent(p_parent) {}
 
