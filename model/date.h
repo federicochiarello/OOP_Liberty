@@ -4,10 +4,25 @@
 #include <string>
 
 class Date {
-private:
-
+protected:
+	unsigned int m_day;
 public:
-	Date();
+	Date(unsigned int=1, unsigned int=0, unsigned int=0);
+	Date(std::string);
+	Date(const Date&);
+	~Date();
+
+	/*Getters*/
+
+	/*Setters*/
+
+	/*Date class operators*/
+
+	Date& operator=(const Date&);
+	bool operator==(const Date&);
+	bool operator!=(const Date&);
+	bool operator<(const Date&);
+
 };
 
 #endif // DATE_H

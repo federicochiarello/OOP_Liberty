@@ -3,8 +3,8 @@
 
 
 class Time {
-private:
-
+protected:
+	unsigned int m_seconds;
 public:
 	Time();
 };

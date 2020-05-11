@@ -18,7 +18,7 @@ public:
 	virtual								~AbstractElement();
 
 // Virtual methods
-	void								modifyLabel(std::string);
+	virtual void						modifyLabel(std::string);
 	virtual void						modifyContent() =0;
 
 // Get methods
