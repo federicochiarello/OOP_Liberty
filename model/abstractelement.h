@@ -8,7 +8,7 @@ private:
 	std::string							m_label;
 //	std::string							m_content;
 //	QDate								m_eta;
-	const AbstractElement*				m_parent;
+	AbstractElement*					m_parent;
 public:
 // Constructors and destructors
 										AbstractElement(const AbstractElement* =nullptr);
