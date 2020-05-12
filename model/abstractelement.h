@@ -11,9 +11,9 @@ private:
 	AbstractElement*					m_parent;
 public:
 // Constructors and destructors
-										AbstractElement(const AbstractElement* =nullptr);
-										AbstractElement(const std::string, const AbstractElement* =nullptr);
-										AbstractElement(const AbstractElement&, const AbstractElement* =nullptr);
+										AbstractElement(AbstractElement* =nullptr);
+										AbstractElement(const std::string, AbstractElement* =nullptr);
+										AbstractElement(const AbstractElement&, AbstractElement* =nullptr);
 
 	virtual								~AbstractElement();
 
