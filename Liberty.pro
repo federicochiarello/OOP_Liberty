@@ -17,10 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         model/abstask.cpp \
+        model/abstaskcontainer.cpp \
         model/container.cpp \
         model/date.cpp \
         model/datetime.cpp \
-        model/time.cpp
+        model/project.cpp \
+        model/time.cpp \
+        veqtor.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -29,7 +32,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     model/abstask.h \
+    model/abstaskcontainer.h \
     model/container.h \
     model/date.h \
     model/datetime.h \
-    model/time.h
+    model/project.h \
+    model/time.h \
+    veqtor.h
