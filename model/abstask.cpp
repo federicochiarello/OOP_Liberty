@@ -23,19 +23,19 @@ AbsTask::AbsTask(const QJsonObject& p_obj, AbsTask* p_parent) :
 
 }
 
-std::string AbsTask::getLabel() const { return m_label; }
+std::string		AbsTask::getLabel() const { return m_label; }
 
-std::string AbsTask::getDesc() const { return m_desc; }
+std::string		AbsTask::getDesc() const { return m_desc; }
 
-std::time_t AbsTask::getEta() const { return m_eta; }
+std::time_t		AbsTask::getEta() const { return m_eta; }
 
-AbsTask* AbsTask::getParent() const { return m_parent; }
+AbsTask*		AbsTask::getParent() const { return m_parent; }
 
-std::string* AbsTask::getList() const { return m_list; }
+std::string*	AbsTask::getList() const { return m_list; }
 
-void AbsTask::setLabel(const std::string& p_label) { m_label = p_label; }
+void			AbsTask::setLabel(const std::string& p_label) { m_label = p_label; }
 
-void AbsTask::setDesc(const std::string& p_desc) { m_desc = p_desc; }
+void			AbsTask::setDesc(const std::string& p_desc) { m_desc = p_desc; }
 
-void AbsTask::setParent(AbsTask* p_parent) { m_parent = p_parent; }
+void			AbsTask::setParent(AbsTask* p_parent) { m_parent = p_parent; }
 
