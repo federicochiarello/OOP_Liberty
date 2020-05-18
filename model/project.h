@@ -4,17 +4,20 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <typeinfo>
 
 #include <QJsonDocument>
 
 #include "../veqtor.h"
 #include "abstask.h"
 
+template <class T>
 class Project {
 private:
 	std::string														m_name;
 	std::map<std::string, std::vector<AbsTask*>>					m_lists;
 	std::vector<std::string*>										m_listOrder;
+	std::type_info&													m_priorityType;
 
 public:
 																	Project(const Project& p_pro);

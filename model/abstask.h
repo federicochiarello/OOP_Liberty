@@ -6,8 +6,6 @@
 
 #include <QJsonObject>
 
-#include "datetime.h"
-
 class AbsTask {
 private:
 	AbsTask*							m_parent;
@@ -17,7 +15,7 @@ private:
 	std::string							m_desc;
 public:
 /* Constructors and destructors */
-										AbsTask(std::string* p_list, const std::string p_label =std::string(), const std::string p_desc =std::string(), AbsTask* p_parent =nullptr);
+										AbsTask(std::string* p_list =nullptr, const std::string p_label =std::string(), const std::string p_desc =std::string(), AbsTask* p_parent =nullptr);
 										AbsTask(const AbsTask& p_task, AbsTask* p_parent =nullptr);
 										AbsTask(const QJsonObject& p_obj, AbsTask* p_parent =nullptr);
 
@@ -25,7 +23,7 @@ public:
 
 /* Virtual methods */
 	virtual QJsonObject&				toJson() const =0;
-	virtual void						setList(std::string*) =0;
+	virtual void						setList(std::string*);
 
 
 /* Get methods */

@@ -2,7 +2,7 @@
 
 AbsTask::AbsTask(std::string* p_list, const std::string p_label, const std::string p_desc, AbsTask* p_parent) :
 	m_parent(p_parent),
-	m_eta(time(0)),
+	m_eta(time(nullptr)),
 	m_list(p_list),
 	m_label(p_label),
 	m_desc(p_desc) {}
@@ -39,3 +39,4 @@ void			AbsTask::setDesc(const std::string& p_desc) { m_desc = p_desc; }
 
 void			AbsTask::setParent(AbsTask* p_parent) { m_parent = p_parent; }
 
+void			AbsTask::setList(std::string* p_list) { m_list = p_list; }

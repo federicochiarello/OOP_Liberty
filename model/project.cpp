@@ -1,6 +1,6 @@
 #include "project.h"
 
-Project::Project()
-{
+template <class T>
+Project::Project() {
 
 }

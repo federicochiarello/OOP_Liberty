@@ -19,10 +19,8 @@ SOURCES += \
         model/abstask.cpp \
         model/abstaskcontainer.cpp \
         model/container.cpp \
-        model/date.cpp \
-        model/datetime.cpp \
+        model/model.cpp \
         model/project.cpp \
-        model/time.cpp \
         veqtor.cpp
 
 # Default rules for deployment.
@@ -34,8 +32,9 @@ HEADERS += \
     model/abstask.h \
     model/abstaskcontainer.h \
     model/container.h \
-    model/date.h \
-    model/datetime.h \
+    model/model.h \
     model/project.h \
-    model/time.h \
     veqtor.h
+
+RESOURCES += \
+    resources.qrc
