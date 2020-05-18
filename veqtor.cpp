@@ -1,5 +1,6 @@
 #include "veqtor.h"
 
-veqtor::veqtor() {
+template<class T>
+veqtor<T>::veqtor() {
 
 }
