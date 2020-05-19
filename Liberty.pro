@@ -18,6 +18,7 @@ SOURCES += \
         main.cpp \
         model/abstask.cpp \
         model/abstaskcontainer.cpp \
+        model/abstaskprio.cpp \
         model/container.cpp \
         model/model.cpp \
         model/project.cpp \
@@ -31,6 +32,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     model/abstask.h \
     model/abstaskcontainer.h \
+    model/abstaskprio.h \
     model/container.h \
     model/model.h \
     model/project.h \

@@ -1,9 +1,14 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#include "veqtor.h"
+#include "project.h"
 
-class Model
-{
+class Model {
+private:
+	std::string						m_basePath;
+	std::vector<std::string>		m_projects;
+	Project*						m_activeProject;
 public:
 	Model();
 };

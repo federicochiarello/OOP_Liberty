@@ -6,6 +6,7 @@
 
 #include <QJsonObject>
 
+#include "veqtor.h"
 class AbsTask {
 private:
 	AbsTask*							m_parent;
