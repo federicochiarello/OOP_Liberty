@@ -8,7 +8,7 @@ class Model {
 private:
 	std::string						m_basePath;
 	std::vector<std::string>		m_projects;
-	Project*						m_activeProject;
+	AbsProject*						m_activeProject;
 public:
 	Model();
 };

@@ -12,8 +12,16 @@
 #include "veqtor.h"
 #include "abstask.h"
 
+class AbsProject {
+/*
+ * Portare qua tutti i metodi e gli attributi che non hanno a che fare con il template e mettere il resto in Project
+*/
+public:
+	AbsProject();
+};
+
 template <class T>
-class Project {
+class Project : public AbsProject {
 private:
 	std::string														m_name;
 	std::vector<AbsTask*>											m_tasks;
