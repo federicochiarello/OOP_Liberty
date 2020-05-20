@@ -5,12 +5,12 @@
 
 #include "abstask.h"
 
-class AbsTaskContainer : virtual public AbsTask {
+class AbsTaskContainer /*: virtual public AbsTask */{
 private:
 	std::vector<AbsTask*>				m_child;
 public:
 	AbsTaskContainer();
-	virtual ~AbsTaskContainer();
+	/*virtual*/ ~AbsTaskContainer();
 
 	/*  Get methods */
 	std::vector<AbsTask*>				getChilds() const;
