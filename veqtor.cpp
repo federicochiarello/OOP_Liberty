@@ -4,8 +4,17 @@ template<class T>
 veqtor<T>::veqtor() : _size(0), _capacity(0), _pointer(nullptr) {}
 
 template<class T>
+veqtor<T>::veqtor(unsigned short s) : _pointer(s==0 ? nullptr : new T[s]), _size(s), _capacity(s) {}
+
+template<class T>
 veqtor<T>::veqtor(unsigned short s, const T& x) : _pointer(s==0 ? nullptr : new T[s]), _size(s), _capacity(s) {
     for(int i = 0; i < _size; ++i) _pointer[i] = x;
+}
+
+template<class T>
+veqtor<T>::veqtor(const veqtor<T>::iterator& it1, const veqtor<T>::iterator& it2) : _pointer(it1.v->size() == 0 ? nullptr : new T[it1.v->size()]),
+    _size(it1.v->size()), _capacity(it1.v->size()) {
+    for(veqtor<T>::iterator i = it1; i < it2; ++i) _pointer[i] = it1.v->_pointer[i];
 }
 
 template<class T>
@@ -53,7 +62,67 @@ template<class T>
 bool veqtor<T>::empty() const { return _size == 0; }
 
 template<class T>
-void veqtor<T>::pushBack(const T & x) {
+void veqtor<T>::push_back(const T & x) {
     if (_size == _capacity)  expand();
     _pointer[_size++] = x;
 }
+
+template<class T>
+void veqtor<T>::pop_back() { _size--; }
+//c.erase(--c.end())
+
+template<class T>
+T& veqtor<T>::operator[](unsigned int i) const {
+    return _pointer[i];
+}
+
+template<class T>
+typename veqtor<T>::iterator veqtor<T>::begin() const {
+    iterator aux;
+    aux.v = this;
+    aux.i = 0;
+    return aux;
+}
+
+template<class T>
+typename veqtor<T>::iterator veqtor<T>::end() const {
+    iterator aux;
+    aux.v = this;
+    aux.i = size();
+    return aux;
+}
+
+template<class T>
+void veqtor<T>::insert(veqtor<T>::iterator it, const int& n, const T& x) {
+    while (_size + n > _capacity) expand();
+    for(veqtor<T>::iterator i = end() + n - 1; i != it + n - 1; --i)  *i = *(i - n);
+    for(veqtor<T>::iterator i = it; i != it + n; ++i)  *i = x;
+    _size += n;
+}
+
+template<class T>
+typename veqtor<T>::iterator veqtor<T>::insert(veqtor<T>::iterator it, const T& x) {
+    if (_size == _capacity) expand();
+    for(veqtor<T>::iterator i = end(); i != it; --i)  *i = *(i - 1);
+    *it = x;
+    _size++;
+    return it;
+}
+
+template<class T>
+typename veqtor<T>::iterator veqtor<T>::erase(veqtor<T>::iterator it) {
+    for(veqtor<T>::iterator i = it; i != end(); ++i)  *i = *(i + 1);
+    _size -= 1;
+    return it;
+}
+
+template<class T>
+typename veqtor<T>::iterator veqtor<T>::erase(veqtor<T>::iterator it1, veqtor<T>::iterator it2) {
+    int diff = it2 - it1;
+    for(veqtor<T>::iterator i = it1; i != end() - diff; i++)  *i = *(i + diff);
+    _size = _size - diff;
+    return it1;
+}
+
+template<class T>
+void veqtor<T>::clear() { erase(begin(),end()); }
