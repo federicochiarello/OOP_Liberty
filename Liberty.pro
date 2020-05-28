@@ -16,6 +16,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
+        view/taskholder.cpp \
+        view/taskslist.cpp \
+        view/taskwidget.cpp \
+        view/textholder.cpp \
+        view/tpreview.cpp \
         view/view.cpp
 
 # Default rules for deployment.
@@ -24,4 +29,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    view/taskholder.h \
+    view/taskslist.h \
+    view/taskwidget.h \
+    view/textholder.h \
+    view/tpreview.h \
     view/view.h

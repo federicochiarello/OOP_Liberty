@@ -5,8 +5,12 @@
 int main(int argc, char *argv[]) {
 	QApplication app(argc, argv);
 	Controller c;
-	View v(&c);
-	v.show();
+	//View t(&c);
+	TaskHolder t;
+	//TasksList t;
+	//TaskWidget t;
+	//TextHolder t("prova");
+	t.show();
 	return app.exec();
 }
 
