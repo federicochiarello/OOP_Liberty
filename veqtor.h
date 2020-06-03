@@ -66,14 +66,12 @@ public:
     void                    push_back(const T&);
     void                    pop_back();
     T&                      operator[](unsigned int) const;
+    T&                      front() const;
+    T&                      back() const;
     iterator                begin() const;
     iterator                end() const;
     void                    insert(veqtor<T>::iterator, const int&, const T&);
     veqtor<T>::iterator     insert(veqtor<T>::iterator, const T&);
-    template<class inputIt>
-    void                    insert(veqtor<T>::iterator,inputIt,inputIt);
-    //***************************************************************************************************************************
-    // comportamento un po diverso da standard
     veqtor<T>::iterator     erase(veqtor<T>::iterator);
     veqtor<T>::iterator     erase(veqtor<T>::iterator, veqtor<T>::iterator);
     void                    clear();

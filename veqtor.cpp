@@ -77,6 +77,16 @@ T& veqtor<T>::operator[](unsigned int i) const {
 }
 
 template<class T>
+T &veqtor<T>::front() const {
+    return _pointer[0];
+}
+
+template<class T>
+T &veqtor<T>::back() const {
+    return _pointer[_size - 1];
+}
+
+template<class T>
 typename veqtor<T>::iterator veqtor<T>::begin() const {
     iterator aux;
     aux.v = this;
