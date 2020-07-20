@@ -16,10 +16,9 @@ class TaskHolder : public QWidget {
 public:
 	explicit TaskHolder(QWidget *parent = nullptr);
 
-	static QSize minSize;
-	static QSize maxSize;
 private slots:
 	void addTask();
+
 private:
 	QVBoxLayout* _layout;
 	QScrollArea* _scrollArea;

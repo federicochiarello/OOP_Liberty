@@ -1,6 +1,6 @@
 #include "view.h"
 
-View::View(Controller* controller,QWidget* parent) : QWidget(parent), _controller(controller), _windowLayout(new QVBoxLayout()) {
+View::View(Controller* controller,QWidget* parent) : QWidget(parent), _controller(controller), _windowLayout(new QVBoxLayout()), _projects(new QTabWidget(this)) {
 	setup();
 }
 
@@ -75,8 +75,11 @@ void View::addToolBar() {
 void View::setup() {
 	addMenu();
 	addToolBar();
-	addMainLayout();
+	//addMainLayout();
 	addList();
+	_windowLayout->addWidget(_projects);
+	ProjectView* proj = new ProjectView(this);
+	_projects->addTab(proj, tr("Titolo"));
 	setLayout(_windowLayout);
 	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 }

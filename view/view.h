@@ -9,21 +9,18 @@
 #include <QToolBar>
 #include <QToolButton>
 #include <QDesktopWidget>
+#include <QTabWidget>
 
 #include "taskholder.h"
 #include "taskwidget.h"
+#include "projectview.h"
 
-class Controller : public QObject {
-	Q_OBJECT
-	int c;
-public:
-	Controller() {}
-};
+class Controller;
 
 class View : public QWidget {
 	Q_OBJECT
 public:
-	View(Controller* controller, QWidget* parent =nullptr);
+	View(Controller* controller =nullptr, QWidget* parent =nullptr);
 	void addMainLayout();
 	void addList();
 	void addMenu();
@@ -35,6 +32,7 @@ private:
 	QVBoxLayout* _windowLayout;
 	QHBoxLayout* _mainLayout;
 	TaskWidget* t;
+	QTabWidget* _projects;
 
 	void setup();
 };

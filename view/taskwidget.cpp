@@ -1,48 +1,64 @@
 #include "taskwidget.h"
 
-QSize TaskWidget::minSize = QSize(150, 30);
-QSize TaskWidget::maxSize = QSize(300, 270);
-
 TaskWidget::TaskWidget(QWidget* parent) :
 	QWidget(parent),
 	_layout(new QVBoxLayout()),
-	_title(new QTextEdit(this)),
-	_desc(new QTextEdit(this)) {
+	_name(new TextHolder(this)),
+	_desc(new TextHolder(this)) {
 	setup();
 }
 
-TaskWidget::TaskWidget(const QString& title, const QString& desc, QWidget* parent) :
+TaskWidget::TaskWidget(const QString& name, const QString& desc, QWidget* parent) :
 	QWidget(parent),
 	_layout(new QVBoxLayout()),
-	_title(new QTextEdit(title, this)),
-	_desc(new QTextEdit(desc, this)) {
-
-
+	_name(new TextHolder(name, this)),
+	_desc(new TextHolder(desc, this)) {
+	setup();
 }
 
 void TaskWidget::setup() {
+	//QTextEdit* name = new TextHolder(tr("Inserire il nome del task"), this);
+	//QTextEdit* desc = new TextHolder(tr("Descrizione"), this);
 	QHBoxLayout* firstRow = new QHBoxLayout();
-	QTextEdit* name = new TextHolder(tr("Inserire il nome del task"), this);
-	QToolButton* options = new QToolButton(this);
-	QTextEdit* desc = new TextHolder(tr("Descrizione"), this);
-	firstRow->addWidget(name);
+	QPushButton* options = new QPushButton(this);
+	QMenu* menu = new QMenu(options);
+	QAction* forward = new QAction(tr("Sposta avanti"), menu);
+	QAction* backward = new QAction(tr("Sposta indietro"), menu);
+	QAction* remove = new QAction(tr("Elimina"), menu);
+
+	/* Connect delle varie QAction */
+	//connect(forward, SIGNAL(triggered()));
+
+	/* Scorciatoie per le QAction */
+	/*
+	forward->setShortcut(QKeySequence("Ctrl+L"));
+	backward->setShortcut(QKeySequence(""));
+	remove->setShortcut(QKeySequence("Shift+Ctrl+X"));
+	*/
+
+	/* Aggiunta QAction a menu */
+	menu->addAction(forward);
+	menu->addAction(backward);
+	menu->addAction(remove);
+
+	/* Aggiunta menu a pulsante e settaggio delle relative impostazioni */
+	options->setMenu(menu);
+	options->setFixedSize(25, 25);
+
+	/* Settaggio impostazioni TextHolder _name */
+	_name->setFixedHeight(25);
+	_name->setMinimumWidth(150);
+	_name->setMaximumWidth(300);
+	_name->resize(150, 30);
+
+	/* Aggiunta elementi a layout della prima riga e settaggi */
+	firstRow->addWidget(_name);
 	firstRow->addWidget(options);
+	firstRow->setAlignment(Qt::AlignCenter);
+
+	/* Aggiunta elementi a layout principale e settaggi */
 	_layout->addLayout(firstRow);
-	_layout->addWidget(desc);
+	_layout->addWidget(_desc);
 	setLayout(_layout);
-	setGeometry(0,0,minSize.width(), minSize.height());
-	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-	setMaximumSize(maxSize);
+	setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
 }
-
-/*
-void TaskWidget::mousePressEvent(QMouseEvent *event) {
-	if (event->button() == Qt::LeftButton) {
-		(childAt(event->pos()))->setFocus();
-	} else if (event->button() == Qt::RightButton) {
-
-	} else {
-
-	}
-}
-*/

@@ -4,9 +4,12 @@
 #include <QObject>
 #include <QWidget>
 #include <QLayout>
-#include <QLabel>
 #include <QTextEdit>
-#include <QToolButton>
+#include <QMenu>
+#include <QPushButton>
+
+//#include <QLabel>
+//#include <QToolButton>
 
 #include "textholder.h"
 
@@ -15,20 +18,16 @@ class TaskWidget : public QWidget {
 public:
 	explicit TaskWidget(QWidget* parent =nullptr);
 	TaskWidget(const TaskWidget& widget,QWidget* parent =nullptr);
-	TaskWidget(const QString& title, const QString& desc =QString(), QWidget* parent =nullptr);
+	TaskWidget(const QString& name, const QString& desc =QString(), QWidget* parent =nullptr);
 
 	void setName();
 	void setDesc();
-	void generateLayout();
-
-	static QSize minSize;
-	static QSize maxSize;
 protected:
 	//void mousePressEvent(QMouseEvent *event) override;
 private:
 	QVBoxLayout*	_layout;
-	QTextEdit*			_title;
-	QTextEdit*			_desc;
+	TextHolder*		_name;
+	TextHolder*		_desc;
 
 	void setup();
 };

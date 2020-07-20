@@ -1,8 +1,5 @@
 #include "taskholder.h"
 
-QSize TaskHolder::minSize = QSize(TaskWidget::minSize.width()+100, TaskWidget::minSize.height());
-QSize TaskHolder::maxSize = QSize(TaskWidget::maxSize.width(), TaskWidget::maxSize.height());
-
 TaskHolder::TaskHolder(QWidget* parent) : QWidget(parent), _layout(new QVBoxLayout()), _scrollArea(new QScrollArea(this)), _tasks(new TasksList(this)) {
 	setup();
 }
@@ -14,8 +11,8 @@ void TaskHolder::addTask() {
 
 void TaskHolder::setup() {
 	genLayout();
-	setMinimumSize(minSize);
-	setMaximumSize(maxSize);
+	//setMinimumSize();
+	//setMaximumSize();
 	setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding));
 }
 

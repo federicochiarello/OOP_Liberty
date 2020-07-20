@@ -4,10 +4,10 @@
 
 int main(int argc, char *argv[]) {
 	QApplication app(argc, argv);
-	Controller c;
-	//View t(&c);
-	TaskHolder t;
-	//TasksList t;
+	//Controller c;
+	//View t;
+	//TaskHolder t;
+	TasksList t(nullptr, "Inserire nome lista");
 	//TaskWidget t;
 	//TextHolder t("prova");
 	t.show();
