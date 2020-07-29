@@ -22,6 +22,8 @@ SOURCES += \
         model/container.cpp \
         model/model.cpp \
         model/project.cpp \
+        model/task.cpp \
+        model/taskcontainer.cpp \
         veqtor.cpp
 
 # Default rules for deployment.
@@ -36,6 +38,8 @@ HEADERS += \
     model/container.h \
     model/model.h \
     model/project.h \
+    model/task.h \
+    model/taskcontainer.h \
     veqtor.h
 
 RESOURCES += \

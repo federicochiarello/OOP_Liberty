@@ -10,8 +10,6 @@ private:
 	unsigned int						m_capacity;
 	T*									m_vector;
 
-
-
 public:
 										container();
 										container(const container&);

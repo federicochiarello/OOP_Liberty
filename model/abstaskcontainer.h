@@ -9,8 +9,8 @@ class AbsTaskContainer : virtual public AbsTask {
 private:
 	std::vector<AbsTask*>				m_child;
 public:
-    AbsTaskContainer();
-	virtual ~AbsTaskContainer();
+    AbsTaskContainer(const std::string p_label =std::string(), const std::string p_desc =std::string(), AbsTask* p_parent =nullptr, std::string* p_list =nullptr);
+    virtual ~AbsTaskContainer();
 
 	/*  Get methods */
 	std::vector<AbsTask*>				getChilds() const;

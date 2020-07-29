@@ -1,6 +1,7 @@
 #include "abstaskcontainer.h"
 
-AbsTaskContainer::AbsTaskContainer() {}
+AbsTaskContainer::AbsTaskContainer(const std::string p_label, const std::string p_desc, AbsTask* p_parent, std::string* p_list) :
+    AbsTask(p_label,p_desc,p_parent,p_list) {}
 
 std::vector<AbsTask *> AbsTaskContainer::getChilds() const {
     return m_child;
