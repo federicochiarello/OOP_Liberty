@@ -5,20 +5,28 @@
 #include <QWidget>
 #include <QListWidget>
 #include <QHBoxLayout>
+#include <QShortcut>
 
 #include <vector>
 #include <string>
 
-#include "taskslist.h"
+#include "taskslistwidget.h"
 
 class ProjectView : public QWidget {
 	Q_OBJECT
-	std::vector<QListWidget*> _lists;
-	QHBoxLayout* _mainLayout;
+	std::vector<QWidget*> _lists;
+	QVBoxLayout* _mainLayout;
+	QHBoxLayout* _centralLayout;
+
+	void setup(std::string name = std::string());
 public:
 	explicit ProjectView(QWidget *parent = nullptr);
 
-	void addList(std::string listName);
+private slots:
+	void newList();
+
+public slots:
+	void addList(std::string listName =std::string());
 
 	signals:
 

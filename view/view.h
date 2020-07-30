@@ -19,15 +19,7 @@ class Controller;
 
 class View : public QWidget {
 	Q_OBJECT
-public:
-	View(Controller* controller =nullptr, QWidget* parent =nullptr);
-	void addMainLayout();
-	void addList();
-	void addMenu();
-	void addToolBar();
-	void addStatusBar();
 
-private:
 	Controller* _controller;
 	QVBoxLayout* _windowLayout;
 	QHBoxLayout* _mainLayout;
@@ -35,6 +27,14 @@ private:
 	QTabWidget* _projects;
 
 	void setup();
+
+public:
+	View(Controller* controller =nullptr, QWidget* parent =nullptr);
+	void addMainLayout();
+	void addList();
+	void addMenu();
+	void addToolBar();
+	void addStatusBar();
 };
 
 #endif // VIEW_H

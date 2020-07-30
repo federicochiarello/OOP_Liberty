@@ -9,7 +9,7 @@
 
 #include "textholder.h"
 #include "taskwidget.h"
-#include "taskslist.h"
+#include "taskslistwidget.h"
 
 class TaskHolder : public QWidget {
 	Q_OBJECT
@@ -22,7 +22,7 @@ private slots:
 private:
 	QVBoxLayout* _layout;
 	QScrollArea* _scrollArea;
-	TasksList* _tasks;
+	TasksListWidget* _tasks;
 
 	void setup();
 	void genLayout();

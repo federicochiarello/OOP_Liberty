@@ -1,6 +1,6 @@
 #include "taskholder.h"
 
-TaskHolder::TaskHolder(QWidget* parent) : QWidget(parent), _layout(new QVBoxLayout()), _scrollArea(new QScrollArea(this)), _tasks(new TasksList(this)) {
+TaskHolder::TaskHolder(QWidget* parent) : QWidget(parent), _layout(new QVBoxLayout()), _scrollArea(new QScrollArea(this)), _tasks(new TasksListWidget(this)) {
 	setup();
 }
 
