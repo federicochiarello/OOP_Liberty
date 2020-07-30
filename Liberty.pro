@@ -16,9 +16,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
+        view/projectpreview.cpp \
         view/projectview.cpp \
         view/taskholder.cpp \
         view/taskslist.cpp \
+        view/taskslistwidget.cpp \
         view/taskwidget.cpp \
         view/textholder.cpp \
         view/tpreview.cpp \
@@ -30,9 +32,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    view/projectpreview.h \
     view/projectview.h \
     view/taskholder.h \
     view/taskslist.h \
+    view/taskslistwidget.h \
     view/taskwidget.h \
     view/textholder.h \
     view/tpreview.h \

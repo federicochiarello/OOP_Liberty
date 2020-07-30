@@ -2,33 +2,28 @@
 #define TASKSLIST_H
 
 #include <QObject>
-#include <QWidget>
 #include <QLayout>
-#include <QMenu>
-#include <QLabel>
-#include <QListView>
-#include <QStringListModel>
+#include <QScrollArea>
+#include <QDrag>
+#include <QDropEvent>
+
 #include <QLineEdit>
 
 #include "taskwidget.h"
-#include "tpreview.h"
 
-#include <QDebug>
-
-class TasksList : public QWidget {
+class TasksList : public QScrollArea {
 	Q_OBJECT
-
-	QVBoxLayout* _layout;
-	std::string _name;
-	QListView* _list;
-
-	void setup();
 public:
-	TasksList(QWidget* parent =nullptr, std::string listName =std::string());
+	explicit TasksList(QWidget *parent = nullptr);
 
-	operator QListView*() {return _list;}
-public slots:
-	void addTask();
+	void addWidget(QWidget* widget);
+protected:
+	virtual void dragMoveEvent(QDragMoveEvent* event) override;
+	virtual void dragEnterEvent(QDragEnterEvent* event) override;
+	virtual void dragLeaveEvent(QDragLeaveEvent* event) override;
+	virtual void dropEvent(QDropEvent* event) override;
+signals:
+
 };
 
 #endif // TASKSLIST_H
