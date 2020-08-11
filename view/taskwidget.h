@@ -15,6 +15,11 @@
 
 class TaskWidget : public QWidget {
 	Q_OBJECT
+	QVBoxLayout*	_layout;
+	TextHolder*		_name;
+	TextHolder*		_desc;
+
+	void setup();
 public:
 	explicit TaskWidget(QWidget* parent =nullptr);
 	TaskWidget(const TaskWidget& widget,QWidget* parent =nullptr);
@@ -22,14 +27,12 @@ public:
 
 	void setName();
 	void setDesc();
+
 protected:
 	//void mousePressEvent(QMouseEvent *event) override;
-private:
-	QVBoxLayout*	_layout;
-	TextHolder*		_name;
-	TextHolder*		_desc;
 
-	void setup();
+signals:
+	QString getData() const;
 };
 
 #endif // TASKWIDGET_H

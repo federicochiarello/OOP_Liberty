@@ -15,15 +15,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        controller/controller.cpp \
         main.cpp \
         view/projectpreview.cpp \
         view/projectview.cpp \
         view/taskholder.cpp \
+        view/taskpreview.cpp \
         view/taskslist.cpp \
         view/taskslistwidget.cpp \
         view/taskwidget.cpp \
         view/textholder.cpp \
-        view/tpreview.cpp \
         view/view.cpp
 
 # Default rules for deployment.
@@ -32,12 +33,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    controller/controller.h \
     view/projectpreview.h \
     view/projectview.h \
     view/taskholder.h \
+    view/taskpreview.h \
     view/taskslist.h \
     view/taskslistwidget.h \
     view/taskwidget.h \
     view/textholder.h \
-    view/tpreview.h \
     view/view.h

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QWidget>
+#include <QMainWindow>
 #include <QLayout>
 #include <QMenuBar>
 #include <QPushButton>
@@ -17,7 +18,7 @@
 
 class Controller;
 
-class View : public QWidget {
+class View : public QMainWindow {
 	Q_OBJECT
 
 	Controller* _controller;
@@ -35,6 +36,10 @@ public:
 	void addMenu();
 	void addToolBar();
 	void addStatusBar();
+
+signals:
+
+public slots:
 };
 
 #endif // VIEW_H

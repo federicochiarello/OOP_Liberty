@@ -6,6 +6,7 @@
 #include <QScrollArea>
 #include <QDrag>
 #include <QDropEvent>
+#include <QMimeData>
 
 #include <QLineEdit>
 
@@ -13,16 +14,38 @@
 
 class TasksList : public QScrollArea {
 	Q_OBJECT
+
+	QVBoxLayout* _layout;
+	QWidget* _widget;
 public:
 	explicit TasksList(QWidget *parent = nullptr);
 
-	void addWidget(QWidget* widget);
+	void addWidget(QLineEdit* widget);
 protected:
 	virtual void dragMoveEvent(QDragMoveEvent* event) override;
 	virtual void dragEnterEvent(QDragEnterEvent* event) override;
 	virtual void dragLeaveEvent(QDragLeaveEvent* event) override;
 	virtual void dropEvent(QDropEvent* event) override;
+	virtual void mousePressEvent(QMouseEvent* event) override;
+
+public slots:
+
 signals:
+	void newTask(unsigned short);
+	void deleteTask(unsigned short);
+};
+
+class DragDrop : public QWidget {
+	Q_OBJECT
+public:
+	explicit DragDrop(QWidget* parent =nullptr);
+
+protected:
+	virtual void dragMoveEvent(QDragMoveEvent* event) override;
+	virtual void dragEnterEvent(QDragEnterEvent* event) override;
+	virtual void dragLeaveEvent(QDragLeaveEvent* event) override;
+	virtual void dropEvent(QDropEvent* event) override;
+	virtual void mousePressEvent(QMouseEvent* event) override;
 
 };
 

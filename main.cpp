@@ -6,13 +6,15 @@
 int main(int argc, char *argv[]) {
 	QApplication app(argc, argv);
 	//Controller c;
-	//View t;
+	//TextHolder t("prova");
+	//TaskWidget t;
+	//TaskPreview t;
 	//TaskHolder t;
 	//TasksListWidget t("Prova");
-	TasksList t;
-	//TaskWidget t;
-	//TextHolder t("prova");
+	//TasksList t;
+	DragDrop t;
 	//ProjectView t;
+	//View t;
 	t.show();
 	return app.exec();
 }

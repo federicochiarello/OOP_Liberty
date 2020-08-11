@@ -10,7 +10,7 @@
 #include <QScrollArea>
 
 #include "taskwidget.h"
-#include "tpreview.h"
+#include "taskpreview.h"
 #include <QDebug>
 
 class TasksListWidget : public QWidget {
