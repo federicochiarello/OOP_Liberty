@@ -17,13 +17,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         model/abstask.cpp \
-        model/abstaskcontainer.cpp \
-        model/abstaskprio.cpp \
         model/container.cpp \
         model/model.cpp \
         model/project.cpp \
         model/task.cpp \
         model/taskcontainer.cpp \
+        model/taskpriority.cpp \
+        model/taskprioritycontainer.cpp \
         veqtor.cpp
 
 # Default rules for deployment.
@@ -33,13 +33,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     model/abstask.h \
-    model/abstaskcontainer.h \
-    model/abstaskprio.h \
     model/container.h \
     model/model.h \
     model/project.h \
     model/task.h \
     model/taskcontainer.h \
+    model/taskpriority.h \
+    model/taskprioritycontainer.h \
     veqtor.h
 
 RESOURCES += \

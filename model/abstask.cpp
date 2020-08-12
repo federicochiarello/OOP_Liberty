@@ -1,6 +1,6 @@
 #include "abstask.h"
 
-AbsTask::AbsTask(const std::string p_label, const std::string p_desc, AbsTask* p_parent, std::string* p_list) :
+AbsTask::AbsTask(const std::string p_label, const std::string p_desc, std::string* p_list, AbsTask* p_parent) :
     m_label(p_label),
     m_desc(p_desc),
 	m_eta(time(nullptr)),

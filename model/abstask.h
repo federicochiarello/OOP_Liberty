@@ -4,7 +4,6 @@
 #include <string>
 #include <ctime>
 #include <QJsonObject>
-#include "veqtor.h"
 
 class AbsTask {
 private:
@@ -15,15 +14,15 @@ private:
 	std::string*						m_list;
 public:
 /* Constructors and destructors */
-                                        AbsTask(const std::string p_label =std::string(), const std::string p_desc =std::string(), AbsTask* p_parent =nullptr, std::string* p_list =nullptr);
+                                        AbsTask(const std::string p_label =std::string(), const std::string p_desc =std::string(), std::string* p_list =nullptr, AbsTask* p_parent =nullptr);
 										AbsTask(const AbsTask& p_task, AbsTask* p_parent =nullptr);
 										AbsTask(const QJsonObject& p_obj, AbsTask* p_parent =nullptr);
 
     virtual								~AbsTask();
 
 /* Virtual methods */
-	virtual QJsonObject&				toJson() const =0;
-	virtual void						setList(std::string*);
+    virtual QJsonObject&				toJson() const =0;
+    virtual void						setList(std::string* p_list);
 
 /* Get methods */
 	std::string							getLabel() const;
