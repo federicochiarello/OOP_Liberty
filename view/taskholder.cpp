@@ -5,7 +5,7 @@ TaskHolder::TaskHolder(QWidget* parent) : QWidget(parent), _layout(new QVBoxLayo
 }
 
 void TaskHolder::addTask() {
-	_tasks->addTask();
+//	_tasks->addTask();
 	_scrollArea->setWidget(_tasks);
 }
 

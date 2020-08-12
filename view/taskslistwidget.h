@@ -9,25 +9,28 @@
 #include <QLineEdit>
 #include <QScrollArea>
 
-#include "taskwidget.h"
-#include "taskpreview.h"
+#include "taskslist.h"
 #include <QDebug>
+
+#define TLW TasksListWidget
 
 class TasksListWidget : public QWidget {
 	Q_OBJECT
 
 	QVBoxLayout* _layout;
 	std::string _name;
-	QScrollArea* _list;
+	TasksList* _list;
 
 	void setup();
 public:
-	TasksListWidget(std::string listName, QWidget* parent =nullptr);
-	TasksListWidget(QWidget* parent =nullptr);
+	explicit TasksListWidget(QWidget* parent =nullptr);
+	explicit TasksListWidget(std::string listName, QWidget* parent =nullptr);
 	~TasksListWidget();
-	//operator QListView*() {return _list;}
+
 public slots:
-	void addTask();
+//	void addTask();
+signals:
+
 };
 
 #endif // TASKSLISTWIDGET_H

@@ -3,7 +3,7 @@
 TaskWidget::TaskWidget(QWidget* parent) :
 	QWidget(parent),
 	_layout(new QVBoxLayout()),
-	_name(new TextHolder(this)),
+	_name(new QLineEdit(this)),
 	_desc(new TextHolder(this)) {
 	setup();
 }
@@ -11,7 +11,7 @@ TaskWidget::TaskWidget(QWidget* parent) :
 TaskWidget::TaskWidget(const QString& name, const QString& desc, QWidget* parent) :
 	QWidget(parent),
 	_layout(new QVBoxLayout()),
-	_name(new TextHolder(name, this)),
+	_name(new QLineEdit(name, this)),
 	_desc(new TextHolder(desc, this)) {
 	setup();
 }

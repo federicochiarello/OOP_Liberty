@@ -1,12 +1,10 @@
 #include "taskpreview.h"
 
-TaskPreview::TaskPreview(QWidget *parent) : QLineEdit(parent), _id(int()) {
+TaskPreview::TaskPreview(QWidget *parent) : QLineEdit(parent), _id(int()) {}
 
-}
+TaskPreview::TaskPreview(int id, QWidget *parent) : QLineEdit(parent), _id(id) {}
 
-TaskPreview::TaskPreview(int id, QWidget *parent) : QLineEdit(parent), _id(id) {
-
-}
+TaskPreview::TaskPreview(QString taskName, int id, QWidget *parent) : QLineEdit(taskName, parent), _id(id) {}
 
 void TaskPreview::mouseDoubleClickEvent(QMouseEvent *event) {
 	TaskWidget* clickedTask = new TaskWidget();

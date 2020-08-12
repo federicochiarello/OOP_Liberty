@@ -10,7 +10,8 @@
 
 #include <QLineEdit>
 
-#include "taskwidget.h"
+//#include "taskwidget.h"
+#include "taskpreview.h"
 
 class TasksList : public QScrollArea {
 	Q_OBJECT
@@ -29,10 +30,11 @@ protected:
 	virtual void mousePressEvent(QMouseEvent* event) override;
 
 public slots:
-
+	void addTask();
 signals:
 	void newTask(unsigned short);
 	void deleteTask(unsigned short);
+
 };
 
 class DragDrop : public QWidget {

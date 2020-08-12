@@ -5,28 +5,21 @@ static inline QString libertyMimeType() {return QStringLiteral("application/x-Li
 TasksList::TasksList(QWidget *parent) : QScrollArea(parent) {
 //	setDragEnabled(true);
 	setAcceptDrops(true);
+	setWidgetResizable(true);
+
 	QVBoxLayout* wdgtLayout = new QVBoxLayout();
 	QWidget* wdgt = new QWidget(this);
-	wdgt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	wdgt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 	wdgt->setLayout(wdgtLayout);
 	wdgt->autoFillBackground();
-	//wdgtLayout->addWidget(new QLineEdit(tr("1"), this));
 	setWidget(wdgt);
-	//wdgtLayout->addWidget(new QLineEdit(tr("2"), this));
-	addWidget(new QLineEdit(tr("1"), this));
-	addWidget(new QLineEdit(tr("2"), this));
-//	addWidget(new QLineEdit(tr("3"), this));
-//	addWidget(new QLineEdit(tr("4"), this));
-//	addWidget(new QLineEdit(tr("5"), this));
-//	addWidget(new QLineEdit(tr("6"), this));
-//	addWidget(new QLineEdit(tr("7"), this));
-//	addWidget(new QLineEdit(tr("8"), this));
+
+//	addWidget(new TaskPreview(tr("Insert task name"), 0, this));
 
 }
 
 void TasksList::addWidget(QLineEdit* wdgt) {
-	auto tmp = dynamic_cast<QVBoxLayout*>(widget()->layout());
-	tmp->addWidget(wdgt);
+	dynamic_cast<QVBoxLayout*>(widget()->layout())->addWidget(wdgt);
 }
 
 void TasksList::dragMoveEvent(QDragMoveEvent* event) { // spostamento task all'interno della lista
@@ -59,6 +52,15 @@ void TasksList::mousePressEvent(QMouseEvent *event) {
 	QMimeData* mimeData = new QMimeData;
 	mimeData->setData(libertyMimeType(), itemData);
 	mimeData->setText(child->getData());
+}
+
+void TasksList::addTask() {
+	// add request and get id
+	unsigned short id = 0;
+	TaskPreview* newTask = new TaskPreview(tr(""), id, this);
+	addWidget(newTask);
+	newTask->setFocus();
+	//dynamic_cast<TaskPreview*>(widget()->layout()->itemAt(widget()->layout()->count()))->setFocus();
 }
 
 DragDrop::DragDrop(QWidget* parent) : QWidget(parent) {

@@ -17,6 +17,7 @@ class TaskPreview : public QLineEdit {
 public:
 	explicit TaskPreview(QWidget* parent = nullptr);
 	explicit TaskPreview(int id, QWidget* parent = nullptr);
+	explicit TaskPreview(QString taskName, int id, QWidget* parent = nullptr);
 
 protected:
 	virtual void mouseDoubleClickEvent(QMouseEvent* event) override;

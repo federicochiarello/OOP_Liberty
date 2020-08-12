@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QWidget>
 #include <QLayout>
+#include <QLineEdit>
 #include <QTextEdit>
 #include <QMenu>
 #include <QPushButton>
@@ -16,7 +17,7 @@
 class TaskWidget : public QWidget {
 	Q_OBJECT
 	QVBoxLayout*	_layout;
-	TextHolder*		_name;
+	QLineEdit*		_name;
 	TextHolder*		_desc;
 
 	void setup();
