@@ -15,12 +15,13 @@ private:
 public:
 /* Constructors and destructors */
                                         AbsTask(const std::string p_label =std::string(), const std::string p_desc =std::string(), std::string* p_list =nullptr, AbsTask* p_parent =nullptr);
-										AbsTask(const AbsTask& p_task, AbsTask* p_parent =nullptr);
 										AbsTask(const QJsonObject& p_obj, AbsTask* p_parent =nullptr);
+                                        //AbsTask(const AbsTask& p_task, AbsTask* p_parent =nullptr);
 
     virtual								~AbsTask();
 
 /* Virtual methods */
+    virtual AbsTask*                    clone() const =0;
     virtual QJsonObject&				toJson() const =0;
     virtual void						setList(std::string* p_list);
 
@@ -34,7 +35,6 @@ public:
 	void							  	setLabel(const std::string&);
 	void								setDesc(const std::string&);
 	void								setParent(AbsTask*);
-/* Other methods */
 
 };
 

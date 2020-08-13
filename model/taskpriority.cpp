@@ -17,4 +17,8 @@ void TaskPriority<T>::setPriority(T p_priority) {
 template<class T>
 TaskPriority<T>::TaskPriority(T p_priority, const std::string p_label, const std::string p_desc, std::string *p_list, AbsTask *p_parent)
     :   AbsTask(p_label,p_desc,p_list,p_parent) {}
+
+
+template<class T>
+TaskPriority<T> *TaskPriority<T>::clone() const { return new TaskPriority<T>(*this); }
 */

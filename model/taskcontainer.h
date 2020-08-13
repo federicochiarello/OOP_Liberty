@@ -9,10 +9,11 @@ private:
     std::vector<AbsTask*>				m_child;
 
 public:
-    TaskContainer(const std::string p_label =std::string(), const std::string p_desc =std::string(), std::string* p_list =nullptr, AbsTask* p_parent =nullptr);
-    virtual ~TaskContainer() override;
+                                        TaskContainer(const std::string p_label =std::string(), const std::string p_desc =std::string(), std::string* p_list =nullptr, AbsTask* p_parent =nullptr);
+    virtual                             ~TaskContainer() override;
 
     /*  Override   */
+    TaskContainer*                      clone() const override;
     void                                setList(std::string* p_list) override;
 
     /*  Get methods */

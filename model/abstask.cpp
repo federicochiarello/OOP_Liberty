@@ -6,14 +6,14 @@ AbsTask::AbsTask(const std::string p_label, const std::string p_desc, std::strin
 	m_eta(time(nullptr)),
     m_parent(p_parent),
     m_list(p_list) {}
-
+/*
 AbsTask::AbsTask(const AbsTask& p_task, AbsTask* p_parent) :
     m_label(p_task.m_label),
     m_desc(p_task.m_desc),
     m_eta(time(nullptr)),
     m_parent(p_parent),
     m_list(p_task.m_list) {}
-
+*/
 AbsTask::AbsTask(const QJsonObject& p_obj, AbsTask* p_parent) :
     m_label(p_obj.value("label").toString().toStdString()),
     m_desc(p_obj.value("desc").toString().toStdString()),
