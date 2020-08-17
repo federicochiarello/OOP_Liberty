@@ -5,6 +5,7 @@ Project<T>::Project(const Project& p_pro) : m_priorityType(typeid (T)) {
 
 }
 
+/*
 template <class T>
 QJsonDocument Project<T>::toJson() const {
 	QJsonDocument doc;
@@ -17,3 +18,4 @@ QJsonDocument Project<T>::toJson() const {
 	obj.insert("tasks", tasks);
 	doc.setArray(tasks);
 }
+*/

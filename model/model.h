@@ -1,13 +1,12 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include "veqtor.h"
-#include "project.h"
+#include "absproject.h"
 
 class Model {
 private:
 	std::string						m_basePath;
-	std::vector<std::string>		m_projects;
+    std::vector<AbsProject*>		m_projects;
 	AbsProject*						m_activeProject;
 public:
 	Model();
