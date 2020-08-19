@@ -15,9 +15,34 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        model/absproject.cpp \
+        model/abstask.cpp \
+        model/list.cpp \
+        model/model.cpp \
+        model/project.cpp \
+        model/task.cpp \
+        model/taskcontainer.cpp \
+        model/taskpriority.cpp \
+        model/taskprioritycontainer.cpp \
+        veqtor.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+HEADERS += \
+    model/absproject.h \
+    model/abstask.h \
+    model/list.h \
+    model/model.h \
+    model/project.h \
+    model/task.h \
+    model/taskcontainer.h \
+    model/taskpriority.h \
+    model/taskprioritycontainer.h \
+    veqtor.h
+
+RESOURCES += \
+    resources.qrc
