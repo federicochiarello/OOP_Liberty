@@ -15,8 +15,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        controller/controller.cpp \
         main.cpp \
+        veqtor.cpp \
+        model/absproject.cpp \
+        model/abstask.cpp \
+        model/list.cpp \
+        model/model.cpp \
+        model/project.cpp \
+        model/task.cpp \
+        model/taskcontainer.cpp \
+        model/taskpriority.cpp \
+        model/taskprioritycontainer.cpp \
+        controller/controller.cpp \
         view/projectpreview.cpp \
         view/projectview.cpp \
         view/taskcontainerwidget.cpp \
@@ -35,6 +45,16 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    model/absproject.h \
+    model/abstask.h \
+    model/list.h \
+    model/model.h \
+    model/project.h \
+    model/task.h \
+    model/taskcontainer.h \
+    model/taskpriority.h \
+    model/taskprioritycontainer.h \
+    veqtor.h \
     controller/controller.h \
     view/projectpreview.h \
     view/projectview.h \
@@ -47,3 +67,7 @@ HEADERS += \
     view/taskwidget.h \
     view/textholder.h \
     view/view.h
+    
+
+RESOURCES += \
+    resources.qrc
