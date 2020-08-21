@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
+        veqtor.cpp \
         model/absproject.cpp \
         model/abstask.cpp \
         model/list.cpp \
@@ -25,7 +26,18 @@ SOURCES += \
         model/taskcontainer.cpp \
         model/taskpriority.cpp \
         model/taskprioritycontainer.cpp \
-        veqtor.cpp
+        controller/controller.cpp \
+        view/projectpreview.cpp \
+        view/projectview.cpp \
+        view/taskcontainerwidget.cpp \
+        view/taskholder.cpp \
+        view/taskpreview.cpp \
+        view/taskprioritywidget.cpp \
+        view/taskslist.cpp \
+        view/taskslistwidget.cpp \
+        view/taskwidget.cpp \
+        view/textholder.cpp \
+        view/view.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -42,7 +54,20 @@ HEADERS += \
     model/taskcontainer.h \
     model/taskpriority.h \
     model/taskprioritycontainer.h \
-    veqtor.h
+    veqtor.h \
+    controller/controller.h \
+    view/projectpreview.h \
+    view/projectview.h \
+    view/taskcontainerwidget.h \
+    view/taskholder.h \
+    view/taskpreview.h \
+    view/taskprioritywidget.h \
+    view/taskslist.h \
+    view/taskslistwidget.h \
+    view/taskwidget.h \
+    view/textholder.h \
+    view/view.h
+    
 
 RESOURCES += \
     resources.qrc
