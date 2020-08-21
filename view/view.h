@@ -28,7 +28,7 @@ class View : public QMainWindow {
 	QTabWidget* _projects;
 
 	void setup();
-
+	void openProject();
 public:
 	View(Controller* controller =nullptr, QWidget* parent =nullptr);
 	void addMainLayout();

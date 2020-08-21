@@ -14,6 +14,7 @@
 
 class ProjectView : public QWidget {
 	Q_OBJECT
+	unsigned short _id;
 	std::vector<QWidget*> _lists;
 	QVBoxLayout* _mainLayout;
 	QHBoxLayout* _centralLayout;
@@ -21,6 +22,11 @@ class ProjectView : public QWidget {
 	void setup(std::string name = std::string());
 public:
 	explicit ProjectView(QWidget *parent = nullptr);
+
+signals:
+	void changeProjectName(unsigned short, std::string);
+	void forwardTask(unsigned short);
+	void backwardTask(unsigned short);
 
 private slots:
 	void newList();

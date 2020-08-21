@@ -7,13 +7,13 @@ int main(int argc, char *argv[]) {
 	QApplication app(argc, argv);
 //	Controller c;
 //	TextHolder t("prova");
-//	TaskWidget t;
+	TaskWidget t;
 //	TaskPreview t;
 //	TaskHolder t;
 //	TasksListWidget t("Prova");
 //	TasksList t;
 //	DragDrop t;
-	ProjectView t;
+//	ProjectView t;
 //	View t;
 	t.show();
 	return app.exec();

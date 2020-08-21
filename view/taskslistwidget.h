@@ -12,8 +12,6 @@
 #include "taskslist.h"
 #include <QDebug>
 
-#define TLW TasksListWidget
-
 class TasksListWidget : public QWidget {
 	Q_OBJECT
 
@@ -30,7 +28,8 @@ public:
 public slots:
 //	void addTask();
 signals:
-
+	void moveTaskForward(const unsigned short);
+	void moveTaskBackward(const unsigned short);
 };
 
 #endif // TASKSLISTWIDGET_H

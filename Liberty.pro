@@ -19,8 +19,10 @@ SOURCES += \
         main.cpp \
         view/projectpreview.cpp \
         view/projectview.cpp \
+        view/taskcontainerwidget.cpp \
         view/taskholder.cpp \
         view/taskpreview.cpp \
+        view/taskprioritywidget.cpp \
         view/taskslist.cpp \
         view/taskslistwidget.cpp \
         view/taskwidget.cpp \
@@ -36,8 +38,10 @@ HEADERS += \
     controller/controller.h \
     view/projectpreview.h \
     view/projectview.h \
+    view/taskcontainerwidget.h \
     view/taskholder.h \
     view/taskpreview.h \
+    view/taskprioritywidget.h \
     view/taskslist.h \
     view/taskslistwidget.h \
     view/taskwidget.h \

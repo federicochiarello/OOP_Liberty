@@ -56,6 +56,7 @@ View::View(Controller* controller,QWidget* parent) : QMainWindow(parent), _contr
 	// DockWidget
 
 	// Central widget
+	setCentralWidget(new QTabWidget(this));
 }
 
 void View::addMainLayout() {
