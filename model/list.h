@@ -25,9 +25,15 @@ public:
     std::vector<AbsTask*>				getListChildren() const;
     unsigned short int                  getId() const;
 
-    void                                setName(const std::string& p_name);
     void                                addTask(AbsTask* p_task);
     void                                removeTask(AbsTask* p_task);
+
+    // Metodi utilizzati
+    AbsTask*                            getTask(const unsigned int indT) const;
+    void                                updateTask(const unsigned int indT, AbsTask* p_task);
+    void                                addNewTask(AbsTask* p_task);
+    void                                setName(const std::string& p_name);
+
 };
 
-#endif // LIST_H
+#endif // LIST_H"

@@ -31,7 +31,7 @@ public:
 
 /* Virtual methods */
     virtual AbsTask*                    clone() const =0;
-    virtual QJsonObject&				toJson() const =0;
+    //virtual QJsonObject&				toJson() const =0;
     virtual void						setList(List* p_list);
 
 /* Get methods */

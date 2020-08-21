@@ -2,6 +2,17 @@
 #define MODEL_H
 
 #include "absproject.h"
+#include "project.h"
+
+// Necessario includerli tutti?
+#include "list.h"
+#include "abstask.h"
+#include "task.h"
+#include "taskcontainer.h"
+#include "taskpriority.h"
+#include "taskprioritycontainer.h"
+
+#include <vector>
 
 class Model {
 private:
@@ -9,7 +20,23 @@ private:
     std::vector<AbsProject*>		m_projects;
 	AbsProject*						m_activeProject;
 public:
-	Model();
+    Model(const std::string path);
+    ~Model();
+
+
+    void    setActiveProject(const unsigned int indP);
+    void    deleteProject(const unsigned int indP);
+
+    void    addNewList();
+    void    addNewTask(const unsigned int indL);
+
+    void    setActiveProjName(const std::string& p_name);
+    void    setListName(const unsigned int indL, const std::string& p_name);
+
+
+    void    ConvertToPriority(const unsigned int indL, const unsigned int indT);
+
+
 };
 
 #endif // MODEL_H

@@ -2,6 +2,8 @@
 
 AbsProject::AbsProject(std::string p_name) : m_name(p_name) {}
 
+AbsProject::~AbsProject() {}
+
 void AbsProject::addList(List *p_list) { m_lists.push_back(p_list); }
 
 void AbsProject::removeList(List *p_list) {
@@ -23,8 +25,24 @@ void AbsProject::removeList(List *p_list) {
     }
 }
 
-void AbsProject::setName(const std::string p_name) { m_name = p_name; }
+void AbsProject::setName(const std::string& p_name) { m_name = p_name; }
+
+void AbsProject::setListName(const unsigned int indL, const std::string& p_name) {
+    getList(indL)->setName(p_name);
+}
 
 std::string AbsProject::getName() const { return m_name; }
 
 std::vector<List *> AbsProject::getLists() const { return m_lists; }
+
+List *AbsProject::getList(const unsigned int indL) const {
+    return m_lists[indL];
+}
+
+void AbsProject::addNewTask(const unsigned int indL, AbsTask* p_task) {
+    getList(indL)->addNewTask(p_task);
+}
+
+void AbsProject::addNewList() {
+    m_lists.push_back(new List());
+}

@@ -9,7 +9,7 @@ class TaskPriorityContainer : public TaskContainer, public TaskPriority<T> {
 private:
 
 public:
-    TaskPriorityContainer(T p_priority, const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr);
+    TaskPriorityContainer(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr, T p_priority =T());
 
     TaskPriorityContainer<T>*               clone() const override;
 
@@ -19,8 +19,8 @@ public:
 };
 
 template<class T>
-TaskPriorityContainer<T>::TaskPriorityContainer(T p_priority, const std::string p_label, const std::string p_desc, List *p_list, AbsTask *p_parent)
-    : AbsTask(p_label,p_desc,p_list,p_parent), TaskContainer(p_label,p_desc,p_list,p_parent), TaskPriority<T>(p_priority,p_label,p_desc,p_list,p_parent) {}
+TaskPriorityContainer<T>::TaskPriorityContainer(const std::string p_label, const std::string p_desc, List *p_list, AbsTask *p_parent, T p_priority)
+    : AbsTask(p_label,p_desc,p_list,p_parent), TaskContainer(p_label,p_desc,p_list,p_parent), TaskPriority<T>(p_label,p_desc,p_list,p_parent,p_priority) {}
 
 template<class T>
 TaskPriorityContainer<T> *TaskPriorityContainer<T>::clone() const { return new TaskPriorityContainer<T>(*this); }

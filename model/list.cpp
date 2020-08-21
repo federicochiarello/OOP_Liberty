@@ -31,3 +31,15 @@ void List::removeTask(AbsTask * p_task) {
         i++;
     }
 }
+
+AbsTask *List::getTask(const unsigned int indT) const {
+    return m_tasks[indT];
+}
+
+void List::updateTask(const unsigned int indT, AbsTask *p_task) {
+    m_tasks.insert(m_tasks.erase(m_tasks.begin() + indT),p_task);
+}
+
+void List::addNewTask(AbsTask* p_task) {
+    m_tasks.push_back(p_task);
+}
