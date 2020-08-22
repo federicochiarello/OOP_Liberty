@@ -22,7 +22,7 @@ public:
 public slots:
 
 
-	void        createNewProject(); //???????
+    //void        createNewProject(); //???????
 
 	void        setActiveProject(const unsigned int indP);
 	void        deleteProject(const unsigned int indP);

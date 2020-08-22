@@ -2,7 +2,7 @@
 
 Controller::Controller(Model* m, QObject *parent) : QObject(parent), /* vista(nullptr), */ model(m) {
 
-
+/*
     connect(VistaDiPartenza, SIGNAL(requestSetActiveProject(const unsigned int)), this, SLOT(setActiveProject(const unsigned int)));
     connect(VistaDiPartenza, SIGNAL(requestDeleteProject(const unsigned int)), this, SLOT(deleteProject(const unsigned int)));
 
@@ -13,7 +13,7 @@ Controller::Controller(Model* m, QObject *parent) : QObject(parent), /* vista(nu
     connect(VistaDiPartenza, SIGNAL(requestChangeLName(const unsigned int,const std::string)), this, SLOT(setListName(const unsigned int,const std::string)));
 
     connect(VistaDiPartenza, SIGNAL(convertToPriority(const unsigned int,const unsigned int)), this, SLOT(convertToPrio(const unsigned int, const unsigned int)));
-
+*/
 }
 
 void Controller::setActiveProject(const unsigned int indP) {

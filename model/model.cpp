@@ -1,6 +1,6 @@
 #include "model.h"
 
-//  m_projects(new std::vector<AbsProject*>())
+//  m_projects(new std::vector<Project*>())
 Model::Model(const std::string path) : m_basePath(path), m_activeProject(nullptr) {}
 
 Model::~Model() {
@@ -34,5 +34,5 @@ void Model::setListName(const unsigned int indL, const std::string& p_name) {
 }
 
 void Model::ConvertToPriority(const unsigned int indL, const unsigned int indT) {
-    m_activeProject->ConvertToPriority(indL,indT);
+    //m_activeProject->ConvertToPriority(indL,indT);
 }

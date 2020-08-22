@@ -1,7 +1,6 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-#include "absproject.h"
 #include "project.h"
 
 // Necessario includerli tutti?
@@ -17,8 +16,8 @@
 class Model {
 private:
 	std::string						m_basePath;
-    std::vector<AbsProject*>		m_projects;
-	AbsProject*						m_activeProject;
+    std::vector<Project*>           m_projects;
+    Project*						m_activeProject;
 public:
     Model(const std::string path);
     ~Model();

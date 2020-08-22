@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <QDateTime>
 
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -21,16 +22,20 @@ private:
 
 public:
                                             AbsProject(std::string p_name = std::string());
+                                            //Project(const Project& p_pro);
+                                            //Project(QJsonDocument& p_doc);
 
-    virtual                                 ~AbsProject() =0;
 
-    virtual void                            ConvertToPriority(const unsigned int indL, const unsigned int indT)=0;
+    virtual                                 ~AbsProject();
+
+    void                                    ConvertToPriority(const unsigned int indL, const unsigned int indT);
 
     void                                    addList(List* p_list);
     void                                    removeList(List* p_list);
 
     std::string                             getName() const;
     std::vector<List*>                      getLists() const;
+    // QJsonDocument                               toJson() const;
 
     // metodi utilizzati
     List*                                   getList(const unsigned int indL) const;
@@ -41,3 +46,28 @@ public:
 };
 
 #endif // ABSPROJECT_H
+
+#ifndef PROJECT_H
+#define PROJECT_H
+
+class Project : public AbsProject {
+
+
+public:
+
+    void                                        ConvertToPriority(const unsigned int indL, const unsigned int indT) override;
+};
+
+
+template<class T>
+void Project<T>::ConvertToPriority(const unsigned int indL, const unsigned int indT) {
+    List* l = getList(indL);
+    AbsTask* tmp = l->getTask(indT);
+    if(dynamic_cast<TaskContainer*>(tmp))
+        tmp = new TaskPriorityContainer<T>(tmp->getLabel(),tmp->getDesc(),tmp->getList(),tmp->getParent());
+    else
+        tmp = new TaskPriority<T>(tmp->getLabel(),tmp->getDesc(),tmp->getList(),tmp->getParent());
+    l->updateTask(indT,tmp);
+}
+
+#endif // PROJECT_H

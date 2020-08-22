@@ -1,25 +1,64 @@
-/*
 #include "project.h"
 
-template<class T>
-Project<T>::Project(const std::string p_name) : AbsProject(p_name), m_priorityType(typeid (T)) {}
+Project::Project(std::string p_name) : m_name(p_name) {}
 
-template<class T>
-AbsTask* Project<T>::convertToPriority(AbsTask* p_task, T priority) {
-    if(dynamic_cast<TaskContainer*>(p_task))
-        return new TaskPriorityContainer<T>(priority,p_task->getLabel(),p_task->getDesc(),p_task->getList(),p_task->getParent());
-    else
-        return new TaskPriority<T>(priority,p_task->getLabel(),p_task->getDesc(),p_task->getList(),p_task->getParent());
+Project::~Project() {}
+
+void Project::addList(List *p_list) { m_lists.push_back(p_list); }
+
+void Project::removeList(List *p_list) {
+    // Se p_list ha figli -> eliminali
+    std::vector<AbsTask*> children = p_list->getListChildren();
+    if(! children.empty())
+        for(std::vector<AbsTask*>::iterator i = children.begin(); i != children.end(); i++)
+            delete *i;
+
+    // Elimina p_list
+    std::vector<List*>::iterator i = m_lists.begin();
+    bool trovato = false;
+    while( !trovato && i != m_lists.end()){
+        if (*i == p_list) {
+            m_lists.erase(i);
+            trovato = true;
+        }
+        i++;
+    }
 }
 
-template<class T>
-const std::type_info &Project<T>::getPriorityType() const { return m_priorityType; }
+void Project::setName(const std::string& p_name) { m_name = p_name; }
 
+void Project::setListName(const unsigned int indL, const std::string& p_name) {
+    getList(indL)->setName(p_name);
+}
 
-template <class T>
-Project<T>::Project(const Project& p_pro) : m_priorityType(typeid (T)) {}
+std::string Project::getName() const { return m_name; }
 
+std::vector<List *> Project::getLists() const { return m_lists; }
 
+List *Project::getList(const unsigned int indL) const {
+    return m_lists[indL];
+}
+
+void Project::addNewTask(const unsigned int indL, AbsTask* p_task) {
+    getList(indL)->addNewTask(p_task);
+}
+
+void Project::addNewList() {
+    m_lists.push_back(new List());
+}
+/*
+void Project::ConvertToPriority(const unsigned int indL, const unsigned int indT) {
+    List* l = getList(indL);
+    AbsTask* tmp = l->getTask(indT);
+    if(dynamic_cast<TaskContainer*>(tmp))
+        tmp = new TaskPriorityContainer(tmp->getLabel(),tmp->getDesc(),tmp->getList(),tmp->getParent());
+    else
+        tmp = new TaskPriority(tmp->getLabel(),tmp->getDesc(),tmp->getList(),tmp->getParent());
+    l->updateTask(indT,tmp);
+}
+*/
+
+/*
 template <class T>
 QJsonDocument Project<T>::toJson() const {
 	QJsonDocument doc;

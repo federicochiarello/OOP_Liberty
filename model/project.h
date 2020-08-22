@@ -2,48 +2,46 @@
 #define PROJECT_H
 
 #include <string>
-#include <typeinfo>
+#include <vector>
+#include <QDateTime>
 
 //#include <QJsonDocument>
 //#include <QJsonArray>
 
 #include "abstask.h"
-#include "absproject.h"
-#include "taskcontainer.h"
-#include "taskpriority.h"
-#include "taskprioritycontainer.h"
+#include "list.h"
 
-template <class T>
-class Project : public AbsProject {
+class Project {
 private:
-    //const std::type_info&						m_priorityType;
+    std::string                             m_name;
+    std::vector<List*>                      m_lists;
+
+    // Old
+    // std::vector<AbsTask*>								m_tasks;
+    // std::map<std::string, std::vector<AbsTask*>>			m_lists;
 
 public:
-                                                Project(const std::string p_name =std::string());
-                                                //Project(const Project& p_pro);
-                                                //Project(QJsonDocument& p_doc);
+                                            Project(std::string p_name = std::string());
+                                            //Project(const Project& p_pro);
+                                            //Project(QJsonDocument& p_doc);
 
-    // QJsonDocument                               toJson() const;
+                                            ~Project();
 
-    void                                        ConvertToPriority(const unsigned int indL, const unsigned int indT) override;
+    //void                                    ConvertToPriority(const unsigned int indL, const unsigned int indT);
 
-    // bool                                        dynamicCastTemplate(AbsTask* p_task);
+    void                                    addList(List* p_list);
+    void                                    removeList(List* p_list);
+
+    std::string                             getName() const;
+    std::vector<List*>                      getLists() const;
+    // QJsonDocument                        toJson() const;
+
+    // metodi utilizzati
+    List*                                   getList(const unsigned int indL) const;
+    void                                    addNewTask(const unsigned int indL, AbsTask* p_task);
+    void                                    addNewList();
+    void                                    setName(const std::string& p_name);
+    void                                    setListName(const unsigned int indL, const std::string& p_name);
 };
-
-// m_priorityType(typeid (T))
-template<class T>
-Project<T>::Project(const std::string p_name) : AbsProject(p_name) {}
-
-
-template<class T>
-void Project<T>::ConvertToPriority(const unsigned int indL, const unsigned int indT) {
-    List* l = getList(indL);
-    AbsTask* tmp = l->getTask(indT);
-    if(dynamic_cast<TaskContainer*>(tmp))
-        tmp = new TaskPriorityContainer<T>(tmp->getLabel(),tmp->getDesc(),tmp->getList(),tmp->getParent());
-    else
-        tmp = new TaskPriority<T>(tmp->getLabel(),tmp->getDesc(),tmp->getList(),tmp->getParent());
-    l->updateTask(indT,tmp);
-}
 
 #endif // PROJECT_H
