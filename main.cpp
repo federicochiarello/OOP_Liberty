@@ -4,6 +4,8 @@
 #include "model.h"
 #include "controller.h"
 */
+#include "view/view.h"
+#include "view/taskslist.h"
 
 int main(int argc, char *argv[]) {
 	QApplication app(argc, argv);
@@ -16,7 +18,17 @@ int main(int argc, char *argv[]) {
 
     v.show();
     */
-
+//	Controller c;
+//	TextHolder t("prova");
+	TaskWidget t;
+//	TaskPreview t;
+//	TaskHolder t;
+//	TasksListWidget t("Prova");
+//	TasksList t;
+//	DragDrop t;
+//	ProjectView t;
+//	View t;
+	t.show();
 	return app.exec();
 }
 
