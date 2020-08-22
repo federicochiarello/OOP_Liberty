@@ -19,6 +19,7 @@ SOURCES += \
         veqtor.cpp \
         model/absproject.cpp \
         model/abstask.cpp \
+        model/controller.cpp \
         model/list.cpp \
         model/model.cpp \
         model/project.cpp \
@@ -47,6 +48,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     model/absproject.h \
     model/abstask.h \
+    model/controller.h \
     model/list.h \
     model/model.h \
     model/project.h \

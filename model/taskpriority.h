@@ -8,7 +8,7 @@ class TaskPriority : virtual public AbsTask {
 private:
     T                               m_priority;
 public:
-                                    TaskPriority(T p_priority, const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr);
+                                    TaskPriority(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr, T p_priority =T());
 
     TaskPriority<T>*                clone() const override;
 
@@ -20,7 +20,7 @@ public:
 
 
 template<class T>
-TaskPriority<T>::TaskPriority(T p_priority, const std::string p_label, const std::string p_desc, List *p_list, AbsTask *p_parent)
+TaskPriority<T>::TaskPriority(const std::string p_label, const std::string p_desc, List *p_list, AbsTask *p_parent,T p_priority)
     :   AbsTask(p_label,p_desc,p_list,p_parent), m_priority(p_priority) {}
 
 template<class T>
