@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <QDateTime>
 
 //#include <QJsonDocument>
@@ -14,7 +15,10 @@
 class Project {
 private:
     std::string                             m_name;
-    std::vector<List*>                      m_lists;
+    std::map<unsigned short int,List*>      m_lists;
+    std::vector<unsigned short int>         m_listOrder;
+
+    //std::vector<List*>                      m_lists;
 
     // Old
     // std::vector<AbsTask*>								m_tasks;
@@ -37,11 +41,11 @@ public:
     // QJsonDocument                        toJson() const;
 
     // metodi utilizzati
-    List*                                   getList(const unsigned int indL) const;
+    List*                                   getList(const unsigned short int idList) const;
     void                                    addNewTask(const unsigned int indL, AbsTask* p_task);
     void                                    addNewList();
     void                                    setName(const std::string& p_name);
-    void                                    setListName(const unsigned int indL, const std::string& p_name);
+    void                                    setListName(const unsigned short int idL, const std::string& p_name);
 };
 
 #endif // PROJECT_H

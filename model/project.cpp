@@ -27,8 +27,8 @@ void Project::removeList(List *p_list) {
 
 void Project::setName(const std::string& p_name) { m_name = p_name; }
 
-void Project::setListName(const unsigned int indL, const std::string& p_name) {
-    getList(indL)->setName(p_name);
+void Project::setListName(const unsigned short int idList, const std::string& p_name) {
+    getList(idList)->setName(p_name);
 }
 
 std::string Project::getName() const { return m_name; }

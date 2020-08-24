@@ -10,6 +10,7 @@ private:
 
 public:
                                         TaskContainer(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr);
+                                        TaskContainer(const TaskContainer& p_task);
     virtual                             ~TaskContainer() override;
 
     /*  Override   */

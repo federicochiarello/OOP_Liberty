@@ -3,6 +3,8 @@
 TaskContainer::TaskContainer(const std::string p_label, const std::string p_desc, List* p_list, AbsTask* p_parent) :
     AbsTask(p_label,p_desc,p_list,p_parent) {}
 
+TaskContainer::TaskContainer(const TaskContainer & p_task) : AbsTask(p_task), m_child(p_task.m_child) {}
+
 TaskContainer::~TaskContainer() {
     for(std::vector<AbsTask*>::iterator i=m_child.begin(); i!=m_child.end(); i++)
         delete *i;

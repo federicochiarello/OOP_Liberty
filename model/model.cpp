@@ -29,8 +29,8 @@ void Model::setActiveProjName(const std::string& p_name) {
     m_activeProject->setName(p_name);
 }
 
-void Model::setListName(const unsigned int indL, const std::string& p_name) {
-    m_activeProject->setListName(indL,p_name);
+void Model::setListName(const unsigned short int idList, const std::string& p_name) {
+    m_activeProject->setListName(idList,p_name);
 }
 
 void Model::ConvertToPriority(const unsigned int indL, const unsigned int indT) {

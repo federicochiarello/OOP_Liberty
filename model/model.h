@@ -30,7 +30,7 @@ public:
     void    addNewTask(const unsigned int indL);
 
     void    setActiveProjName(const std::string& p_name);
-    void    setListName(const unsigned int indL, const std::string& p_name);
+    void    setListName(const unsigned short int idList, const std::string& p_name);
 
 
     void    ConvertToPriority(const unsigned int indL, const unsigned int indT);

@@ -2,8 +2,8 @@
 #define ABSTASK_H
 
 #include <string>
-#include <ctime>
 #include <QJsonObject>
+#include <QDateTime>
 
 #include "list.h"
 
@@ -14,7 +14,7 @@ class AbsTask {
 private:
     std::string							m_label;
     std::string							m_desc;
-	std::time_t							m_eta;
+    QDateTime							m_eta;
     AbsTask*							m_parent;
     List*                               m_list;
     unsigned short int                  id;
@@ -27,7 +27,7 @@ public:
                                         AbsTask(const AbsTask& p_task);
                                         AbsTask(const QJsonObject& p_obj, AbsTask* p_parent =nullptr);
 
-    virtual								~AbsTask();
+    virtual								~AbsTask() =0;
 
 /* Virtual methods */
     virtual AbsTask*                    clone() const =0;
@@ -37,7 +37,7 @@ public:
 /* Get methods */
 	std::string							getLabel() const;
 	std::string							getDesc() const;
-	std::time_t							getEta() const;
+    QDateTime							getEta() const;
 	AbsTask*							getParent() const;
     List*                               getList() const;
     unsigned short int                  getId() const;
