@@ -15,7 +15,7 @@ class Controller : public QObject {
 public:
 	explicit Controller(Model* m, QObject *parent = nullptr);
 
-	//void setView(Vista* v);
+	void setView(View* view);
 
 
 // controllare se possibile aggiungere attributo const
@@ -35,7 +35,7 @@ public slots:
 
 
 
-	void        convertToPrio(const unsigned int indL, const unsigned int indT);
+//	void        convertToPrio(const unsigned int indL, const unsigned int indT);
 };
 
 #endif // CONTROLLER_H

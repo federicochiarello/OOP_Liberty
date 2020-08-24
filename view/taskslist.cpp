@@ -39,28 +39,28 @@ void TasksList::dropEvent(QDropEvent* event) { // aggiunta di un task alla lista
 }
 
 void TasksList::mousePressEvent(QMouseEvent *event) {
-	TaskWidget* child = dynamic_cast<TaskWidget*>(childAt(event->pos()));
-	// forse uso di eccezioni
-	if (!child) return;
+//	TaskWidget* child = dynamic_cast<TaskWidget*>(childAt(event->pos()));
+//	// forse uso di eccezioni
+//	if (!child) return;
 
-	QPoint hotspot = event->pos() -  child->pos();
+//	QPoint hotspot = event->pos() -  child->pos();
 
-	QByteArray itemData;
-	QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-	dataStream << child->getData() << QPoint(hotspot);
+//	QByteArray itemData;
+//	QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+//	dataStream << child->getData() << QPoint(hotspot);
 
-	QMimeData* mimeData = new QMimeData;
-	mimeData->setData(libertyMimeType(), itemData);
-	mimeData->setText(child->getData());
+//	QMimeData* mimeData = new QMimeData;
+//	mimeData->setData(libertyMimeType(), itemData);
+//	mimeData->setText(child->getData());
 }
 
 void TasksList::addTask() {
-	// add request and get id
-	unsigned short id = 0;
-	TaskPreview* newTask = new TaskPreview(tr(""), id, this);
-	addWidget(newTask);
-	newTask->setFocus();
-	//dynamic_cast<TaskPreview*>(widget()->layout()->itemAt(widget()->layout()->count()))->setFocus();
+//	// add request and get id
+//	unsigned short id = 0;
+//	TaskPreview* newTask = new TaskPreview(tr(""), id, this);
+//	addWidget(newTask);
+//	newTask->setFocus();
+//	//dynamic_cast<TaskPreview*>(widget()->layout()->itemAt(widget()->layout()->count()))->setFocus();
 }
 
 DragDrop::DragDrop(QWidget* parent) : QWidget(parent) {

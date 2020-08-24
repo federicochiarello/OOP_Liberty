@@ -38,8 +38,10 @@ public:
 	void addStatusBar();
 
 signals:
+	void applicationLaunch();
 
 public slots:
+//	void onGetProjectsPreview();
 };
 
 #endif // VIEW_H
