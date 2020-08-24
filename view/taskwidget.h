@@ -33,7 +33,7 @@ protected:
 	//void mousePressEvent(QMouseEvent *event) override;
 
 signals:
-//	QString getData(const unsigned short) const;
+	QString getData(const unsigned short) const;
 };
 
 #endif // TASKWIDGET_H
