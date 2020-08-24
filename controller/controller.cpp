@@ -1,6 +1,8 @@
 #include "controller.h"
 
-Controller::Controller(Model* m, QObject *parent) : QObject(parent), _view(nullptr), _model(m) {
+Controller::Controller(Model* m, QObject *parent) : QObject(parent), view(nullptr), model(m) {
+
+//	connect(VistaDiPartenza, SIGNAL(requestNewProject()), this, SLOT(createNewProject()));
 
 //	connect(VistaDiPartenza, SIGNAL(requestSetActiveProject(const unsigned int)), this, SLOT(setActiveProject(const unsigned int)));
 //	connect(VistaDiPartenza, SIGNAL(requestDeleteProject(const unsigned int)), this, SLOT(deleteProject(const unsigned int)));
@@ -15,36 +17,72 @@ Controller::Controller(Model* m, QObject *parent) : QObject(parent), _view(nullp
 
 }
 
-void Controller::setView(View* view) {
-	_view = view;
+void Controller::setView(View* p_view) {
+    view = p_view;
+}
+
+void Controller::createNewProject(){
+    model->createNewProject();
 }
 
 void Controller::setActiveProject(const unsigned int indP) {
-	 _model->setActiveProject(indP);
+     model->setActiveProject(indP);
 }
 
 void Controller::deleteProject(const unsigned int indP) {
-	_model->deleteProject(indP);
+    model->deleteProject(indP);
 }
 
 void Controller::addNewList() {
-	_model->addNewList();
+    model->addNewList();
 }
 
-void Controller::addNewTask(const unsigned int indL) {
-	_model->addNewTask(indL);
+void Controller::addNewTask(const unsigned short int idList) {
+    model->addNewTask(idList);
 }
 
 void Controller::setProjectName(const std::string p_name) {
-	_model->setActiveProjName(p_name);
+    model->setActiveProjName(p_name);
 }
 
-void Controller::setListName(const unsigned int indL, const std::string p_name) {
-	_model->setListName(indL,p_name);
+void Controller::setListName(const unsigned short int idList, const std::string p_name) {
+    model->setListName(idList,p_name);
 }
 
-//void Controller::convertToPrio(const unsigned int indL, const unsigned int indT) {
-//	_model->ConvertToPriority(indL,indT);
-//}
+void Controller::convertToPrio(const unsigned short int idList, const unsigned short int idTask) {
+    model->ConvertToPriority(idList,idTask);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

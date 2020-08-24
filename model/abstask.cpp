@@ -17,7 +17,7 @@ AbsTask::AbsTask(const AbsTask &p_task) :
     m_parent(p_task.m_parent),
     m_list(p_task.m_list),
     id(++nextID)    {}
-
+/*
 AbsTask::AbsTask(const QJsonObject& p_obj, AbsTask* p_parent) :
     m_label(p_obj.value("label").toString().toStdString()),
     m_desc(p_obj.value("desc").toString().toStdString()),
@@ -25,7 +25,7 @@ AbsTask::AbsTask(const QJsonObject& p_obj, AbsTask* p_parent) :
     m_parent(p_parent),
     m_list(),
     id(++nextID)    {}
-
+*/
 AbsTask::~AbsTask() {}
 
 std::string		AbsTask::getLabel() const { return m_label; }

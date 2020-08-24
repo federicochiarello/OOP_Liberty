@@ -5,11 +5,6 @@ TaskContainer::TaskContainer(const std::string p_label, const std::string p_desc
 
 TaskContainer::TaskContainer(const TaskContainer & p_task) : AbsTask(p_task), m_child(p_task.m_child) {}
 
-TaskContainer::~TaskContainer() {
-    for(std::vector<AbsTask*>::iterator i=m_child.begin(); i!=m_child.end(); i++)
-        delete *i;
-}
-
 TaskContainer *TaskContainer::clone() const { return new TaskContainer(*this); }
 
 void TaskContainer::setList(List *p_list) {
@@ -39,4 +34,8 @@ void TaskContainer::removeChild(AbsTask * p_child) {
         }
         i++;
     }
+}
+
+void TaskContainer::addChildList(std::vector<AbsTask *> p_child) {
+    m_child = p_child;
 }

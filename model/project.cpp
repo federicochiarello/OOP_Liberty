@@ -2,27 +2,28 @@
 
 Project::Project(std::string p_name) : m_name(p_name) {}
 
-Project::~Project() {}
+Project::~Project() {
+    if(! m_lists.empty())
+        for(std::map<unsigned short int,List*>::iterator i=m_lists.begin(); i!=m_lists.end(); i++)
+            delete i->second;
+}
 
-void Project::addList(List *p_list) { m_lists.push_back(p_list); }
+void Project::addList(List *p_list) {
+    std::map<unsigned short int,List*>::value_type l(p_list->getId(),p_list);
+    m_lists.insert(l);
+}
 
-void Project::removeList(List *p_list) {
+void Project::removeList(unsigned short int idList) {
+
     // Se p_list ha figli -> eliminali
-    std::vector<AbsTask*> children = p_list->getListChildren();
-    if(! children.empty())
-        for(std::vector<AbsTask*>::iterator i = children.begin(); i != children.end(); i++)
-            delete *i;
+    delete m_lists.at(idList);
 
-    // Elimina p_list
-    std::vector<List*>::iterator i = m_lists.begin();
-    bool trovato = false;
-    while( !trovato && i != m_lists.end()){
-        if (*i == p_list) {
-            m_lists.erase(i);
-            trovato = true;
+    // Elimina da m_listOrder
+    for(std::vector<unsigned short int>::iterator i = m_listsOrder.begin(); i != m_listsOrder.end(); i++)
+        if (*i == idList) {
+            m_listsOrder.erase(i);
+            i = m_listsOrder.end();
         }
-        i++;
-    }
 }
 
 void Project::setName(const std::string& p_name) { m_name = p_name; }
@@ -33,30 +34,37 @@ void Project::setListName(const unsigned short int idList, const std::string& p_
 
 std::string Project::getName() const { return m_name; }
 
-std::vector<List *> Project::getLists() const { return m_lists; }
+//std::vector<List *> Project::getLists() const { return m_lists; }
 
-List *Project::getList(const unsigned int indL) const {
-    return m_lists[indL];
+List *Project::getList(const unsigned short int idList) const {
+    return m_lists.at(idList);
 }
 
-void Project::addNewTask(const unsigned int indL, AbsTask* p_task) {
-    getList(indL)->addNewTask(p_task);
+void Project::addNewTask(const unsigned short int idList, AbsTask* p_task) {
+    m_lists.at(idList)->addTask(p_task);
 }
 
 void Project::addNewList() {
-    m_lists.push_back(new List());
+    List* newList = new List();
+    std::map<unsigned short int,List*>::value_type l(newList->getId(),newList);
+    m_lists.insert(l);
 }
-/*
-void Project::ConvertToPriority(const unsigned int indL, const unsigned int indT) {
-    List* l = getList(indL);
-    AbsTask* tmp = l->getTask(indT);
-    if(dynamic_cast<TaskContainer*>(tmp))
-        tmp = new TaskPriorityContainer(tmp->getLabel(),tmp->getDesc(),tmp->getList(),tmp->getParent());
-    else
-        tmp = new TaskPriority(tmp->getLabel(),tmp->getDesc(),tmp->getList(),tmp->getParent());
-    l->updateTask(indT,tmp);
+
+void Project::ConvertToPriority(const unsigned short int idList, const unsigned short int idTask) {
+    List* l = m_lists.at(idList);
+    AbsTask* t = l->getTask(idTask);
+
+    TaskContainer* tCont = dynamic_cast<TaskContainer*>(t);
+    AbsTask* tNew;
+    if(tCont) {
+        tNew = new TaskPriorityContainer(t->getLabel(),t->getDesc(),t->getList(),t->getParent());
+        dynamic_cast<TaskContainer*>(tNew)->addChildList(tCont->getChilds());
+    } else
+        tNew = new TaskPriority(t->getLabel(),t->getDesc(),t->getList(),t->getParent());
+    l->updateTask(idTask,tNew);
+    delete t;
 }
-*/
+
 
 /*
 template <class T>
