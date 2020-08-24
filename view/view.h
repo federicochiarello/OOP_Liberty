@@ -14,9 +14,9 @@
 
 #include "taskholder.h"
 #include "taskwidget.h"
+#include "projectpreview.h"
 #include "projectview.h"
-
-class Controller;
+#include "controller/controller.h"
 
 class View : public QMainWindow {
 	Q_OBJECT
@@ -38,10 +38,11 @@ public:
 	void addStatusBar();
 
 signals:
-	void applicationLaunch();
+	void appStart();
+	void openProject(QString);
 
 public slots:
-//	void onGetProjectsPreview();
+	void fetchExistingProjects(QStringList);
 };
 
 #endif // VIEW_H

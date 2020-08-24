@@ -1,8 +1,22 @@
 #include "projectpreview.h"
 
-ProjectPreview::ProjectPreview(QWidget *parent) : QLineEdit(parent) {
+ProjectPreview::ProjectPreview(QWidget *parent) : QWidget(parent) {
 	//QShortcut * shortcut = new QShortcut(QKeySequence(Qt::Key_F2),this, SIGNAL(getText));
 	//shortcut->setAutoRepeat(false);
+}
+
+ProjectPreview::ProjectPreview(QString name, QString pathToDir, QWidget *parent) : _name(name), _path(pathToDir+"/"+name) {
+	QHBoxLayout* layout = new QHBoxLayout();
+
+	if (layout) {
+		layout->addWidget(new QLabel(_name, this));
+		layout->addWidget(new QLabel(_path, this));
+	}
+	setLayout(layout);
+}
+
+void ProjectPreview::mouseDoubleClickEvent(QMouseEvent *) {
+	emit openProject(_name);
 }
 
 //void ProjectPreview::keyPressEvent(QKeyEvent* event) {

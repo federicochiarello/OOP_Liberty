@@ -56,7 +56,9 @@ View::View(Controller* controller,QWidget* parent) : QMainWindow(parent), _contr
 	// DockWidget
 
 	// Central widget
-	setCentralWidget(new QTabWidget(this));
+//	setCentralWidget(new QTabWidget(this));
+
+	emit appStart();
 }
 
 void View::addMainLayout() {
@@ -66,8 +68,8 @@ void View::addMainLayout() {
 }
 
 void View::addList() {
-	TaskHolder* tH = new TaskHolder(this);
-	_mainLayout->addWidget(tH);
+	TaskHolder* taskHolder = new TaskHolder(this);
+	_mainLayout->addWidget(taskHolder);
 }
 
 void View::addToolBar() {
@@ -86,6 +88,20 @@ void View::addToolBar() {
 	/* Add toolbar to layout */
 	_windowLayout->addWidget(toolB1);
 	_windowLayout->addWidget(toolB2);
+}
+
+void View::fetchExistingProjects(QStringList projects) {
+	QWidget* startCentralWidget = new QWidget(this);
+	QHBoxLayout* startCentralWidgetLayout = new QHBoxLayout();
+
+	for (int i=1; i<=projects.size(); i++) {
+		ProjectPreview* tmp = new ProjectPreview(projects.at(i), projects.at(0), startCentralWidget);
+		startCentralWidgetLayout->addWidget(tmp);
+		connect(tmp, SIGNAL(openProject(QString)), this, SIGNAL(openProject(QString)));
+	}
+
+	startCentralWidget->setLayout(startCentralWidgetLayout);
+	setCentralWidget(startCentralWidget);
 }
 
 void View::setup() {
