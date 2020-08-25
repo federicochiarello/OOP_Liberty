@@ -10,8 +10,8 @@ Model::~Model() {
     //m_projects.clear();
 }
 
-void Model::createNewProject() {
-    Project* p = new Project;
+void Model::createNewProject(const std::string& p_name) {
+    Project* p = new Project(p_name);
     m_projects.push_back(p);
     m_activeProject = p;
 }
@@ -45,6 +45,10 @@ void Model::setListName(const unsigned short int idList, const std::string& p_na
     m_activeProject->setListName(idList,p_name);
 }
 
-void Model::ConvertToPriority(const unsigned short int idList, const unsigned short int idTask) {
-    m_activeProject->ConvertToPriority(idList,idTask);
+void Model::convertToPriority(const unsigned short int idList, const unsigned short int idTask) {
+    m_activeProject->convertToPriority(idList,idTask);
+}
+
+void Model::convertToContainer(const unsigned short int idList, const unsigned short int idTask) {
+    m_activeProject->convertToContainer(idList,idTask);
 }

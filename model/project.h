@@ -45,13 +45,13 @@ public:
 	Project* fromJson(const QJsonObject& object);
 
     // metodi utilizzati
-    List*                                   getList(const unsigned short int idList) const;
     void                                    addNewTask(const unsigned short int idList, AbsTask* p_task);
     void                                    addNewList();
     void                                    setName(const std::string& p_name);
-    void                                    setListName(const unsigned short int idL, const std::string& p_name);
+    void                                    setListName(const unsigned short int idList, const std::string& p_name);
 
-    void                                    ConvertToPriority(const unsigned short int idList, const unsigned short int idTask);
+    void                                    convertToPriority(const unsigned short int idList, const unsigned short int idTask);
+    void                                    convertToContainer(const unsigned short int idList, const unsigned short int idTask);
 };
 
 #endif // PROJECT_H

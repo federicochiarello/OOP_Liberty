@@ -28,18 +28,19 @@ void TaskContainer::addChild(AbsTask * p_child) {
 }
 
 void TaskContainer::removeChild(AbsTask * p_child) {
-    std::vector<AbsTask*>::iterator i = m_child.begin();
-    bool trovato = false;
-    while(!trovato && i != m_child.end()){
+    for(std::vector<AbsTask*>::iterator i = m_child.begin(); i != m_child.end(); i++)
         if (*i == p_child) {
             p_child->setParent(nullptr);
             m_child.erase(i);
-            trovato = true;
+            i = m_child.end();
         }
-        i++;
-    }
 }
 
 void TaskContainer::addChildList(std::vector<AbsTask *> p_child) {
     m_child = p_child;
+}
+
+void TaskContainer::updateChild(AbsTask *tOld, AbsTask *tNew) {
+    removeChild(tOld);
+    addChild(tNew);
 }
