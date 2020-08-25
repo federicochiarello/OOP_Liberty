@@ -15,7 +15,7 @@ void TaskContainer::setList(List *p_list) {
 	this->AbsTask::setList(p_list);
 	for(std::vector<AbsTask*>::iterator i = m_child.begin(); i != m_child.end(); i++) {
 		(*i)->setList(p_list);
-	}
+    }
 }
 
 std::vector<AbsTask *> TaskContainer::getChilds() const {

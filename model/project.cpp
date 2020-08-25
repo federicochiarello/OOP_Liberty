@@ -34,6 +34,38 @@ void Project::setListName(const unsigned short int idList, const std::string& p_
     m_lists.at(idList)->setName(p_name);
 }
 
+QStringList Project::getTaskInfo(const unsigned short idList, const unsigned short idTask) const {
+    AbsTask* t = m_lists.at(idList)->getTask(idTask);
+    QStringList tmp;
+
+    TaskPriority* tPrio = dynamic_cast<TaskPriority*>(t);
+    TaskContainer* tCont = dynamic_cast<TaskContainer*>(t);
+    if(!tPrio && !tCont)  tmp.push_back("Task");
+    else
+        if(tPrio)
+            if(tCont)   tmp.push_back("PriorityContainer");
+            else        tmp.push_back("Priority");
+        else            tmp.push_back("Container");
+
+    tmp.push_back(QString::fromStdString(t->getLabel()));
+    tmp.push_back(QString::fromStdString(t->getDesc()));
+    tmp.push_back(t->getEta().toString("dd.MM.yyyy"));
+
+    if(tPrio)
+        tmp.push_back(tPrio->getPriority().toString("dd.MM.yyyy"));
+    if(tCont) {
+        std::vector<AbsTask*> v = tCont->getChilds();
+        for(std::vector<AbsTask*>::iterator i = v.begin(); i != v.end(); i++)
+            tmp.push_back(QVariant((*i)->getId()).toString());
+    }
+
+    return tmp;
+}
+
+void Project::aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList info) {
+    m_lists.at(idList)->getTask(idTask)->aggiornaTask(info);
+}
+
 std::string Project::getName() const { return m_name; }
 
 Project* Project::fromJson(const QJsonObject& object) {

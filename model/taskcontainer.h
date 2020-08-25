@@ -19,6 +19,7 @@ public:
 
     TaskContainer*                      clone() const override;
 	void                                setList(List* p_list) override;
+    //void                                aggiornaTask(const QStringList info) override;
 
     std::vector<AbsTask*>				getChilds() const;
     void								addChild(AbsTask*);

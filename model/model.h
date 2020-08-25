@@ -21,19 +21,23 @@ public:
     ~Model();
 
 
-    void    createNewProject(const std::string& p_name);
-    void    setActiveProject(const unsigned int indP);
-    void    deleteProject(const unsigned int indP);
+    void        createNewProject(const std::string& p_name);
+    void        setActiveProject(const unsigned int indP);
+    void        deleteProject(const unsigned int indP);
 
-    void    addNewList();
-    void    addNewTask(const unsigned short int idList);
+    void        addNewList();
+    void        addNewTask(const unsigned short int idList);
 
-    void    setActiveProjName(const std::string& p_name);
-    void    setListName(const unsigned short int idList, const std::string& p_name);
+    void        setActiveProjName(const std::string& p_name);
+    void        setListName(const unsigned short int idList, const std::string& p_name);
 
 
-    void    convertToPriority(const unsigned short int idList, const unsigned short int idTask);
-    void    convertToContainer(const unsigned short int idList, const unsigned short int idTask);
+    QStringList getTaskInfo(const unsigned short int idList, const unsigned short int idTask) const;
+    void        aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList info);
+
+
+    void        convertToPriority(const unsigned short int idList, const unsigned short int idTask);
+    void        convertToContainer(const unsigned short int idList, const unsigned short int idTask);
 
 };
 

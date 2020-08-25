@@ -12,6 +12,12 @@ TaskPriority *TaskPriority::clone() const {
     return new TaskPriority(*this);
 }
 
+void TaskPriority::aggiornaTask(const QStringList info) {
+    setLabel(info[0].toStdString());
+    setDesc(info[1].toStdString());
+    setPriority(QDateTime::fromString(info[2],"dd.MM.yyyy"));
+}
+
 QDateTime TaskPriority::getPriority() const {
     return m_priority;
 }

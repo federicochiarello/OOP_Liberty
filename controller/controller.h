@@ -42,6 +42,10 @@ public slots:
     void        convertToPrio(const unsigned short int idList, const unsigned short int idTask);
     void        convertToCont(const unsigned short int idList, const unsigned short int idTask);
 
+    void        showTask(const unsigned short int idList, const unsigned short int idTask) const;
+    void        aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList);
+
+
     void        getExistingProjects();
     void        openProject(QString);
 };

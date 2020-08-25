@@ -33,6 +33,7 @@ public:
     virtual AbsTask*                    clone() const =0;
     //virtual QJsonObject&				toJson() const =0;
 	virtual void						setList(List* p_list);
+    virtual void                        aggiornaTask(const QStringList info);
 
 /* Get methods */
 	std::string							getLabel() const;

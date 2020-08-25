@@ -16,6 +16,10 @@ Controller::Controller(Model* m, QObject *parent) : QObject(parent), _view(nullp
 //	connect(VistaDiPartenza, SIGNAL(convertToPriority(const unsigned short int,const unsigned short int)), this, SLOT(convertToPrio(const unsigned short int, const unsigned short int)));
 //  connect(VistaDiPartenza, SIGNAL(convertToContainer(const unsigned short int,const unsigned short int)), this, SLOT(convertToCont(const unsigned short int, const unsigned short int)));
 
+//	connect(VistaDiPartenza, SIGNAL(requestShowTask(const unsigned int,const std::string)), this, SLOT(showTask(const unsigned int,const std::string)));
+//	connect(VistaDiPartenza, SIGNAL(requestAggTask(const unsigned int,const std::string,const QStringList)), this, SLOT(aggiornaTask(const unsigned int,const std::string,const QStringList)));
+
+
 }
 
 void Controller::setView(View* view) {
@@ -56,6 +60,14 @@ void Controller::convertToPrio(const unsigned short int idList, const unsigned s
 
 void Controller::convertToCont(const unsigned short int idList, const unsigned short int idTask) {
     _model->convertToContainer(idList,idTask);
+}
+
+void Controller::showTask(const unsigned short int idList, const unsigned short int idTask) const {
+    //_view->visualizzaTask(_model->getTaskInfo(idList,idTask));
+}
+
+void Controller::aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList info) {
+    _model->aggiornaTask(idList,idTask,info);
 }
 
 void Controller::getExistingProjects() {

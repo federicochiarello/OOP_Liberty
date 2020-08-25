@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <QDateTime>
+#include <QVariant>
 
 //#include <QJsonDocument>
 #include <QJsonArray>
@@ -49,6 +50,9 @@ public:
     void                                    addNewList();
     void                                    setName(const std::string& p_name);
     void                                    setListName(const unsigned short int idList, const std::string& p_name);
+
+    QStringList                             getTaskInfo(const unsigned short int idList, const unsigned short int idTask) const;
+    void                                    aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList info);
 
     void                                    convertToPriority(const unsigned short int idList, const unsigned short int idTask);
     void                                    convertToContainer(const unsigned short int idList, const unsigned short int idTask);

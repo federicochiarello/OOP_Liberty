@@ -47,3 +47,8 @@ void			AbsTask::setDesc(const std::string& p_desc) { m_desc = p_desc; }
 void			AbsTask::setParent(AbsTask* p_parent) { m_parent = p_parent; }
 
 void			AbsTask::setList(List* p_list) { m_list = p_list; }
+
+void AbsTask::aggiornaTask(const QStringList info) {
+    setLabel(info[0].toStdString());
+    setDesc(info[1].toStdString());
+}

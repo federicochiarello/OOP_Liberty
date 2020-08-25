@@ -15,6 +15,7 @@ public:
 	explicit TaskPriority(const QJsonObject& object);
 
     TaskPriority*                   clone() const override;
+    void                            aggiornaTask(const QStringList info) override;
 
     QDateTime                       getPriority() const;
 

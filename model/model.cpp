@@ -45,6 +45,14 @@ void Model::setListName(const unsigned short int idList, const std::string& p_na
     m_activeProject->setListName(idList,p_name);
 }
 
+QStringList Model::getTaskInfo(const unsigned short int idList, const unsigned short int idTask) const {
+    return m_activeProject->getTaskInfo(idList,idTask);
+}
+
+void Model::aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList info) {
+    m_activeProject->aggiornaTask(idList,idTask,info);
+}
+
 void Model::convertToPriority(const unsigned short int idList, const unsigned short int idTask) {
     m_activeProject->convertToPriority(idList,idTask);
 }
