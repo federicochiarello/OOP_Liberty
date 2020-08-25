@@ -37,6 +37,10 @@ View::View(Controller* controller,QWidget* parent) : QMainWindow(parent), _contr
 //	connect(undoAct, SIGNAL(triggered()), _controller, SLOT());
 //	connect(redoAct, SIGNAL(triggered()), _controller, SLOT());
 
+	connect(this, SIGNAL(appStart()), _controller, SLOT(getExistingProjects()));
+	connect(this, SIGNAL(openProject(QString)), _controller, SLOT(openProject(QString)));
+
+	connect(_controller, SIGNAL(sendExistingProjects(QStringList)), this, SLOT(fetchExistingProjects(QStringList)));
 	// Add actions to menu
 
 	fileMenu->addAction(newProAct);
@@ -92,9 +96,9 @@ void View::addToolBar() {
 
 void View::fetchExistingProjects(QStringList projects) {
 	QWidget* startCentralWidget = new QWidget(this);
-	QHBoxLayout* startCentralWidgetLayout = new QHBoxLayout();
+	QVBoxLayout* startCentralWidgetLayout = new QVBoxLayout();
 
-	for (int i=1; i<=projects.size(); i++) {
+	for (int i=1; i<projects.size(); i++) {
 		ProjectPreview* tmp = new ProjectPreview(projects.at(i), projects.at(0), startCentralWidget);
 		startCentralWidgetLayout->addWidget(tmp);
 		connect(tmp, SIGNAL(openProject(QString)), this, SIGNAL(openProject(QString)));

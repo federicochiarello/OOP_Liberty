@@ -8,10 +8,10 @@
 int main(int argc, char *argv[]) {
 	QApplication app(argc, argv);
 
-//  Model m;
-//  Controller c(&m);
-//	View v(&c);
-//  c.setView(&v);
+	Model m;
+	Controller c(&m);
+	View v(&c);
+	c.setView(&v);
 
 //	Controller c;
 //	TextHolder v("prova");
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 //	TasksList v;
 //	DragDrop v;
 //	ProjectView v;
-	View v;
+//	View v;
 	v.show();
 	return app.exec();
 }

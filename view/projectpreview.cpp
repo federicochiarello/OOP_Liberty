@@ -6,7 +6,7 @@ ProjectPreview::ProjectPreview(QWidget *parent) : QWidget(parent) {
 }
 
 ProjectPreview::ProjectPreview(QString name, QString pathToDir, QWidget *parent) : _name(name), _path(pathToDir+"/"+name) {
-	QHBoxLayout* layout = new QHBoxLayout();
+	QVBoxLayout* layout = new QVBoxLayout();
 
 	if (layout) {
 		layout->addWidget(new QLabel(_name, this));
