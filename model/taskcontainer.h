@@ -19,6 +19,7 @@ public:
     void								addChild(AbsTask*);
     void                                removeChild(AbsTask*);
     void                                addChildList(std::vector<AbsTask*> p_child);
+    void                                updateChild(AbsTask* tOld, AbsTask* tNew);
 };
 
 #endif // TASKCONTAINER_H

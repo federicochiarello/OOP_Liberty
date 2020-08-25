@@ -29,16 +29,12 @@ void Project::removeList(unsigned short int idList) {
 void Project::setName(const std::string& p_name) { m_name = p_name; }
 
 void Project::setListName(const unsigned short int idList, const std::string& p_name) {
-    getList(idList)->setName(p_name);
+    m_lists.at(idList)->setName(p_name);
 }
 
 std::string Project::getName() const { return m_name; }
 
 //std::vector<List *> Project::getLists() const { return m_lists; }
-
-List *Project::getList(const unsigned short int idList) const {
-    return m_lists.at(idList);
-}
 
 void Project::addNewTask(const unsigned short int idList, AbsTask* p_task) {
     m_lists.at(idList)->addTask(p_task);
@@ -48,20 +44,47 @@ void Project::addNewList() {
     List* newList = new List();
     std::map<unsigned short int,List*>::value_type l(newList->getId(),newList);
     m_lists.insert(l);
+    m_listsOrder.push_back(newList->getId());
 }
 
-void Project::ConvertToPriority(const unsigned short int idList, const unsigned short int idTask) {
+void Project::convertToPriority(const unsigned short int idList, const unsigned short int idTask) {
+    //  l lista da cui prendere task t da trasformare in priority
     List* l = m_lists.at(idList);
-    AbsTask* t = l->getTask(idTask);
+    AbsTask* t = l->getTask(idTask), * tNew;
 
+    //  2 casi: t è TaskContainer / no
     TaskContainer* tCont = dynamic_cast<TaskContainer*>(t);
-    AbsTask* tNew;
     if(tCont) {
-        tNew = new TaskPriorityContainer(t->getLabel(),t->getDesc(),t->getList(),t->getParent());
+        tNew = new TaskPriorityContainer(t->getLabel(),t->getDesc());
         dynamic_cast<TaskContainer*>(tNew)->addChildList(tCont->getChilds());
     } else
-        tNew = new TaskPriority(t->getLabel(),t->getDesc(),t->getList(),t->getParent());
+        tNew = new TaskPriority(t->getLabel(),t->getDesc());
+
+    //  Sostituito t (non Priority) con tNew (Priority)
     l->updateTask(idTask,tNew);
+
+    //  Se t ha (parent != nullptr) va aggiornato il padre
+    if(t->getParent())
+        dynamic_cast<TaskContainer*>(t->getParent())->updateChild(t,tNew);
+
+    delete t;
+}
+
+void Project::convertToContainer(const unsigned short int idList, const unsigned short int idTask) {
+    List* l = m_lists.at(idList);
+    AbsTask* t = l->getTask(idTask), * tNew;
+
+    TaskPriority* tPrio = dynamic_cast<TaskPriority*>(t);
+    if(tPrio)
+        tNew = new TaskPriorityContainer(t->getLabel(),t->getDesc(),nullptr,nullptr,tPrio->getPriority());
+    else
+        tNew = new TaskContainer(t->getLabel(),t->getDesc());
+
+    l->updateTask(idTask,tNew);
+
+    if(t->getParent())
+        dynamic_cast<TaskContainer*>(t->getParent())->updateChild(t,tNew);
+
     delete t;
 }
 

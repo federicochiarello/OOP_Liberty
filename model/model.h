@@ -21,8 +21,7 @@ public:
     ~Model();
 
 
-    void    createNewProject();
-
+    void    createNewProject(const std::string& p_name);
     void    setActiveProject(const unsigned int indP);
     void    deleteProject(const unsigned int indP);
 
@@ -33,8 +32,8 @@ public:
     void    setListName(const unsigned short int idList, const std::string& p_name);
 
 
-    void    ConvertToPriority(const unsigned short int idList, const unsigned short int idTask);
-
+    void    convertToPriority(const unsigned short int idList, const unsigned short int idTask);
+    void    convertToContainer(const unsigned short int idList, const unsigned short int idTask);
 
 };
 

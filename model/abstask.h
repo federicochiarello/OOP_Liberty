@@ -25,7 +25,7 @@ public:
 /* Constructors and destructors */
                                         AbsTask(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr);
                                         AbsTask(const AbsTask& p_task);
-                                        AbsTask(const QJsonObject& p_obj, AbsTask* p_parent =nullptr);
+                                        //AbsTask(const QJsonObject& p_obj, AbsTask* p_parent =nullptr);
 
     virtual								~AbsTask() =0;
 
