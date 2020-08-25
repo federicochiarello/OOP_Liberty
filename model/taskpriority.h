@@ -11,7 +11,8 @@ private:
 
 public:
 
-    TaskPriority(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr, QDateTime p_priority =QDateTime());
+	explicit TaskPriority(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr, QDateTime p_priority =QDateTime());
+	explicit TaskPriority(const QJsonObject& object);
 
     TaskPriority*                   clone() const override;
 

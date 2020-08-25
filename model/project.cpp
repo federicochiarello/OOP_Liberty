@@ -2,6 +2,8 @@
 
 Project::Project(std::string p_name) : m_name(p_name) {}
 
+//Project::Project(QJsonObject& object) {}
+
 Project::~Project() {
     if(! m_lists.empty())
         for(std::map<unsigned short int,List*>::iterator i=m_lists.begin(); i!=m_lists.end(); i++)
@@ -33,6 +35,17 @@ void Project::setListName(const unsigned short int idList, const std::string& p_
 }
 
 std::string Project::getName() const { return m_name; }
+
+Project* Project::fromJson(const QJsonObject& object) {
+	m_name = object.value("projectName").toString().toStdString();
+	const QJsonArray listsArray = object.value("lists").toArray();
+	for (const QJsonValue list : listsArray) {
+		List* tmp = new List(list.toObject());
+		m_lists.insert(std::pair<unsigned short, List*>(tmp->getId(), tmp));
+		m_listsOrder.push_back(tmp->getId());
+	}
+	return this;
+}
 
 //std::vector<List *> Project::getLists() const { return m_lists; }
 

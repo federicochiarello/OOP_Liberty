@@ -2,9 +2,46 @@
 
 unsigned short int List::nextID = 0;
 
-List::List(const std::string p_name) : m_name(p_name), id(++nextID) {}
+List::List(unsigned short id, const std::string name) :		_id(id),
+															m_name(name),
+															m_tasks(std::map<unsigned short, AbsTask*>()),
+															m_tasksOrder(std::vector<unsigned short>()) {
+	if (id > nextID) nextID = id;
+}
 
-List::List(const List &p_list) : m_name(p_list.m_name), m_tasks(p_list.m_tasks), m_tasksOrder(p_list.m_tasksOrder), id(++nextID) {}
+List::List(const std::string p_name) :		_id(++nextID),
+											m_name(p_name),
+											m_tasks(std::map<unsigned short, AbsTask*>()),
+											m_tasksOrder(std::vector<unsigned short>()) {}
+
+List::List(const QJsonObject& object) :	_id(object.value("listId").toInt()),
+									m_name(object.value("listName").toString().toStdString()),
+									m_tasks(std::map<unsigned short, AbsTask*>()),
+									m_tasksOrder(std::vector<unsigned short>()) {
+//	for (const QJsonValue task : object.value("tasks").toArray()) {
+//		AbsTask* tmp;
+//		switch(task.toObject().value("taskType").toInt()) {
+//			case 0:
+//				tmp = new Task(task.toObject());
+//				break;
+//			case 1:
+//				tmp = new TaskContainer(task.toObject());
+//				break;
+//			case 2:
+//				tmp = new TaskPriority(task.toObject());
+//				break;
+//			case 3:
+//				tmp = new TaskPriorityContainer(task.toObject());
+//				break;
+//		}
+
+//	}
+}
+
+List::List(const List &p_list) :	_id(++nextID),
+									m_name(p_list.m_name),
+									m_tasks(p_list.m_tasks),
+									m_tasksOrder(p_list.m_tasksOrder) {}
 
 List::~List() {
     if(! m_tasks.empty())
@@ -14,7 +51,7 @@ List::~List() {
 
 std::string List::getName() const { return m_name; }
 
-unsigned short List::getId() const { return id; }
+unsigned short List::getId() const { return _id; }
 
 void List::setName(const std::string & p_name) { m_name = p_name; }
 
@@ -39,6 +76,10 @@ void List::setAsDirectTask(const unsigned short idTask) {
 }
 
 AbsTask *List::getTask(const unsigned short idTask) {
-    return m_tasks.at(idTask);
+	return m_tasks.at(idTask);
+}
+
+List *List::fromJsonObject(QJsonObject object) {
+
 }
 

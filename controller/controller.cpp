@@ -13,9 +13,7 @@ Controller::Controller(Model* m, QObject *parent) : QObject(parent), _view(nullp
 //	connect(VistaDiPartenza, SIGNAL(requestChangeLName(const unsigned int,const std::string)), this, SLOT(setListName(const unsigned int,const std::string)));
 
 //	connect(VistaDiPartenza, SIGNAL(convertToPriority(const unsigned int,const unsigned int)), this, SLOT(convertToPrio(const unsigned int, const unsigned int)));
-	connect(_view, SIGNAL(appStart()), this, SLOT(getExistingProjects()));
-	connect(this, SIGNAL(sendExistingProjects(QStringList)), _view, SLOT());
-	connect(_view, SIGNAL(openProject(QString)), this, SLOT(openProject(QString)));
+
 }
 
 void Controller::setView(View* view) {
@@ -48,10 +46,11 @@ void Controller::setListName(const unsigned int indL, const std::string p_name) 
 
 void Controller::getExistingProjects() {
 
-	QDir projectsDir(QStandardPaths::displayName(QStandardPaths::AppDataLocation));
+//	QStandardPaths::displayName(QStandardPaths::AppDataLocation)
+	QDir projectsDir(QDir::homePath()+"/Documents/Universita/P2");
 	QStringList projects = projectsDir.entryList(QDir::Files, QDir::Time);
 
-	projects.prepend(projectsDir.dirName());
+	projects.prepend(projectsDir.absolutePath());
 
 	emit sendExistingProjects(projects);
 }

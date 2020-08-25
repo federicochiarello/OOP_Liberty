@@ -1,19 +1,24 @@
 #ifndef TASKCONTAINER_H
 #define TASKCONTAINER_H
 
-#include "abstask.h"
 #include <vector>
+
+#include <QJsonArray>
+
+#include "abstask.h"
 
 class TaskContainer : virtual public AbsTask {
 private:
     std::vector<AbsTask*>				m_child;
 
 public:
-                                        TaskContainer(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr);
+										explicit TaskContainer(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr);
+										explicit TaskContainer(const QJsonObject& object);
                                         TaskContainer(const TaskContainer& p_task);
 
+
     TaskContainer*                      clone() const override;
-    void                                setList(List* p_list) override;
+	void                                setList(List* p_list) override;
 
     std::vector<AbsTask*>				getChilds() const;
     void								addChild(AbsTask*);

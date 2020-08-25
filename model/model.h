@@ -17,7 +17,7 @@ private:
     std::vector<Project*>           m_projects;
     Project*						m_activeProject;
 public:
-    Model(const std::string path);
+	Model(const std::string path =std::string());
     ~Model();
 
 

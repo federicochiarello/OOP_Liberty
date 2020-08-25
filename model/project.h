@@ -7,7 +7,7 @@
 #include <QDateTime>
 
 //#include <QJsonDocument>
-//#include <QJsonArray>
+#include <QJsonArray>
 
 #include "abstask.h"
 
@@ -31,17 +31,18 @@ private:
     // std::map<std::string, std::vector<AbsTask*>>			m_lists;
 
 public:
-                                            Project(std::string p_name = std::string());
-                                            //Project(const Project& p_pro);
-                                            //Project(QJsonDocument& p_doc);
+											Project(std::string p_name = std::string());
+//											Project(const Project& p_pro);
+//											Project(QJsonObject& object);
                                             ~Project();
 
     void                                    addList(List* p_list);
     void                                    removeList(unsigned short int idList);
 
-    std::string                             getName() const;
-    //std::vector<List*>                      getLists() const;
-    // QJsonDocument                        toJson() const;
+	std::string                             getName() const;
+//	std::vector<List*>                      getLists() const;
+//	QJsonDocument                        toJson() const;
+	Project* fromJson(const QJsonObject& object);
 
     // metodi utilizzati
     List*                                   getList(const unsigned short int idList) const;
