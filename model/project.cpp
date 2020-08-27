@@ -7,22 +7,22 @@ Project::Project(std::string p_name) : m_name(p_name) {}
 
 Project::~Project() {
     if(! m_lists.empty())
-        for(std::map<unsigned short int,List*>::iterator i=m_lists.begin(); i!=m_lists.end(); i++)
+        for(std::map<unsigned short,List*>::iterator i=m_lists.begin(); i!=m_lists.end(); i++)
             delete i->second;
 }
 
 void Project::addList(List *p_list) {
-    std::map<unsigned short int,List*>::value_type l(p_list->getId(),p_list);
+    std::map<unsigned short,List*>::value_type l(p_list->getId(),p_list);
     m_lists.insert(l);
 }
 
-void Project::removeList(unsigned short int idList) {
+void Project::removeList(unsigned short idList) {
 
     // Se p_list ha figli -> eliminali
     delete m_lists.at(idList);
 
     // Elimina da m_listOrder
-    for(std::vector<unsigned short int>::iterator i = m_listsOrder.begin(); i != m_listsOrder.end(); i++)
+    for(std::vector<unsigned short>::iterator i = m_listsOrder.begin(); i != m_listsOrder.end(); i++)
         if (*i == idList) {
             m_listsOrder.erase(i);
             i = m_listsOrder.end();
@@ -31,8 +31,19 @@ void Project::removeList(unsigned short int idList) {
 
 void Project::setName(const std::string& p_name) { m_name = p_name; }
 
-void Project::setListName(const unsigned short int idList, const std::string& p_name) {
+void Project::setListName(const unsigned short idList, const std::string& p_name) {
     m_lists.at(idList)->setName(p_name);
+}
+
+void Project::changeListOrder(const unsigned short listToMove, const unsigned short Posizione) {
+    if(!Posizione)
+        m_listsOrder.insert(m_listsOrder.begin(),listToMove);
+    else
+        for(std::vector<unsigned short>::iterator i = m_listsOrder.begin(); i < m_listsOrder.end(); i++)
+            if (*i == Posizione) {
+                m_listsOrder.insert(i,listToMove);
+                i = m_listsOrder.end();
+            }
 }
 
 QStringList Project::getTaskInfo(const unsigned short idList, const unsigned short idTask) const {
@@ -63,7 +74,7 @@ QStringList Project::getTaskInfo(const unsigned short idList, const unsigned sho
     return tmp;
 }
 
-void Project::aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList info) {
+void Project::aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info) {
     m_lists.at(idList)->getTask(idTask)->aggiornaTask(info);
 }
 
@@ -116,14 +127,14 @@ void Project::addNewList() {
 */
 unsigned short Project::addNewList() {
     List* newList = new List();
-    unsigned short int id = newList->getId();
-    std::map<unsigned short int,List*>::value_type l(id,newList);
+    unsigned short id = newList->getId();
+    std::map<unsigned short,List*>::value_type l(id,newList);
     m_lists.insert(l);
     m_listsOrder.push_back(id);
     return id;
 }
 
-unsigned short int Project::convertToPriority(const unsigned short int idList, const unsigned short int idTask) {
+unsigned short Project::convertToPriority(const unsigned short idList, const unsigned short idTask) {
     //  l lista da cui prendere task t da trasformare in priority
     List* l = m_lists.at(idList);
     AbsTask* t = l->getTask(idTask), * tNew;
@@ -147,7 +158,7 @@ unsigned short int Project::convertToPriority(const unsigned short int idList, c
     return tNew->getId();
 }
 
-unsigned short int Project::convertToContainer(const unsigned short int idList, const unsigned short int idTask) {
+unsigned short Project::convertToContainer(const unsigned short idList, const unsigned short idTask) {
     List* l = m_lists.at(idList);
     AbsTask* t = l->getTask(idTask), * tNew;
 
@@ -173,7 +184,7 @@ void Project::dragAndDrop(const unsigned short LPartenza, const unsigned short L
 
     lp->removeTask(idTask);
     la->addTask(t);
-    la->insertTask(Posizione,idTask);
+    la->insertTask(idTask,Posizione);
 }
 
 

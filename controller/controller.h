@@ -32,19 +32,20 @@ public slots:
 	void        deleteProject(const unsigned int indP);
 
 	void        addNewList();
-    void        addNewTask(const unsigned short int idList);
-    void        addTaskChild(const unsigned short int idList, const unsigned short int idTask);
+    void        addNewTask(const unsigned short idList);
+    void        addTaskChild(const unsigned short idList, const unsigned short idTask);
 
     void        setProjectName(const std::string& p_name);
-    void        setListName(const unsigned short int idList, const std::string& p_name);
+    void        setListName(const unsigned short idList, const std::string& p_name);
+    void        changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
 
-    void        convertToPrio(const unsigned short int idList, const unsigned short int idTask);
-    void        convertToCont(const unsigned short int idList, const unsigned short int idTask);
+    void        convertToPrio(const unsigned short idList, const unsigned short idTask);
+    void        convertToCont(const unsigned short idList, const unsigned short idTask);
 
-    void        showTask(const unsigned short int idList, const unsigned short int idTask) const;
-    void        aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList);
+    void        showTask(const unsigned short idList, const unsigned short idTask) const;
+    void        aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList);
 
-    void        dragAndDrop(const unsigned short int LPartenza, const unsigned short int LArrivo, const unsigned short int idTask, const unsigned short int Posizione =0);
+    void        dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione =0);
 
     void        getExistingProjects();
     void        openProject(QString);

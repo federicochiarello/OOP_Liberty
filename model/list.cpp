@@ -1,7 +1,7 @@
 #include "list.h"
 #include <iostream>
 
-unsigned short int List::nextID = 0;
+unsigned short List::nextID = 0;
 
 List::List(unsigned short id, const std::string name) :		_id(id),
 															m_name(name),
@@ -50,7 +50,7 @@ List::List(const List &p_list) :	_id(++nextID),
 
 List::~List() {
     if(! m_tasks.empty())
-        for(std::map<unsigned short int,AbsTask*>::iterator i=m_tasks.begin(); i!=m_tasks.end(); i++)
+        for(std::map<unsigned short,AbsTask*>::iterator i=m_tasks.begin(); i!=m_tasks.end(); i++)
             delete i->second;
 }
 
@@ -62,19 +62,19 @@ void List::setName(const std::string & p_name) { m_name = p_name; }
 
 void List::addTask(AbsTask * p_task) {
     p_task->setList(this);
-    std::map<unsigned short int,AbsTask*>::value_type t(p_task->getId(),p_task);
+    std::map<unsigned short,AbsTask*>::value_type t(p_task->getId(),p_task);
     m_tasks.insert(t);
 }
 
-void List::setAsDirectTask(const unsigned short int idTask) {
+void List::setAsDirectTask(const unsigned short idTask) {
     m_tasksOrder.push_back(idTask);
 }
 
-void List::removeTask(const unsigned short int idTask) {
+void List::removeTask(const unsigned short idTask) {
     AbsTask* t = m_tasks.at(idTask);
     t->setList(nullptr);
     if(!t->getParent())
-        for(std::vector<unsigned short int>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
+        for(std::vector<unsigned short>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
             if (*i == idTask) {
                 m_tasksOrder.erase(i);
                 i = m_tasksOrder.end();
@@ -82,9 +82,9 @@ void List::removeTask(const unsigned short int idTask) {
     m_tasks.erase(idTask);
 }
 
-void List::updateTask(const unsigned short int idTask, AbsTask *p_task) {
+void List::updateTask(const unsigned short idTask, AbsTask *p_task) {
     if(!m_tasks.at(idTask)->getParent()) {
-        for(std::vector<unsigned short int>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); ++i)
+        for(std::vector<unsigned short>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); ++i)
             if (*i == idTask) {
                 *i = p_task->getId();
                 i = m_tasksOrder.end();
@@ -94,18 +94,18 @@ void List::updateTask(const unsigned short int idTask, AbsTask *p_task) {
     addTask(p_task);
 }
 
-void List::insertTask(const unsigned short int idTask, const unsigned short int Posizione) {
+void List::insertTask(const unsigned short idTask, const unsigned short Posizione) {
     if(!Posizione)
         m_tasksOrder.insert(m_tasksOrder.begin(),idTask);
     else
-        for(std::vector<unsigned short int>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
+        for(std::vector<unsigned short>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
             if (*i == Posizione) {
                 m_tasksOrder.insert(i,idTask);
                 i = m_tasksOrder.end();
             }
 }
 
-AbsTask *List::getTask(const unsigned short int idTask) {
+AbsTask *List::getTask(const unsigned short idTask) {
 	return m_tasks.at(idTask);
 }
 

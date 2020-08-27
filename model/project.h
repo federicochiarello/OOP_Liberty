@@ -20,8 +20,8 @@
 class Project {
 //	unsigned short _id;
     std::string                             m_name;
-    std::map<unsigned short int,List*>      m_lists;
-    std::vector<unsigned short int>         m_listsOrder;
+    std::map<unsigned short,List*>      m_lists;
+    std::vector<unsigned short>         m_listsOrder;
 
     //std::vector<List*>                      m_lists;
 
@@ -35,7 +35,7 @@ public:
                                             ~Project();
 
     void                                    addList(List* p_list);
-    void                                    removeList(unsigned short int idList);
+    void                                    removeList(unsigned short idList);
 
 	std::string                             getName() const;
 //	std::vector<List*>                      getLists() const;
@@ -44,20 +44,20 @@ public:
 
     // metodi utilizzati
 //  void                                    addNewTask(const unsigned short int idList, AbsTask* p_task);
-    unsigned short int                      addNewTask(const unsigned short int idList);
-    unsigned short int                      addNewTask(const unsigned short int idList, const unsigned short int idTist);
+    unsigned short                          addNewTask(const unsigned short idList);
+    unsigned short                          addNewTask(const unsigned short idList, const unsigned short idTist);
 //  void                                    addNewList();
-    unsigned short int                      addNewList();
+    unsigned short                          addNewList();
     void                                    setName(const std::string& p_name);
-    void                                    setListName(const unsigned short int idList, const std::string& p_name);
+    void                                    setListName(const unsigned short idList, const std::string& p_name);
+    void                                    changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
 
-    QStringList                             getTaskInfo(const unsigned short int idList, const unsigned short int idTask) const;
-    void                                    aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList info);
 
-//  void                                    convertToPriority(const unsigned short int idList, const unsigned short int idTask);
-//  void                                    convertToContainer(const unsigned short int idList, const unsigned short int idTask);
-    unsigned short int                      convertToPriority(const unsigned short int idList, const unsigned short int idTask);
-    unsigned short int                      convertToContainer(const unsigned short int idList, const unsigned short int idTask);
+    QStringList                             getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
+    void                                    aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info);
+
+    unsigned short                          convertToPriority(const unsigned short idList, const unsigned short idTask);
+    unsigned short                          convertToContainer(const unsigned short idList, const unsigned short idTask);
 
     void    dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione);
 };

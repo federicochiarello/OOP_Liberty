@@ -43,12 +43,12 @@ void Controller::addNewList() {
     //_view->getLastListId(_model->addNewList());
 }
 
-void Controller::addNewTask(const unsigned short int idList) {
+void Controller::addNewTask(const unsigned short idList) {
     _model->addNewTask(idList);
     //_view->getLastTaskId(List,_model->addNewTask(idList));
 }
 
-void Controller::addTaskChild(const unsigned short int idList, const unsigned short int idTask) {
+void Controller::addTaskChild(const unsigned short idList, const unsigned short idTask) {
     _model->addNewTaskChild(idList,idTask);
     //_view->getLastTaskId(List,_model->addNewTaskChild(idList));
 }
@@ -57,25 +57,29 @@ void Controller::setProjectName(const std::string& p_name) {
 	_model->setActiveProjName(p_name);
 }
 
-void Controller::setListName(const unsigned short int idList, const std::string& p_name) {
+void Controller::setListName(const unsigned short idList, const std::string& p_name) {
     _model->setListName(idList,p_name);
 }
 
-void Controller::convertToPrio(const unsigned short int idList, const unsigned short int idTask) {
+void Controller::changeListOrder(const unsigned short listToMove, const unsigned short Posizione) {
+    _model->changeListOrder(listToMove,Posizione);
+}
+
+void Controller::convertToPrio(const unsigned short idList, const unsigned short idTask) {
     _model->convertToPriority(idList,idTask);
     //_view->aggId(_model->convertToPriority(idList,idTask));
 }
 
-void Controller::convertToCont(const unsigned short int idList, const unsigned short int idTask) {
+void Controller::convertToCont(const unsigned short idList, const unsigned short idTask) {
     _model->convertToContainer(idList,idTask);
     //_view->aggId(_model->convertToContainer(idList,idTask));
 }
 
-void Controller::showTask(const unsigned short int idList, const unsigned short int idTask) const {
+void Controller::showTask(const unsigned short idList, const unsigned short idTask) const {
     //_view->visualizzaTask(_model->getTaskInfo(idList,idTask));
 }
 
-void Controller::aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList info) {
+void Controller::aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info) {
     _model->aggiornaTask(idList,idTask,info);
 }
 

@@ -33,10 +33,11 @@ public:
 
     void                setActiveProjName(const std::string& p_name);
     void                setListName(const unsigned short int idList, const std::string& p_name);
+    void                changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
 
 
-    QStringList         getTaskInfo(const unsigned short int idList, const unsigned short int idTask) const;
-    void                aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList info);
+    QStringList         getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
+    void                aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info);
 
 
 //  void                convertToPriority(const unsigned short int idList, const unsigned short int idTask);
