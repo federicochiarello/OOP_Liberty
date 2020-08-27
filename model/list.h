@@ -40,6 +40,7 @@ public:
     void                                    addTask(AbsTask* p_task);
     void                                    removeTask(const unsigned short int idTask);
     void                                    updateTask(const unsigned short int idTask, AbsTask* p_task);
+    void                                    insertTask(const unsigned short int Posizione,const unsigned short int idTask);
     void                                    setAsDirectTask(const unsigned short int idTask);
     AbsTask*                                getTask(const unsigned short int idTask);
 

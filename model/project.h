@@ -46,16 +46,23 @@ public:
 	Project* fromJson(const QJsonObject& object);
 
     // metodi utilizzati
-    void                                    addNewTask(const unsigned short int idList, AbsTask* p_task);
-    void                                    addNewList();
+//  void                                    addNewTask(const unsigned short int idList, AbsTask* p_task);
+    unsigned short int                      addNewTask(const unsigned short int idList);
+    unsigned short int                      addNewTask(const unsigned short int idList, const unsigned short int idTist);
+//  void                                    addNewList();
+    unsigned short int                      addNewList();
     void                                    setName(const std::string& p_name);
     void                                    setListName(const unsigned short int idList, const std::string& p_name);
 
     QStringList                             getTaskInfo(const unsigned short int idList, const unsigned short int idTask) const;
     void                                    aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList info);
 
-    void                                    convertToPriority(const unsigned short int idList, const unsigned short int idTask);
-    void                                    convertToContainer(const unsigned short int idList, const unsigned short int idTask);
+//  void                                    convertToPriority(const unsigned short int idList, const unsigned short int idTask);
+//  void                                    convertToContainer(const unsigned short int idList, const unsigned short int idTask);
+    unsigned short int                      convertToPriority(const unsigned short int idList, const unsigned short int idTask);
+    unsigned short int                      convertToContainer(const unsigned short int idList, const unsigned short int idTask);
+
+    void    dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione);
 };
 
 #endif // PROJECT_H

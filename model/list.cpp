@@ -1,4 +1,5 @@
 #include "list.h"
+#include <iostream>
 
 unsigned short int List::nextID = 0;
 
@@ -59,14 +60,17 @@ void List::addTask(AbsTask * p_task) {
     p_task->setList(this);
     std::map<unsigned short int,AbsTask*>::value_type t(p_task->getId(),p_task);
     m_tasks.insert(t);
-    m_tasksOrder.push_back(p_task->getId());
+}
+
+void List::setAsDirectTask(const unsigned short int idTask) {
+    m_tasksOrder.push_back(idTask);
 }
 
 void List::removeTask(const unsigned short int idTask) {
     AbsTask* t = m_tasks.at(idTask);
     t->setList(nullptr);
     if(!t->getParent())
-        for(std::vector<unsigned short int>::iterator i = m_tasksOrder.begin(); i != m_tasksOrder.end(); i++)
+        for(std::vector<unsigned short int>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
             if (*i == idTask) {
                 m_tasksOrder.erase(i);
                 i = m_tasksOrder.end();
@@ -75,22 +79,29 @@ void List::removeTask(const unsigned short int idTask) {
 }
 
 void List::updateTask(const unsigned short int idTask, AbsTask *p_task) {
-    if(!m_tasks.at(idTask)->getParent())
-        for(std::vector<unsigned short int>::iterator i = m_tasksOrder.begin(); i != m_tasksOrder.end(); i++)
+    if(!m_tasks.at(idTask)->getParent()) {
+        for(std::vector<unsigned short int>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); ++i)
             if (*i == idTask) {
                 *i = p_task->getId();
                 i = m_tasksOrder.end();
             }
-
+    }
     m_tasks.erase(idTask);
     addTask(p_task);
 }
 
-void List::setAsDirectTask(const unsigned short idTask) {
-    m_tasksOrder.push_back(idTask);
+void List::insertTask(const unsigned short int idTask, const unsigned short int Posizione) {
+    if(!Posizione)
+        m_tasksOrder.insert(m_tasksOrder.begin(),idTask);
+    else
+        for(std::vector<unsigned short int>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
+            if (*i == Posizione) {
+                m_tasksOrder.insert(i,idTask);
+                i = m_tasksOrder.end();
+            }
 }
 
-AbsTask *List::getTask(const unsigned short idTask) {
+AbsTask *List::getTask(const unsigned short int idTask) {
 	return m_tasks.at(idTask);
 }
 

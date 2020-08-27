@@ -22,8 +22,6 @@ public:
 
 	void setView(View* view);
 
-
-// controllare se possibile aggiungere attributo const
 signals:
 	void sendExistingProjects(QStringList);
 
@@ -35,6 +33,7 @@ public slots:
 
 	void        addNewList();
     void        addNewTask(const unsigned short int idList);
+    void        addTaskChild(const unsigned short int idList, const unsigned short int idTask);
 
     void        setProjectName(const std::string& p_name);
     void        setListName(const unsigned short int idList, const std::string& p_name);
@@ -45,6 +44,7 @@ public slots:
     void        showTask(const unsigned short int idList, const unsigned short int idTask) const;
     void        aggiornaTask(const unsigned short int idList, const unsigned short int idTask, const QStringList);
 
+    void        dragAndDrop(const unsigned short int LPartenza, const unsigned short int LArrivo, const unsigned short int idTask, const unsigned short int Posizione =0);
 
     void        getExistingProjects();
     void        openProject(QString);

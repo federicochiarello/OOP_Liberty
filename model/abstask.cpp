@@ -1,5 +1,5 @@
 #include "abstask.h"
-
+#include <iostream>
 unsigned short int AbsTask::nextID = 0;
 
 AbsTask::AbsTask(const std::string p_label, const std::string p_desc, List* p_list, AbsTask* p_parent) :

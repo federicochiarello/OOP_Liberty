@@ -28,15 +28,28 @@ void Model::deleteProject(const unsigned int indP) {
     m_projects.erase(m_projects.begin() + indP);
     delete p;
 }
-
+/*
 void Model::addNewList() {
     m_activeProject->addNewList();
 }
+*/
+unsigned short int Model::addNewList() {
+    return m_activeProject->addNewList();
+}
 
+unsigned short Model::addNewTask(const unsigned short idList) {
+    return m_activeProject->addNewTask(idList);
+}
+
+unsigned short Model::addNewTaskChild(const unsigned short int idList, const unsigned short int idTask) {
+    return m_activeProject->addNewTask(idList,idTask);
+}
+
+/*
 void Model::addNewTask(const unsigned short int idList) {
     m_activeProject->addNewTask(idList, new Task());
 }
-
+*/
 void Model::setActiveProjName(const std::string& p_name) {
     m_activeProject->setName(p_name);
 }
@@ -53,10 +66,23 @@ void Model::aggiornaTask(const unsigned short int idList, const unsigned short i
     m_activeProject->aggiornaTask(idList,idTask,info);
 }
 
+unsigned short int Model::convertToPriority(const unsigned short int idList, const unsigned short int idTask) {
+    return m_activeProject->convertToPriority(idList,idTask);
+}
+
+unsigned short int Model::convertToContainer(const unsigned short int idList, const unsigned short int idTask) {
+    return m_activeProject->convertToContainer(idList,idTask);
+}
+
+void Model::dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione) {
+    m_activeProject->dragAndDrop(LPartenza,LArrivo,idTask,Posizione);
+}
+
+/*
 void Model::convertToPriority(const unsigned short int idList, const unsigned short int idTask) {
     m_activeProject->convertToPriority(idList,idTask);
 }
-
 void Model::convertToContainer(const unsigned short int idList, const unsigned short int idTask) {
     m_activeProject->convertToContainer(idList,idTask);
 }
+*/

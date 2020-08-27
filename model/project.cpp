@@ -1,4 +1,5 @@
 #include "project.h"
+#include<iostream>
 
 Project::Project(std::string p_name) : m_name(p_name) {}
 
@@ -49,10 +50,10 @@ QStringList Project::getTaskInfo(const unsigned short idList, const unsigned sho
 
     tmp.push_back(QString::fromStdString(t->getLabel()));
     tmp.push_back(QString::fromStdString(t->getDesc()));
-    tmp.push_back(t->getEta().toString("dd.MM.yyyy"));
+    tmp.push_back(t->getEta().toString("dd.MM.yyyy hh:mm:ss"));
 
     if(tPrio)
-        tmp.push_back(tPrio->getPriority().toString("dd.MM.yyyy"));
+        tmp.push_back(tPrio->getPriority().toString("dd.MM.yyyy hh:mm:ss"));
     if(tCont) {
         std::vector<AbsTask*> v = tCont->getChilds();
         for(std::vector<AbsTask*>::iterator i = v.begin(); i != v.end(); i++)
@@ -76,23 +77,53 @@ Project* Project::fromJson(const QJsonObject& object) {
 		m_lists.insert(std::pair<unsigned short, List*>(tmp->getId(), tmp));
 		m_listsOrder.push_back(tmp->getId());
 	}
-	return this;
+    return this;
 }
 
 //std::vector<List *> Project::getLists() const { return m_lists; }
 
+unsigned short Project::addNewTask(const unsigned short idList) {
+    // aggiunto un nuovo task alla lista (figlio diretto)
+    AbsTask* t = new Task;
+    List* l = m_lists.at(idList);
+
+    l->addTask(t);
+    l->setAsDirectTask(t->getId());
+    return t->getId();
+}
+
+unsigned short Project::addNewTask(const unsigned short idList, const unsigned short idTask) {
+    // aggiunto un nuovo task alla lista (figlio di task(idTask))
+    List* l = m_lists.at(idList);
+    AbsTask* tParent = l->getTask(idTask);
+
+    AbsTask* t = new Task;
+    l->addTask(t);
+    dynamic_cast<TaskContainer*>(tParent)->addChild(t);
+    return t->getId();
+}
+
+/*
 void Project::addNewTask(const unsigned short int idList, AbsTask* p_task) {
     m_lists.at(idList)->addTask(p_task);
 }
-
 void Project::addNewList() {
     List* newList = new List();
     std::map<unsigned short int,List*>::value_type l(newList->getId(),newList);
     m_lists.insert(l);
     m_listsOrder.push_back(newList->getId());
 }
+*/
+unsigned short Project::addNewList() {
+    List* newList = new List();
+    unsigned short int id = newList->getId();
+    std::map<unsigned short int,List*>::value_type l(id,newList);
+    m_lists.insert(l);
+    m_listsOrder.push_back(id);
+    return id;
+}
 
-void Project::convertToPriority(const unsigned short int idList, const unsigned short int idTask) {
+unsigned short int Project::convertToPriority(const unsigned short int idList, const unsigned short int idTask) {
     //  l lista da cui prendere task t da trasformare in priority
     List* l = m_lists.at(idList);
     AbsTask* t = l->getTask(idTask), * tNew;
@@ -113,9 +144,10 @@ void Project::convertToPriority(const unsigned short int idList, const unsigned 
         dynamic_cast<TaskContainer*>(t->getParent())->updateChild(t,tNew);
 
     delete t;
+    return tNew->getId();
 }
 
-void Project::convertToContainer(const unsigned short int idList, const unsigned short int idTask) {
+unsigned short int Project::convertToContainer(const unsigned short int idList, const unsigned short int idTask) {
     List* l = m_lists.at(idList);
     AbsTask* t = l->getTask(idTask), * tNew;
 
@@ -131,6 +163,17 @@ void Project::convertToContainer(const unsigned short int idList, const unsigned
         dynamic_cast<TaskContainer*>(t->getParent())->updateChild(t,tNew);
 
     delete t;
+    return tNew->getId();
+}
+
+void Project::dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione) {
+    List* lp = m_lists.at(LPartenza);
+    List* la = m_lists.at(LArrivo);
+    AbsTask* t = lp->getTask(idTask);
+
+    lp->removeTask(idTask);
+    la->addTask(t);
+    la->insertTask(Posizione,idTask);
 }
 
 
