@@ -9,10 +9,10 @@
 #include <QJsonArray>
 
 #include "abstask.h"
-//#include "task.h"
-//#include "taskcontainer.h"
-//#include "taskpriority.h"
-//#include "taskprioritycontainer.h"
+#include "task.h"
+#include "taskcontainer.h"
+#include "taskpriority.h"
+#include "taskprioritycontainer.h"
 
 // Dichiarazione Incompleta
 class AbsTask;

@@ -47,6 +47,9 @@ public:
 
     void    dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione);
 
+	void	load(const std::string& filename);
+	void	save() const;
+
 };
 
 #endif // MODEL_H

@@ -19,24 +19,28 @@ List::List(const QJsonObject& object) :	_id(object.value("listId").toInt()),
 									m_name(object.value("listName").toString().toStdString()),
 									m_tasks(std::map<unsigned short, AbsTask*>()),
 									m_tasksOrder(std::vector<unsigned short>()) {
-//	for (const QJsonValue task : object.value("tasks").toArray()) {
-//		AbsTask* tmp;
-//		switch(task.toObject().value("taskType").toInt()) {
-//			case 0:
-//				tmp = new Task(task.toObject());
-//				break;
-//			case 1:
-//				tmp = new TaskContainer(task.toObject());
-//				break;
-//			case 2:
-//				tmp = new TaskPriority(task.toObject());
-//				break;
-//			case 3:
-//				tmp = new TaskPriorityContainer(task.toObject());
-//				break;
-//		}
 
-//	}
+	for (const QJsonValue task : object.value("tasks").toArray()) {
+		AbsTask* tmp = nullptr;
+		switch(task.toObject().value("taskType").toInt()) {
+			case 1:
+				tmp = new Task(task.toObject());
+				break;
+			case 2:
+				tmp = new TaskContainer(task.toObject());
+				break;
+			case 3:
+				tmp = new TaskPriority(task.toObject());
+				break;
+			case 4:
+				tmp = new TaskPriorityContainer(task.toObject());
+				break;
+		}
+		if (tmp) {
+			m_tasks.insert(std::pair<unsigned short, AbsTask*>(tmp->getId(), tmp));
+			m_tasksOrder.push_back(tmp->getId());
+		}
+	}
 }
 
 List::List(const List &p_list) :	_id(++nextID),

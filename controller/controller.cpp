@@ -96,6 +96,7 @@ void Controller::getExistingProjects() {
 }
 
 void Controller::openProject(QString) {
+//	_model->load()
 }
 
 //Illegal characters for files " \ / : | < > * ?

@@ -7,11 +7,9 @@
 #include <QDateTime>
 #include <QVariant>
 
-//#include <QJsonDocument>
 #include <QJsonArray>
 
 #include "abstask.h"
-
 #include "task.h"
 #include "taskcontainer.h"
 #include "taskpriority.h"
@@ -20,16 +18,15 @@
 #include "list.h"
 
 class Project {
-private:
+//	unsigned short _id;
     std::string                             m_name;
     std::map<unsigned short int,List*>      m_lists;
     std::vector<unsigned short int>         m_listsOrder;
 
     //std::vector<List*>                      m_lists;
 
-    // Old
-    // std::vector<AbsTask*>								m_tasks;
-    // std::map<std::string, std::vector<AbsTask*>>			m_lists;
+//	Old
+//	std::vector<AbsTask*>								m_tasks;
 
 public:
 											Project(std::string p_name = std::string());
