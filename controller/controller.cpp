@@ -30,12 +30,12 @@ void Controller::createNewProject(const std::string& p_name) {
     _model->createNewProject(p_name);
 }
 
-void Controller::setActiveProject(const unsigned int indP) {
+void Controller::setActiveProject(const unsigned short indP) {
 	 _model->setActiveProject(indP);
 }
 
-void Controller::deleteProject(const unsigned int indP) {
-	_model->deleteProject(indP);
+void Controller::closeProject(const unsigned short indP) {
+    _model->closeProject(indP);
 }
 
 void Controller::addNewList() {
@@ -49,8 +49,13 @@ void Controller::addNewTask(const unsigned short idList) {
 }
 
 void Controller::addTaskChild(const unsigned short idList, const unsigned short idTask) {
-    _model->addNewTaskChild(idList,idTask);
-    //_view->getLastTaskId(List,_model->addNewTaskChild(idList));
+    unsigned short tParent = _model->verifyContainer(idList,idTask);
+    unsigned short tChild = _model->addNewTaskChild(idList,tParent);
+
+    // necessario settare nella vista sia l'id del nuovo task (tChild) che l'id del task padre che potrebbe
+    // essere stato cambiato se non era un TaskContainer (tParent)
+
+    // ......
 }
 
 void Controller::setProjectName(const std::string& p_name) {

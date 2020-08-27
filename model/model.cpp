@@ -1,38 +1,34 @@
 #include "model.h"
 
-//  m_projects(new std::vector<Project*>())
 Model::Model(const std::string path) : m_basePath(path), m_activeProject(nullptr) {}
 
 Model::~Model() {
     if(! m_projects.empty())
-        for(std::vector<Project*>::iterator i=m_projects.begin(); i!=m_projects.end(); i++)
-            delete *i;
+        for(std::map<unsigned short,Project*>::iterator i=m_projects.begin(); i != m_projects.end(); i++)
+            delete i->second;
     //m_projects.clear();
 }
 
 void Model::createNewProject(const std::string& p_name) {
     Project* p = new Project(p_name);
-    m_projects.push_back(p);
+    std::map<unsigned short,Project*>::value_type Proj(p->getId(),p);
+    m_projects.insert(Proj);
     m_activeProject = p;
 }
 
-void Model::setActiveProject(const unsigned int indP) {
-    m_activeProject = m_projects[indP];
+void Model::setActiveProject(const unsigned short idProj) {
+    m_projects.at(idProj);
 }
 
-void Model::deleteProject(const unsigned int indP) {
-    Project* p = m_projects[indP];
+void Model::closeProject(const unsigned short idProj) {
+    Project* p = m_projects.at(idProj);
     if(m_activeProject == p)
         m_activeProject = nullptr;
 
-    m_projects.erase(m_projects.begin() + indP);
+    m_projects.erase(idProj);
     delete p;
 }
-/*
-void Model::addNewList() {
-    m_activeProject->addNewList();
-}
-*/
+
 unsigned short Model::addNewList() {
     return m_activeProject->addNewList();
 }
@@ -45,11 +41,6 @@ unsigned short Model::addNewTaskChild(const unsigned short idList, const unsigne
     return m_activeProject->addNewTask(idList,idTask);
 }
 
-/*
-void Model::addNewTask(const unsigned short int idList) {
-    m_activeProject->addNewTask(idList, new Task());
-}
-*/
 void Model::setActiveProjName(const std::string& p_name) {
     m_activeProject->setName(p_name);
 }
@@ -76,6 +67,10 @@ unsigned short int Model::convertToPriority(const unsigned short idList, const u
 
 unsigned short int Model::convertToContainer(const unsigned short idList, const unsigned short idTask) {
     return m_activeProject->convertToContainer(idList,idTask);
+}
+
+unsigned short Model::verifyContainer(const unsigned short idList, const unsigned short idTask) {
+    return m_activeProject->verifyContainer(idList,idTask);
 }
 
 void Model::dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione) {

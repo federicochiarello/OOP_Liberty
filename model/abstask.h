@@ -17,7 +17,7 @@ class AbsTask {
     AbsTask*							m_parent;
 	List*                               m_list;
 
-    static unsigned short int           nextID;
+    static unsigned short               nextID;
 	static QString						dateTimeFormat;
 
 	QDateTime	initEta(const QJsonValue& eta);
@@ -41,7 +41,7 @@ public:
     QDateTime							getEta() const;
 	AbsTask*							getParent() const;
 	List*                               getList() const;
-    unsigned short int                  getId() const;
+    unsigned short                      getId() const;
 
 //	Set methods
 	void							  	setLabel(const std::string&);

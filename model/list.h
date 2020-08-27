@@ -14,15 +14,14 @@
 #include "taskpriority.h"
 #include "taskprioritycontainer.h"
 
-// Dichiarazione Incompleta
 class AbsTask;
 
 class List {
 private:
-	unsigned short int                      _id;
+    unsigned short                          _id;
     std::string                             m_name;
-    std::map<unsigned short int,AbsTask*>   m_tasks;
-    std::vector<unsigned short int>         m_tasksOrder;   //contiene i task figli diretti della lista ordinati
+    std::map<unsigned short,AbsTask*>       m_tasks;
+    std::vector<unsigned short>             m_tasksOrder;   //contiene i task figli diretti della lista ordinati
 
     static unsigned short int               nextID;
 
@@ -34,15 +33,15 @@ public:
                                             ~List();
 
     std::string                             getName() const;
-    unsigned short int                      getId() const;
+    unsigned short                          getId() const;
     void                                    setName(const std::string& p_name);
 
     void                                    addTask(AbsTask* p_task);
-    void                                    removeTask(const unsigned short int idTask);
-    void                                    updateTask(const unsigned short int idTask, AbsTask* p_task);
-    void                                    insertTask(const unsigned short int Posizione,const unsigned short int idTask);
-    void                                    setAsDirectTask(const unsigned short int idTask);
-    AbsTask*                                getTask(const unsigned short int idTask);
+    void                                    removeTask(const unsigned short idTask);
+    void                                    updateTask(const unsigned short idTask, AbsTask* p_task);
+    void                                    insertTask(const unsigned short Posizione,const unsigned short idTask);
+    void                                    setAsDirectTask(const unsigned short idTask);
+    AbsTask*                                getTask(const unsigned short idTask);
 
 	List* fromJsonObject(QJsonObject object);
 };

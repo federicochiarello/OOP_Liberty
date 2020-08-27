@@ -1,7 +1,8 @@
 #include "project.h"
-#include<iostream>
 
-Project::Project(std::string p_name) : m_name(p_name) {}
+unsigned short Project::nextID = 0;
+
+Project::Project(std::string p_name) : _id(++nextID), m_name(p_name) {}
 
 //Project::Project(QJsonObject& object) {}
 
@@ -28,6 +29,8 @@ void Project::removeList(unsigned short idList) {
             i = m_listsOrder.end();
         }
 }
+
+unsigned short Project::getId() const { return _id; }
 
 void Project::setName(const std::string& p_name) { m_name = p_name; }
 
@@ -78,6 +81,12 @@ void Project::aggiornaTask(const unsigned short idList, const unsigned short idT
     m_lists.at(idList)->getTask(idTask)->aggiornaTask(info);
 }
 
+unsigned short Project::verifyContainer(const unsigned short idList, const unsigned short idTask) {
+    // se idTask è un TaskContainer -> ritorna il il suo id
+    //                   altrimenti -> lo converte a TaskContainer e ritorna il nuovo id
+    return (dynamic_cast<TaskContainer*>(m_lists.at(idList)->getTask(idTask)) == nullptr ? convertToPriority(idList,idTask) : idTask );
+}
+
 std::string Project::getName() const { return m_name; }
 
 Project* Project::fromJson(const QJsonObject& object) {
@@ -107,24 +116,16 @@ unsigned short Project::addNewTask(const unsigned short idList, const unsigned s
     // aggiunto un nuovo task alla lista (figlio di task(idTask))
     List* l = m_lists.at(idList);
     AbsTask* tParent = l->getTask(idTask);
-
     AbsTask* t = new Task;
     l->addTask(t);
     dynamic_cast<TaskContainer*>(tParent)->addChild(t);
     return t->getId();
 }
 
-/*
-void Project::addNewTask(const unsigned short int idList, AbsTask* p_task) {
-    m_lists.at(idList)->addTask(p_task);
+AbsTask *Project::getPointer(const unsigned short idList, const unsigned short idTask) {
+    return m_lists.at(idList)->getTask(idTask);
 }
-void Project::addNewList() {
-    List* newList = new List();
-    std::map<unsigned short int,List*>::value_type l(newList->getId(),newList);
-    m_lists.insert(l);
-    m_listsOrder.push_back(newList->getId());
-}
-*/
+
 unsigned short Project::addNewList() {
     List* newList = new List();
     unsigned short id = newList->getId();

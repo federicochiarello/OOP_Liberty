@@ -28,8 +28,8 @@ signals:
 public slots:
 
     void        createNewProject(const std::string& = std::string());
-	void        setActiveProject(const unsigned int indP);
-	void        deleteProject(const unsigned int indP);
+    void        setActiveProject(const unsigned short indP);
+    void        closeProject(const unsigned short indP);
 
 	void        addNewList();
     void        addNewTask(const unsigned short idList);

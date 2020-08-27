@@ -1,5 +1,6 @@
 #include "taskcontainer.h"
-#include <iostream>
+#include "list.h"
+
 TaskContainer::TaskContainer(const std::string p_label, const std::string p_desc, List* p_list, AbsTask* p_parent) :
 	AbsTask(p_label,p_desc,p_list,p_parent) {}
 

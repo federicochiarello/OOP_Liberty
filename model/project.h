@@ -18,13 +18,15 @@
 #include "list.h"
 
 class Project {
-//	unsigned short _id;
-    std::string                             m_name;
+
+    unsigned short                      _id;
+    std::string                         m_name;
     std::map<unsigned short,List*>      m_lists;
     std::vector<unsigned short>         m_listsOrder;
 
-    //std::vector<List*>                      m_lists;
+    static unsigned short               nextID;
 
+//  std::vector<List*>                      m_lists
 //	Old
 //	std::vector<AbsTask*>								m_tasks;
 
@@ -37,16 +39,15 @@ public:
     void                                    addList(List* p_list);
     void                                    removeList(unsigned short idList);
 
+    unsigned short                          getId() const;
 	std::string                             getName() const;
 //	std::vector<List*>                      getLists() const;
-//	QJsonDocument                        toJson() const;
+//	QJsonDocument                           toJson() const;
 	Project* fromJson(const QJsonObject& object);
 
-    // metodi utilizzati
-//  void                                    addNewTask(const unsigned short int idList, AbsTask* p_task);
     unsigned short                          addNewTask(const unsigned short idList);
-    unsigned short                          addNewTask(const unsigned short idList, const unsigned short idTist);
-//  void                                    addNewList();
+    unsigned short                          addNewTask(const unsigned short idList, const unsigned short idTask);
+    AbsTask*                                getPointer(const unsigned short idList, const unsigned short idTask);
     unsigned short                          addNewList();
     void                                    setName(const std::string& p_name);
     void                                    setListName(const unsigned short idList, const std::string& p_name);
@@ -55,6 +56,7 @@ public:
 
     QStringList                             getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
     void                                    aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info);
+    unsigned short                          verifyContainer(const unsigned short idList, const unsigned short idTask);
 
     unsigned short                          convertToPriority(const unsigned short idList, const unsigned short idTask);
     unsigned short                          convertToContainer(const unsigned short idList, const unsigned short idTask);

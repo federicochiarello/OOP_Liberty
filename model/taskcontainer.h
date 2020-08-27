@@ -2,9 +2,7 @@
 #define TASKCONTAINER_H
 
 #include <vector>
-
 #include <QJsonArray>
-
 #include "abstask.h"
 
 class TaskContainer : virtual public AbsTask {

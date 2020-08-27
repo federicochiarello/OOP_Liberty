@@ -1,6 +1,6 @@
 #include "abstask.h"
 #include <iostream>
-unsigned short int AbsTask::nextID = 0;
+unsigned short AbsTask::nextID = 0;
 
 QString AbsTask::dateTimeFormat = "d M yy hh:mm:ss";
 
