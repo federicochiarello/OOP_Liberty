@@ -11,15 +11,23 @@
 
 #include <vector>
 
+#include <QFile>
+#include <QJsonDocument>
+
 class Model {
 private:
-    std::string                         m_basePath;
+//    std::string                         m_basePath;
     std::map<unsigned short,Project*>   m_projects;
     Project*                            m_activeProject;
-public:
-	Model(const std::string path =std::string());
-    ~Model();
 
+	void setActiveProject(Project* project);
+
+	static std::string path;
+
+public:
+
+	Model();
+    ~Model();
 
     void                createNewProject(const std::string& p_name);
     void                setActiveProject(const unsigned short idProj);
@@ -43,8 +51,11 @@ public:
 
     void    dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione);
 
-	void	load(const std::string& filename);
-	void	save() const;
+	void	load(const QString& filename);
+	void	save(const unsigned short projectId) const;
+
+	std::pair<unsigned short, QString> getProjectInfo(const unsigned short projectId =0);
+	// se projectId =0 allora si richiedono le info di activeProject
 
 };
 

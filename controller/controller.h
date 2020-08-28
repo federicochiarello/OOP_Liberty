@@ -23,13 +23,15 @@ public:
 	void setView(View* view);
 
 signals:
-	void sendExistingProjects(QStringList);
+	void sendExistingProjects(const QStringList&);
+	void sendProjectInfo(const std::pair<unsigned short, QString>&);
 
 public slots:
 
     void        createNewProject(const std::string& = std::string());
     void        setActiveProject(const unsigned short indP);
     void        closeProject(const unsigned short indP);
+
 
 	void        addNewList();
     void        addNewTask(const unsigned short idList);
@@ -48,7 +50,8 @@ public slots:
     void        dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione =0);
 
     void        getExistingProjects();
-    void        openProject(QString);
+	void        openProject(const QString);
+	void		saveProject(const unsigned short idProject);
 };
 
 #endif // CONTROLLER_H

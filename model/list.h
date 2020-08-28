@@ -28,10 +28,11 @@ private:
 public:
 											explicit List(const std::string name =std::string());
 											explicit List(unsigned short id, const std::string name =std::string());
-											explicit List(const QJsonObject& object);
+											explicit List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<unsigned short, unsigned short>& idsMap);
                                             List(const List& p_list);
                                             ~List();
 
+	QJsonObject toJson() const;
     std::string                             getName() const;
     unsigned short                          getId() const;
     void                                    setName(const std::string& p_name);

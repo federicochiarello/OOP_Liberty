@@ -43,8 +43,8 @@ public:
         bool                operator!=(const iterator &r) const { return i != r.i; }
         bool                operator==(const iterator &r) const { return i == r.i; }
 
-        // Non capisco a che serva
-        //int                 operator-(iterator it) const { return i - it.i; }
+		// Non capisco a che serva Distanza?
+		//int                 operator-(iterator it) const { return i - it.i; }
 
         operator int() { return i; }
 

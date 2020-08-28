@@ -104,8 +104,13 @@ void Controller::getExistingProjects() {
 	emit sendExistingProjects(projects);
 }
 
-void Controller::openProject(QString) {
-//	_model->load()
+void Controller::openProject(QString path) {
+	_model->load(path);
+	emit sendProjectInfo(_model->getProjectInfo());
+}
+
+void Controller::saveProject(const unsigned short idProject) {
+	_model->save(idProject);
 }
 
 //Illegal characters for files " \ / : | < > * ?

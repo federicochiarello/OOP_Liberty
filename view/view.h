@@ -39,10 +39,11 @@ public:
 
 signals:
 	void appStart();
-	void openProject(QString);
+	void openProject(const QString);
 
 public slots:
-	void fetchExistingProjects(QStringList);
+	void fetchExistingProjects(const QStringList&);
+	void fetchProjectInfo(const std::pair<unsigned short, QString>&);
 };
 
 #endif // VIEW_H

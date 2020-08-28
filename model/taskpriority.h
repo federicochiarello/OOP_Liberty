@@ -5,16 +5,17 @@
 #include <QDateTime>
 
 class TaskPriority : virtual public AbsTask {
-private:
+protected:
 
     QDateTime                       m_priority;
 
 public:
 
 	explicit TaskPriority(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr, QDateTime p_priority =QDateTime());
-	explicit TaskPriority(const QJsonObject& object);
+	explicit TaskPriority(const QJsonObject& object, std::map<unsigned short, unsigned short>& idsMap);
 
     TaskPriority*                   clone() const override;
+	QJsonObject toJson() const override;
     void                            aggiornaTask(const QStringList info) override;
 
     QDateTime                       getPriority() const;

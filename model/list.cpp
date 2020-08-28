@@ -15,7 +15,7 @@ List::List(const std::string p_name) :		_id(++nextID),
 											m_tasks(std::map<unsigned short, AbsTask*>()),
 											m_tasksOrder(std::vector<unsigned short>()) {}
 
-List::List(const QJsonObject& object) :	_id(object.value("listId").toInt()),
+List::List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<unsigned short, unsigned short>& idsMap) :	_id(++nextID),
 									m_name(object.value("listName").toString().toStdString()),
 									m_tasks(std::map<unsigned short, AbsTask*>()),
 									m_tasksOrder(std::vector<unsigned short>()) {
@@ -24,20 +24,21 @@ List::List(const QJsonObject& object) :	_id(object.value("listId").toInt()),
 		AbsTask* tmp = nullptr;
 		switch(task.toObject().value("taskType").toInt()) {
 			case 1:
-				tmp = new Task(task.toObject());
+				tmp = new Task(task.toObject(), idsMap);
 				break;
 			case 2:
-				tmp = new TaskContainer(task.toObject());
+				tmp = new TaskContainer(task.toObject(), idsMap);
 				break;
 			case 3:
-				tmp = new TaskPriority(task.toObject());
+				tmp = new TaskPriority(task.toObject(), idsMap);
 				break;
 			case 4:
-				tmp = new TaskPriorityContainer(task.toObject());
+				tmp = new TaskPriorityContainer(task.toObject(), idsMap);
 				break;
 		}
 		if (tmp) {
 			m_tasks.insert(std::pair<unsigned short, AbsTask*>(tmp->getId(), tmp));
+			tasks.push_back(tmp);
 			m_tasksOrder.push_back(tmp->getId());
 		}
 	}
@@ -53,6 +54,22 @@ List::~List() {
         for(std::map<unsigned short,AbsTask*>::iterator i=m_tasks.begin(); i!=m_tasks.end(); i++)
             delete i->second;
 }
+
+QJsonObject List::toJson() const {
+	QJsonObject jsonObject;
+
+//	jsonObject.insert("listId", _id);
+	jsonObject.insert("listName", QString::fromStdString(m_name));
+
+	QJsonArray tasks;
+	for (auto it = m_tasks.begin(); it != m_tasks.end(); it++) {
+		tasks.append(it->second->toJson());
+	}
+	jsonObject.insert("tasks", tasks);
+
+	return jsonObject;
+}
+
 
 std::string List::getName() const { return m_name; }
 

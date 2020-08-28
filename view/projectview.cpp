@@ -1,8 +1,17 @@
 #include "projectview.h"
 
-ProjectView::ProjectView(QWidget *parent) : QWidget(parent), _mainLayout(new QVBoxLayout()), _centralLayout(new QHBoxLayout()) {
+ProjectView::ProjectView(QWidget *parent) :
+	QWidget(parent),
+	_mainLayout(new QVBoxLayout()),
+	_centralLayout(new QHBoxLayout()) {
 	setup();
 	//addList("Prova");
+}
+
+ProjectView::ProjectView(const std::pair<unsigned short, QString>& projectInfo, QWidget *parent) :
+	QWidget(parent),
+	_id(projectInfo.first) {
+
 }
 
 void ProjectView::setup(std::string name) {

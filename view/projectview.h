@@ -22,6 +22,7 @@ class ProjectView : public QWidget {
 	void setup(std::string name = std::string());
 public:
 	explicit ProjectView(QWidget *parent = nullptr);
+	explicit ProjectView(const std::pair<unsigned short, QString>& projectInfo, QWidget* parent =nullptr);
 
 signals:
 	void changeProjectName(unsigned short, std::string);

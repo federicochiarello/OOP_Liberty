@@ -16,6 +16,7 @@ class TasksListWidget : public QWidget {
 	Q_OBJECT
 
 	QVBoxLayout* _layout;
+	unsigned short _id;
 	std::string _name;
 	TasksList* _list;
 

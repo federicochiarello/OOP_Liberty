@@ -22,18 +22,20 @@ class Project {
     unsigned short                      _id;
     std::string                         m_name;
     std::map<unsigned short,List*>      m_lists;
-    std::vector<unsigned short>         m_listsOrder;
+	std::vector<unsigned short>         m_listsOrder;
+	bool _modified;
 
-    static unsigned short               nextID;
-
-//  std::vector<List*>                      m_lists
-//	Old
 //	std::vector<AbsTask*>								m_tasks;
+
+	static unsigned short               nextID;
+
+//	std::vector<List*>                      m_lists
+//	Old
 
 public:
 											Project(std::string p_name = std::string());
+											Project(const QJsonObject& object);
 //											Project(const Project& p_pro);
-//											Project(QJsonObject& object);
                                             ~Project();
 
     void                                    addList(List* p_list);
@@ -42,7 +44,7 @@ public:
     unsigned short                          getId() const;
 	std::string                             getName() const;
 //	std::vector<List*>                      getLists() const;
-//	QJsonDocument                           toJson() const;
+	QJsonObject                          object();
 	Project* fromJson(const QJsonObject& object);
 
     unsigned short                          addNewTask(const unsigned short idList);

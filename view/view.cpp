@@ -38,9 +38,10 @@ View::View(Controller* controller,QWidget* parent) : QMainWindow(parent), _contr
 //	connect(redoAct, SIGNAL(triggered()), _controller, SLOT());
 
 	connect(this, SIGNAL(appStart()), _controller, SLOT(getExistingProjects()));
-	connect(this, SIGNAL(openProject(QString)), _controller, SLOT(openProject(QString)));
+	connect(this, SIGNAL(openProject(const QString)), _controller, SLOT(openProject(const QString)));
 
-	connect(_controller, SIGNAL(sendExistingProjects(QStringList)), this, SLOT(fetchExistingProjects(QStringList)));
+	connect(_controller, SIGNAL(sendExistingProjects(const QStringList&)), this, SLOT(fetchExistingProjects(const QStringList&)));
+	connect(_controller, SIGNAL(openProject(const std::pair<unsigned short, QString>&)), this, SLOT(fetchProjectInfo(const std::pair<unsigned short, QString>&)));
 	// Add actions to menu
 
 	fileMenu->addAction(newProAct);
@@ -94,7 +95,7 @@ void View::addToolBar() {
 	_windowLayout->addWidget(toolB2);
 }
 
-void View::fetchExistingProjects(QStringList projects) {
+void View::fetchExistingProjects(const QStringList& projects) {
 	QWidget* startCentralWidget = new QWidget(this);
 	QVBoxLayout* startCentralWidgetLayout = new QVBoxLayout();
 
@@ -106,6 +107,16 @@ void View::fetchExistingProjects(QStringList projects) {
 
 	startCentralWidget->setLayout(startCentralWidgetLayout);
 	setCentralWidget(startCentralWidget);
+}
+
+void View::fetchProjectInfo(const std::pair<unsigned short, QString>& projectInfo) {
+	QTabWidget* widget = dynamic_cast<QTabWidget*>(centralWidget());
+
+	if (widget) { // vi sono già dei progetti aperti
+		widget->addTab(new ProjectView(projectInfo, widget), projectInfo.second);
+	} else { // é il primo progetto che viene aperto, bisogna creare il QTabWidget che conterrá i progetti
+
+	}
 }
 
 void View::setup() {

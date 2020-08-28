@@ -1,6 +1,10 @@
 #include "model.h"
 
-Model::Model(const std::string path) : m_basePath(path), m_activeProject(nullptr) {}
+std::string Model::path = /*QStandardPaths::AppDataLocation*/ "/Documents";
+
+Model::Model() :
+	m_projects(),
+	m_activeProject(nullptr) {}
 
 Model::~Model() {
     if(! m_projects.empty())
@@ -16,15 +20,20 @@ void Model::createNewProject(const std::string& p_name) {
     m_activeProject = p;
 }
 
+void Model::setActiveProject(Project *project) {
+	m_activeProject = project;
+}
+
 void Model::setActiveProject(const unsigned short idProj) {
     m_projects.at(idProj);
 }
 
 void Model::closeProject(const unsigned short idProj) {
     Project* p = m_projects.at(idProj);
-    if(m_activeProject == p)
+	if (m_activeProject == p) {
         m_activeProject = nullptr;
-
+	}
+//	save(idProj);
     m_projects.erase(idProj);
     delete p;
 }
@@ -74,5 +83,33 @@ unsigned short Model::verifyContainer(const unsigned short idList, const unsigne
 }
 
 void Model::dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione) {
-    m_activeProject->dragAndDrop(LPartenza,LArrivo,idTask,Posizione);
+	m_activeProject->dragAndDrop(LPartenza,LArrivo,idTask,Posizione);
+}
+
+void Model::load(const QString& filename) {
+	QFile file(filename);
+	if (file.open(QIODevice::ReadOnly)){
+		QJsonDocument document = QJsonDocument::fromJson(file.readAll());
+		if (document.isObject()) {
+			Project* tmp = new Project(document.object());
+			m_projects.insert(std::pair<unsigned short,Project*>(tmp->getId(), tmp));
+			setActiveProject(tmp);
+		}
+	}
+	file.close();
+}
+
+void Model::save(const unsigned short projectId) const {
+	QFile file(QString::fromStdString(path+m_projects.at(projectId)->getName()));
+	if (file.open(QIODevice::WriteOnly)) {
+		file.write(QJsonDocument(m_activeProject->object()).toJson());
+	}
+	file.close();
+}
+
+std::pair<unsigned short, QString> Model::getProjectInfo(const unsigned short projectId) {
+
+	Project* project = (projectId ? m_projects.at(projectId) : m_activeProject);
+
+	return std::pair<unsigned short, QString>(project->getId(), QString::fromStdString(project->getName()));
 }
