@@ -113,4 +113,13 @@ void Controller::saveProject(const unsigned short idProject) {
 	_model->save(idProject);
 }
 
+void Controller::onGetLists(const unsigned short projectId) {
+	emit sendListsIds(projectId, _model->getLists(projectId));
+}
+
+void Controller::onGetListName(const unsigned short projectId, const unsigned short listId) {
+
+	emit sendListName(projectId, listId, _model->getListName(projectId, listId));
+}
+
 //Illegal characters for files " \ / : | < > * ?

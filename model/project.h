@@ -21,7 +21,7 @@ class Project {
 
     unsigned short                      _id;
     std::string                         m_name;
-    std::map<unsigned short,List*>      m_lists;
+	std::map<unsigned short,List*>      m_lists;
 	std::vector<unsigned short>         m_listsOrder;
 	bool _modified;
 
@@ -43,7 +43,7 @@ public:
 
     unsigned short                          getId() const;
 	std::string                             getName() const;
-//	std::vector<List*>                      getLists() const;
+	std::vector<unsigned short>				getLists() const;
 	QJsonObject                          object();
 	Project* fromJson(const QJsonObject& object);
 
@@ -51,7 +51,9 @@ public:
     unsigned short                          addNewTask(const unsigned short idList, const unsigned short idTask);
     AbsTask*                                getPointer(const unsigned short idList, const unsigned short idTask);
     unsigned short                          addNewList();
+
     void                                    setName(const std::string& p_name);
+	QString									getListName(const unsigned short listId) const;
     void                                    setListName(const unsigned short idList, const std::string& p_name);
     void                                    changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
 

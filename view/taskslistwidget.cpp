@@ -4,8 +4,7 @@ void TasksListWidget::setup() {
 	// setMinimumSize()
 	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
-	QLineEdit* title = new QLineEdit(QString::fromStdString(_name), this);
-	title->setFocus();
+	_title->setFocus();
 
 	QPushButton* button = new QPushButton(tr("Actions"), this);
 	QMenu* menu = new QMenu(button);
@@ -18,7 +17,7 @@ void TasksListWidget::setup() {
 
 	QHBoxLayout* header = new QHBoxLayout();
 	header->setAlignment(Qt::AlignVCenter);
-	header->addWidget(title);
+	header->addWidget(_title);
 	header->addWidget(button);
 
 	/*
@@ -37,10 +36,10 @@ void TasksListWidget::setup() {
 	setLayout(_layout);
 }
 
-TasksListWidget::TasksListWidget(std::string listName, QWidget* parent) :
+TasksListWidget::TasksListWidget(QString listName, QWidget* parent) :
 	QWidget(parent),
+	_title(new QLineEdit(listName, this)),
 	_layout(new QVBoxLayout()),
-	_name(listName),
 	_list(new TasksList(this)) {
 
 	setup();
@@ -49,10 +48,10 @@ TasksListWidget::TasksListWidget(std::string listName, QWidget* parent) :
 TasksListWidget::TasksListWidget(const unsigned short listId, QWidget *parent) :
 	QWidget(parent),
 	_id(listId),
-	_name(),
+	_title(new QLineEdit(this)),
 	_list(new TasksList(this)) {
 
-
+	setup();
 }
 
 
@@ -69,4 +68,12 @@ TasksListWidget::TasksListWidget(QWidget* parent) :
 //}
 
 TasksListWidget::~TasksListWidget() {}
+
+unsigned short TasksListWidget::getId() const { return _id; }
+
+void TasksListWidget::fetchListName(const unsigned short listId, const QString &listName) {
+	if (listId == _id) {
+		_title->setText(listName);
+	}
+}
 

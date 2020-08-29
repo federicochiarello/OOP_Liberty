@@ -110,6 +110,8 @@ void View::fetchExistingProjects(const QStringList& projects) {
 }
 
 void View::fetchProjectInfo(const std::pair<unsigned short, QString>& projectInfo) {
+
+
 	QTabWidget* widget = dynamic_cast<QTabWidget*>(centralWidget());
 	ProjectView* project = new ProjectView(projectInfo, widget);
 	if (widget) { // vi sono già dei progetti aperti
@@ -119,8 +121,11 @@ void View::fetchProjectInfo(const std::pair<unsigned short, QString>& projectInf
 		widget->addTab(project, projectInfo.second);
 		project->setParent(centralWidget());
 	}
+
 	connect(project, SIGNAL(getLists(const unsigned short)), _controller, SLOT(onGetLists(const unsigned short)));
 	connect(_controller, SIGNAL(sendListsIds(const unsigned short, std::vector<const unsigned short>)), project, SLOT(fetchListsIds(const unsigned short, std::vector<const unsigned short>)));
+	connect(project, SIGNAL(getListName(const unsigned short, const unsigned short)), _controller, SLOT(onGetListName(const unsigned short, const unsigned short)));
+	connect(_controller, SIGNAL(sendListNqme(const unsigned short, const unsigned short, const QString&)), project, SLOT(fetchListName(const unsigned short, const unsigned short, const QString&)));
 
 	emit project->getLists(project->getId());
 }

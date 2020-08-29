@@ -84,6 +84,10 @@ unsigned short Project::getId() const {
 
 void Project::setName(const std::string& p_name) { m_name = p_name; }
 
+QString Project::getListName(const unsigned short listId) const {
+	return QString::fromStdString(m_lists.at(listId)->getName());
+}
+
 void Project::setListName(const unsigned short idList, const std::string& p_name) {
     m_lists.at(idList)->setName(p_name);
 }
@@ -138,6 +142,10 @@ unsigned short Project::verifyContainer(const unsigned short idList, const unsig
 }
 
 std::string Project::getName() const { return m_name; }
+
+std::vector<unsigned short> Project::getLists() const {
+	return m_listsOrder;
+}
 
 Project* Project::fromJson(const QJsonObject& object) {
 	std::vector<AbsTask*> tasks;

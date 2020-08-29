@@ -23,9 +23,11 @@ public:
 	void setView(View* view);
 
 signals:
+
 	void sendExistingProjects(const QStringList&);
 	void sendProjectInfo(const std::pair<unsigned short, QString>&);
-	void sendListsIds(const unsigned short projectId, std::vector<const unsigned short> listsIds);
+	void sendListsIds(const unsigned short, std::vector<unsigned short>);
+	void sendListName(const unsigned short, const unsigned short, const QString&);
 
 public slots:
 
@@ -55,6 +57,7 @@ public slots:
 	void		saveProject(const unsigned short idProject);
 
 	void		onGetLists(const unsigned short projectId);
+	void		onGetListName(const unsigned short projectId, const unsigned short listId);
 };
 
 #endif // CONTROLLER_H

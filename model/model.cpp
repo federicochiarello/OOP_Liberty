@@ -51,7 +51,11 @@ unsigned short Model::addNewTaskChild(const unsigned short idList, const unsigne
 }
 
 void Model::setActiveProjName(const std::string& p_name) {
-    m_activeProject->setName(p_name);
+	m_activeProject->setName(p_name);
+}
+
+QString Model::getListName(const unsigned short projectId, const unsigned short listId) const {
+	return m_projects.at(projectId)->getListName(listId);
 }
 
 void Model::setListName(const unsigned short idList, const std::string& p_name) {
@@ -59,7 +63,11 @@ void Model::setListName(const unsigned short idList, const std::string& p_name) 
 }
 
 void Model::changeListOrder(const unsigned short listToMove, const unsigned short Posizione) {
-    m_activeProject->changeListOrder(listToMove,Posizione);
+	m_activeProject->changeListOrder(listToMove,Posizione);
+}
+
+std::vector<unsigned short> Model::getLists(const unsigned short projectId) const {
+	return m_projects.at(projectId)->getLists();
 }
 
 QStringList Model::getTaskInfo(const unsigned short idList, const unsigned short idTask) const {
