@@ -37,12 +37,30 @@ void TasksListWidget::setup() {
 	setLayout(_layout);
 }
 
-TasksListWidget::TasksListWidget(std::string listName, QWidget* parent) : QWidget(parent), _layout(new QVBoxLayout()), _name(listName), _list(new TasksList(this)) {
+TasksListWidget::TasksListWidget(std::string listName, QWidget* parent) :
+	QWidget(parent),
+	_layout(new QVBoxLayout()),
+	_name(listName),
+	_list(new TasksList(this)) {
+
 	setup();
 }
 
+TasksListWidget::TasksListWidget(const unsigned short listId, QWidget *parent) :
+	QWidget(parent),
+	_id(listId),
+	_name(),
+	_list(new TasksList(this)) {
 
-TasksListWidget::TasksListWidget(QWidget* parent) : QWidget(parent), _layout(new QVBoxLayout()), _name(std::string()), _list(new TasksList(this)) {
+
+}
+
+
+TasksListWidget::TasksListWidget(QWidget* parent) :
+	QWidget(parent),
+	_layout(new QVBoxLayout()),
+	_name(std::string()),
+	_list(new TasksList(this)) {
 	setup();
 }
 

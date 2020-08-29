@@ -24,7 +24,10 @@ public:
 	explicit ProjectView(QWidget *parent = nullptr);
 	explicit ProjectView(const std::pair<unsigned short, QString>& projectInfo, QWidget* parent =nullptr);
 
+	unsigned short getId() const;
 signals:
+
+	void getLists(const unsigned short);
 	void changeProjectName(unsigned short, std::string);
 	void forwardTask(unsigned short);
 	void backwardTask(unsigned short);
@@ -34,7 +37,7 @@ private slots:
 
 public slots:
 	void addList(std::string listName =std::string());
-
+	void fetchListsIds(const unsigned short projectId, std::vector<const unsigned short> listsIds);
 	signals:
 
 };

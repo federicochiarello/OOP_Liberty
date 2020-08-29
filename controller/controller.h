@@ -25,6 +25,7 @@ public:
 signals:
 	void sendExistingProjects(const QStringList&);
 	void sendProjectInfo(const std::pair<unsigned short, QString>&);
+	void sendListsIds(const unsigned short projectId, std::vector<const unsigned short> listsIds);
 
 public slots:
 
@@ -52,6 +53,8 @@ public slots:
     void        getExistingProjects();
 	void        openProject(const QString);
 	void		saveProject(const unsigned short idProject);
+
+	void		onGetLists(const unsigned short projectId);
 };
 
 #endif // CONTROLLER_H

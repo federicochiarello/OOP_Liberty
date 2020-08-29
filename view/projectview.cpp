@@ -14,6 +14,8 @@ ProjectView::ProjectView(const std::pair<unsigned short, QString>& projectInfo, 
 
 }
 
+unsigned short ProjectView::getId() const { return _id; }
+
 void ProjectView::setup(std::string name) {
 	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 	setLayout(_mainLayout);
@@ -41,4 +43,12 @@ void ProjectView::newList() {
 
 void ProjectView::addList(std::string listName) {
 	_mainLayout->addWidget(dynamic_cast<TasksListWidget*>(_lists.back()));
+}
+
+void ProjectView::fetchListsIds(const unsigned short projectId, std::vector<const unsigned short> listsIds) {
+	if (_id == projectId) {
+		for (auto listId : listsIds) {
+			_lists.push_back(new TasksListWidget(listId, this));
+		}
+	}
 }

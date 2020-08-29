@@ -25,7 +25,7 @@ protected:
 //	virtual void keyPressEvent(QKeyEvent* key) override;
 
 signals:
-	void openProject(QString);
+	void openProject(const QString);
 };
 
 #endif // PROJECTPREVIEW_H

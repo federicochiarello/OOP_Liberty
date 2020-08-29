@@ -41,7 +41,7 @@ View::View(Controller* controller,QWidget* parent) : QMainWindow(parent), _contr
 	connect(this, SIGNAL(openProject(const QString)), _controller, SLOT(openProject(const QString)));
 
 	connect(_controller, SIGNAL(sendExistingProjects(const QStringList&)), this, SLOT(fetchExistingProjects(const QStringList&)));
-	connect(_controller, SIGNAL(openProject(const std::pair<unsigned short, QString>&)), this, SLOT(fetchProjectInfo(const std::pair<unsigned short, QString>&)));
+	connect(_controller, SIGNAL(sendProjectInfo(const std::pair<unsigned short, QString>&)), this, SLOT(fetchProjectInfo(const std::pair<unsigned short, QString>&)));
 	// Add actions to menu
 
 	fileMenu->addAction(newProAct);
@@ -102,7 +102,7 @@ void View::fetchExistingProjects(const QStringList& projects) {
 	for (int i=1; i<projects.size(); i++) {
 		ProjectPreview* tmp = new ProjectPreview(projects.at(i), projects.at(0), startCentralWidget);
 		startCentralWidgetLayout->addWidget(tmp);
-		connect(tmp, SIGNAL(openProject(QString)), this, SIGNAL(openProject(QString)));
+		connect(tmp, SIGNAL(openProject(const QString)), this, SIGNAL(openProject(const QString)));
 	}
 
 	startCentralWidget->setLayout(startCentralWidgetLayout);
@@ -111,12 +111,18 @@ void View::fetchExistingProjects(const QStringList& projects) {
 
 void View::fetchProjectInfo(const std::pair<unsigned short, QString>& projectInfo) {
 	QTabWidget* widget = dynamic_cast<QTabWidget*>(centralWidget());
-
+	ProjectView* project = new ProjectView(projectInfo, widget);
 	if (widget) { // vi sono già dei progetti aperti
-		widget->addTab(new ProjectView(projectInfo, widget), projectInfo.second);
-	} else { // é il primo progetto che viene aperto, bisogna creare il QTabWidget che conterrá i progetti
-
+		widget->addTab(project, projectInfo.second);
+	} else { // non vi sono progetti aperti, bisogna creare il QTabWidget che conterrá i progetti
+		setCentralWidget(new QTabWidget(this));
+		widget->addTab(project, projectInfo.second);
+		project->setParent(centralWidget());
 	}
+	connect(project, SIGNAL(getLists(const unsigned short)), _controller, SLOT(onGetLists(const unsigned short)));
+	connect(_controller, SIGNAL(sendListsIds(const unsigned short, std::vector<const unsigned short>)), project, SLOT(fetchListsIds(const unsigned short, std::vector<const unsigned short>)));
+
+	emit project->getLists(project->getId());
 }
 
 void View::setup() {
