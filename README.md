@@ -12,6 +12,14 @@ Applicazione per la gestione di progetti, ispirata alla web app trello.com, svil
 
 ## Ambiente di sviluppo
 
+L'applicazione é stata sviluppata sei seguenti sistemi:
+
+> OS : MacOS 10.15.6
+>
+> Compilatore : Clang 11.0.3
+>
+> Qt : 5.9.5
+
 ## Manuale utente
 
 ## Suddivisione dei compiti e tempistiche
