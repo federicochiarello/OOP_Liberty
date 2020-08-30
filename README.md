@@ -4,6 +4,18 @@
 
 Applicazione per la gestione di progetti, ispirata alla web app trello.com, sviluppata per il progetto di Programmazione ad Oggetti 2019/2020
 
+## Progettazione e descrizione delle gerarchie usate
+
+## Descrizione delle chiamate polimorfe
+
+## Descrizione I/O
+
+## Ambiente di sviluppo
+
+## Manuale utente
+
+## Suddivisione dei compiti e tempistiche
+
 ### Segnali e slot
 
 Creazione Task: 
