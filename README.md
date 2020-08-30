@@ -11,5 +11,5 @@ passare std:pair<unsigned short, TaskType>
 - TaskListWidget: void getTasksIds(const unsigned short)->
 - ProjectView: onGetTasksIds(const unsigned short listId)...getTasksIds(const unsigned short, const unsigned short)->
 - Controller: onGetTasksIds(const unsigned short, const unsigned short)...sendTasksIds(const unsigned short, const unsigned short, std::vector<unsigned short>)->
-  - ProjectView: fetchTasksIds(const unsigned short, const unsigned short, std::vector<unsigned short)...sendTasksIds(const unsigned short, std::vector<unsigned short>)->
-  - TaskListWidget: fetchTasksIds(const unsigned short, std::vector<unsigned short>) >> TaskPreview()
+- ProjectView: fetchTasksIds(const unsigned short, const unsigned short, std::vector<unsigned short)...sendTasksIds(const unsigned short, std::vector<unsigned short>)->
+- TaskListWidget: fetchTasksIds(const unsigned short, std::vector<unsigned short>) >> TaskPreview()
