@@ -52,6 +52,7 @@ HEADERS += \
     model/taskcontainer.h \
     model/taskpriority.h \
     model/taskprioritycontainer.h \
+    src/globalenums.h \
     veqtor.h \
     controller/controller.h \
     view/projectpreview.h \

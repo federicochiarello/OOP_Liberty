@@ -72,8 +72,17 @@ TasksListWidget::~TasksListWidget() {}
 unsigned short TasksListWidget::getId() const { return _id; }
 
 void TasksListWidget::fetchListName(const unsigned short listId, const QString &listName) {
+
 	if (listId == _id) {
 		_title->setText(listName);
+	}
+}
+
+void TasksListWidget::fetchTasksIds(const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType> > tasksIds) {
+	if (listId == _id) {
+		for (auto task: tasksIds) {
+			_list->addTask(task);
+		}
 	}
 }
 

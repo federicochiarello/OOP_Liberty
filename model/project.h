@@ -44,8 +44,8 @@ public:
     unsigned short                          getId() const;
 	std::string                             getName() const;
 	std::vector<unsigned short>				getLists() const;
-	QJsonObject                          object();
-	Project* fromJson(const QJsonObject& object);
+	QJsonObject								object();
+	Project*								fromJson(const QJsonObject& object);
 
     unsigned short                          addNewTask(const unsigned short idList);
     unsigned short                          addNewTask(const unsigned short idList, const unsigned short idTask);

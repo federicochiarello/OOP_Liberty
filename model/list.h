@@ -17,7 +17,7 @@
 class AbsTask;
 
 class List {
-private:
+
     unsigned short                          _id;
     std::string                             m_name;
     std::map<unsigned short,AbsTask*>       m_tasks;

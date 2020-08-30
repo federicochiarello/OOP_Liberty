@@ -1,6 +1,6 @@
 #include "model.h"
 
-std::string Model::path = /*QStandardPaths::AppDataLocation*/ "/Documents";
+std::string Model::path = /*QStandardPaths::AppDataLocation*/ "";
 
 Model::Model() :
 	m_projects(),
@@ -71,7 +71,7 @@ std::vector<unsigned short> Model::getLists(const unsigned short projectId) cons
 }
 
 QStringList Model::getTaskInfo(const unsigned short idList, const unsigned short idTask) const {
-    return m_activeProject->getTaskInfo(idList,idTask);
+	return m_activeProject->getTaskInfo(idList,idTask);
 }
 
 void Model::aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info) {

@@ -43,7 +43,7 @@ public:
 
 	std::vector<unsigned short> getLists(const unsigned short projectId) const;
 	QString				getListName(const unsigned short projectId, const unsigned short listId) const;
-    QStringList         getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
+	QStringList         getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
     void                aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info);
 
     unsigned short      convertToPriority(const unsigned short idList, const unsigned short idTask);

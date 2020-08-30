@@ -9,8 +9,9 @@
 #include <QLineEdit>
 #include <QScrollArea>
 
+#include "src/globalenums.h"
+
 #include "taskslist.h"
-#include <QDebug>
 
 class TasksListWidget : public QWidget {
 	Q_OBJECT
@@ -35,12 +36,20 @@ public:
 signals:
 
 	void getListName(const unsigned short);
+	void getTasksIds(const unsigned short);
+	void getTaskName(const unsigned short, const unsigned short);
+	void sendTaskName(const unsigned short, const QString&);
+
 	void moveTaskForward(const unsigned short);
 	void moveTaskBackward(const unsigned short);
 
 public slots:
 
 	void fetchListName(const unsigned short listId, const QString& listName);
+	void fetchTasksIds(const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>> tasksIds);
+
+	void onGetTaskName(const unsigned short taskId);
+	void onSendTaskName(const unsigned short listId, const unsigned short taskId, const QString& taskName);
 	//	void addTask();
 };
 

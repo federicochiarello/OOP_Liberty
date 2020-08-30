@@ -2,17 +2,19 @@
 
 static inline QString libertyMimeType() {return QStringLiteral("application/x-Liberty");}
 
-TasksList::TasksList(QWidget *parent) : QScrollArea(parent) {
+TasksList::TasksList(QWidget *parent) :
+	QScrollArea(parent),
+	_layout(new QVBoxLayout()),
+	_widget(new QWidget(this)) {
+
 //	setDragEnabled(true);
 	setAcceptDrops(true);
 	setWidgetResizable(true);
 
-	QVBoxLayout* wdgtLayout = new QVBoxLayout();
-	QWidget* wdgt = new QWidget(this);
-	wdgt->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	wdgt->setLayout(wdgtLayout);
-	wdgt->autoFillBackground();
-	setWidget(wdgt);
+	_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	_widget->setLayout(_layout);
+	_widget->autoFillBackground();
+	setWidget(_widget);
 
 //	addWidget(new TaskPreview(tr("Insert task name"), 0, this));
 
@@ -60,7 +62,26 @@ void TasksList::addTask() {
 //	TaskPreview* newTask = new TaskPreview(tr(""), id, this);
 //	addWidget(newTask);
 //	newTask->setFocus();
-//	//dynamic_cast<TaskPreview*>(widget()->layout()->itemAt(widget()->layout()->count()))->setFocus();
+	//	//dynamic_cast<TaskPreview*>(widget()->layout()->itemAt(widget()->layout()->count()))->setFocus();
+}
+
+void TasksList::addTask(std::pair<unsigned short, TaskType> task) {
+	TaskPreview* newTask;
+	switch (task.second) {
+	case TASK:
+		newTask = new TaskPreview(task.first, this);
+		break;
+	case TASKCONTAINER:
+		newTask = new TaskPreview(task.first, this);
+		break;
+	case TAASKPRIORITY:
+		newTask = new TaskPreview(task.first, this);
+		break;
+	case TASKPRIORITYCONTAINER:
+		newTask = new TaskPreview(task.first, this);
+		break;
+	}
+	addWidget(newTask);
 }
 
 DragDrop::DragDrop(QWidget* parent) : QWidget(parent) {

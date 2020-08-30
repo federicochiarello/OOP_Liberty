@@ -7,6 +7,8 @@
 #include <QObject>
 #include <QStandardPaths>
 
+#include "src/globalenums.h"
+
 #include "model/model.h"
 
 class View;
@@ -28,6 +30,8 @@ signals:
 	void sendProjectInfo(const std::pair<unsigned short, QString>&);
 	void sendListsIds(const unsigned short, std::vector<unsigned short>);
 	void sendListName(const unsigned short, const unsigned short, const QString&);
+	void sendTasksIds(const unsigned short, const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>);
+	void sendTaskName(const unsigned short, const unsigned short, const unsigned short, const QString&);
 
 public slots:
 
@@ -58,6 +62,9 @@ public slots:
 
 	void		onGetLists(const unsigned short projectId);
 	void		onGetListName(const unsigned short projectId, const unsigned short listId);
+
+	void		onGetTasksIds(const unsigned short projectId, const unsigned short listId);
+	void		onGetTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId);
 };
 
 #endif // CONTROLLER_H

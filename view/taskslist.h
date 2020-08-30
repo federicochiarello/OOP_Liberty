@@ -7,10 +7,11 @@
 #include <QDrag>
 #include <QDropEvent>
 #include <QMimeData>
-
 #include <QLineEdit>
 
-//#include "taskwidget.h"
+#include "src/globalenums.h"
+
+#include "taskwidget.h"
 #include "taskpreview.h"
 
 class TasksList : public QScrollArea {
@@ -29,11 +30,19 @@ protected:
 	virtual void dropEvent(QDropEvent* event) override;
 	virtual void mousePressEvent(QMouseEvent* event) override;
 
-public slots:
-	void addTask();
 signals:
-	void newTask(unsigned short);
+
+	void getTaskName(const unsigned short);
+
+//	void newTask(unsigned short);
 	void deleteTask(unsigned short);
+
+public slots:
+
+	void fetchTaskName(const unsigned short taskId, const QString& taskName);
+
+	void addTask();
+	void addTask(std::pair<unsigned short, TaskType>);
 
 };
 

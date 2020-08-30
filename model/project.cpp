@@ -104,7 +104,7 @@ void Project::changeListOrder(const unsigned short listToMove, const unsigned sh
 }
 
 QStringList Project::getTaskInfo(const unsigned short idList, const unsigned short idTask) const {
-    AbsTask* t = m_lists.at(idList)->getTask(idTask);
+	AbsTask* t = m_lists.at(idList)->getTask(idTask);
     QStringList tmp;
 
     TaskPriority* tPrio = dynamic_cast<TaskPriority*>(t);
@@ -118,10 +118,10 @@ QStringList Project::getTaskInfo(const unsigned short idList, const unsigned sho
 
     tmp.push_back(QString::fromStdString(t->getLabel()));
     tmp.push_back(QString::fromStdString(t->getDesc()));
-    tmp.push_back(t->getEta().toString("dd.MM.yyyy hh:mm:ss"));
+	tmp.push_back(t->getEta().toString("dd/MM/yyyy hh:mm:ss"));
 
     if(tPrio)
-        tmp.push_back(tPrio->getPriority().toString("dd.MM.yyyy hh:mm:ss"));
+		tmp.push_back(tPrio->getPriority().toString("dd/MM/yyyy hh:mm:ss"));
     if(tCont) {
         std::vector<AbsTask*> v = tCont->getChilds();
         for(std::vector<AbsTask*>::iterator i = v.begin(); i != v.end(); i++)

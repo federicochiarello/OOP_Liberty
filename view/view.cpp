@@ -122,10 +122,25 @@ void View::fetchProjectInfo(const std::pair<unsigned short, QString>& projectInf
 		project->setParent(centralWidget());
 	}
 
-	connect(project, SIGNAL(getLists(const unsigned short)), _controller, SLOT(onGetLists(const unsigned short)));
-	connect(_controller, SIGNAL(sendListsIds(const unsigned short, std::vector<const unsigned short>)), project, SLOT(fetchListsIds(const unsigned short, std::vector<const unsigned short>)));
-	connect(project, SIGNAL(getListName(const unsigned short, const unsigned short)), _controller, SLOT(onGetListName(const unsigned short, const unsigned short)));
-	connect(_controller, SIGNAL(sendListNqme(const unsigned short, const unsigned short, const QString&)), project, SLOT(fetchListName(const unsigned short, const unsigned short, const QString&)));
+//	Creazione liste
+	connect(project, SIGNAL(getLists(const unsigned short)),
+			_controller, SLOT(onGetLists(const unsigned short)));
+
+	connect(_controller, SIGNAL(sendListsIds(const unsigned short, std::vector<const unsigned short>)),
+			project, SLOT(fetchListsIds(const unsigned short, std::vector<const unsigned short>)));
+
+	connect(project, SIGNAL(getListName(const unsigned short, const unsigned short)),
+			_controller, SLOT(onGetListName(const unsigned short, const unsigned short)));
+
+	connect(_controller, SIGNAL(sendListNqme(const unsigned short, const unsigned short, const QString&)),
+			project, SLOT(fetchListName(const unsigned short, const unsigned short, const QString&)));
+
+//	Creazione tasks
+	connect(project, SIGNAL(getTasksIds(const unsigned short, const unsigned short)),
+			_controller, SLOT(onGetTasksIds(const unsigned short, const unsigned short)));
+
+	connect(_controller, SIGNAL(sendTasksIds(const unsigned short, const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>)),
+			project, SLOT(onSendTasksIds(const unsigned short, const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>)));
 
 	emit project->getLists(project->getId());
 }

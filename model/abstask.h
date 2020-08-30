@@ -8,6 +8,8 @@
 #include <QJsonObject>
 #include <QDateTime>
 
+#include "src/globalenums.h"
+
 //	Dichiarazione Incompleta
 class List;
 
@@ -40,6 +42,8 @@ public:
 	virtual QJsonObject					toJson() const;
 	virtual void						setList(List* p_list);
     virtual void                        aggiornaTask(const QStringList info);
+
+//	virtual std::pair<TaskType, QStringList> getTaskInfo() const =0;
 
 //	Get methods
 	std::string							getLabel() const;

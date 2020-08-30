@@ -50,8 +50,15 @@ void ProjectView::fetchListsIds(const unsigned short projectId, std::vector<cons
 		for (auto listId : listsIds) {
 			TasksListWidget* list = new TasksListWidget(listId, this);
 
-			connect(list, SIGNAL(getListName(const unsigned short)), this, SIGNAL(getListName(const unsigned short)));
-			connect(this, SIGNAL(sendListName(const unsigned short, const QString&)), list, SLOT(fetchListName(const unsigned short, const QString&)));
+			connect(list, SIGNAL(getListName(const unsigned short)),
+					this, SIGNAL(getListName(const unsigned short)));
+
+			connect(this, SIGNAL(sendListName(const unsigned short, const QString&)),
+					list, SLOT(fetchListName(const unsigned short, const QString&)));
+
+			connect(this, SIGNAL(sendTasksIds(const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>)),
+					list, SLOT(fetchTasksIds(const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>)));
+
 			_lists.push_back(list);
 
 			emit list->getListName(list->getId());
@@ -67,4 +74,8 @@ void ProjectView::fetchListName(const unsigned short projectId, const unsigned s
 	if (projectId == _id) {
 		emit sendListName(listId, listName);
 	}
+}
+
+void ProjectView::onGetTasksIds(const unsigned short listId) {
+	emit getTasksIds(_id, listId);
 }
