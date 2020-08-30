@@ -70,3 +70,10 @@ void AbsTask::aggiornaTask(const QStringList info) {
     setLabel(info[0].toStdString());
     setDesc(info[1].toStdString());
 }
+
+QStringList AbsTask::getTaskInfo() const {
+    QStringList tmp;
+    tmp.push_back(QString::fromStdString(getLabel()));
+    tmp.push_back(QString::fromStdString(getDesc()));
+    return tmp;
+}

@@ -19,18 +19,13 @@
 
 class Project {
 
-    unsigned short                      _id;
+    const unsigned short                _id;
     std::string                         m_name;
 	std::map<unsigned short,List*>      m_lists;
 	std::vector<unsigned short>         m_listsOrder;
 	bool _modified;
 
-//	std::vector<AbsTask*>								m_tasks;
-
 	static unsigned short               nextID;
-
-//	std::vector<List*>                      m_lists
-//	Old
 
 public:
 											Project(std::string p_name = std::string());
@@ -59,6 +54,8 @@ public:
 
 
     QStringList                             getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
+    std::string                             getTaskName(const unsigned short idList, const unsigned short idTask) const;
+    QDateTime                               getTaskPriority(const unsigned short idList, const unsigned short idTask) const;
     void                                    aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info);
     unsigned short                          verifyContainer(const unsigned short idList, const unsigned short idTask);
 

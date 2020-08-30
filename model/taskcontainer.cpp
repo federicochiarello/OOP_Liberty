@@ -1,4 +1,5 @@
 #include "taskcontainer.h"
+#include "taskprioritycontainer.h"
 #include "list.h"
 
 TaskContainer::TaskContainer(const std::string p_label, const std::string p_desc, List* p_list, AbsTask* p_parent) :
@@ -36,6 +37,23 @@ void TaskContainer::setList(List *p_list) {
             p_list->addTask(*i);
 
     this->AbsTask::setList(p_list);
+}
+
+QStringList TaskContainer::getTaskInfo() const {
+    QStringList tmp;
+    tmp.push_back("TASKCONTAINER");
+    tmp = tmp + AbsTask::getTaskInfo();
+    for(auto i = m_child.begin(); i != m_child.end(); i++)
+        tmp.push_back(QVariant((*i)->getId()).toString());
+    return tmp;
+}
+
+AbsTask *TaskContainer::convertToContainer() const { return nullptr; }
+
+AbsTask *TaskContainer::convertToPriority() const {
+    TaskPriorityContainer* t = new TaskPriorityContainer(getLabel(),getDesc());
+    t->addChildList(getChilds());
+    return t;
 }
 
 std::vector<AbsTask *> TaskContainer::getChilds() const {

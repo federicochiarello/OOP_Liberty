@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <QJsonArray>
+#include <QVariant>
 #include "abstask.h"
 
 class TaskContainer : virtual public AbsTask {
@@ -17,9 +18,11 @@ public:
 
 
     TaskContainer*                      clone() const override;
-	QJsonObject toJson() const override;
+    QJsonObject                         toJson() const override;
 	void                                setList(List* p_list) override;
-//	void                                aggiornaTask(const QStringList info) override;
+    QStringList                         getTaskInfo() const override;
+    AbsTask*                            convertToContainer() const override;
+    AbsTask*                            convertToPriority() const override;
 
     std::vector<AbsTask*>				getChilds() const;
     void								addChild(AbsTask*);

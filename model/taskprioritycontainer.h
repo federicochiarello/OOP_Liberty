@@ -12,7 +12,9 @@ public:
     TaskPriorityContainer*                  clone() const override;
 	QJsonObject toJson() const override;
     void                                    setPriority(QDateTime p_priority) override;
-
+    QStringList                             getTaskInfo() const override;
+    AbsTask*                                convertToContainer() const override;
+    AbsTask*                                convertToPriority() const override;
 };
 
 #endif // TASKPRIORITYCONTAINER_H

@@ -74,7 +74,7 @@ void TasksList::addTask(std::pair<unsigned short, TaskType> task) {
 	case TASKCONTAINER:
 		newTask = new TaskPreview(task.first, this);
 		break;
-	case TAASKPRIORITY:
+    case TASKPRIORITY:
 		newTask = new TaskPreview(task.first, this);
 		break;
 	case TASKPRIORITYCONTAINER:

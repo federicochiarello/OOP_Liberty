@@ -16,7 +16,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        veqtor.cpp \
         model/abstask.cpp \
         model/list.cpp \
         model/model.cpp \

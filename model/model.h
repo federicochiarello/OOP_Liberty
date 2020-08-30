@@ -17,7 +17,7 @@
 class Model {
 private:
 //    std::string                         m_basePath;
-    std::map<unsigned short,Project*>   m_projects;
+    std::map<const unsigned short,Project*>   m_projects;
     Project*                            m_activeProject;
 
 	void setActiveProject(Project* project);
@@ -44,6 +44,9 @@ public:
 	std::vector<unsigned short> getLists(const unsigned short projectId) const;
 	QString				getListName(const unsigned short projectId, const unsigned short listId) const;
 	QStringList         getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
+    std::string         getTaskName(const unsigned short idList, const unsigned short idTask) const;
+    QDateTime           getTaskPriority(const unsigned short idList, const unsigned short idTask) const;
+
     void                aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info);
 
     unsigned short      convertToPriority(const unsigned short idList, const unsigned short idTask);

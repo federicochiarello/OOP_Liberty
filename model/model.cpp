@@ -71,18 +71,26 @@ std::vector<unsigned short> Model::getLists(const unsigned short projectId) cons
 }
 
 QStringList Model::getTaskInfo(const unsigned short idList, const unsigned short idTask) const {
-	return m_activeProject->getTaskInfo(idList,idTask);
+    return m_activeProject->getTaskInfo(idList,idTask);
+}
+
+std::string Model::getTaskName(const unsigned short idList, const unsigned short idTask) const {
+    return m_activeProject->getTaskName(idList,idTask);
+}
+
+QDateTime Model::getTaskPriority(const unsigned short idList, const unsigned short idTask) const {
+    return m_activeProject->getTaskPriority(idList,idTask);
 }
 
 void Model::aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info) {
     m_activeProject->aggiornaTask(idList,idTask,info);
 }
 
-unsigned short int Model::convertToPriority(const unsigned short idList, const unsigned short idTask) {
+unsigned short Model::convertToPriority(const unsigned short idList, const unsigned short idTask) {
     return m_activeProject->convertToPriority(idList,idTask);
 }
 
-unsigned short int Model::convertToContainer(const unsigned short idList, const unsigned short idTask) {
+unsigned short Model::convertToContainer(const unsigned short idList, const unsigned short idTask) {
     return m_activeProject->convertToContainer(idList,idTask);
 }
 

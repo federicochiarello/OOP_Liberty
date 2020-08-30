@@ -15,7 +15,7 @@ class List;
 
 class AbsTask {
 
-	unsigned short						_id;
+    const unsigned short				_id;
     std::string							m_label;
     std::string							m_desc;
     QDateTime							m_eta;
@@ -42,6 +42,9 @@ public:
 	virtual QJsonObject					toJson() const;
 	virtual void						setList(List* p_list);
     virtual void                        aggiornaTask(const QStringList info);
+    virtual QStringList                 getTaskInfo() const;
+    virtual AbsTask*                    convertToContainer() const =0;
+    virtual AbsTask*                    convertToPriority() const =0;
 
 //	virtual std::pair<TaskType, QStringList> getTaskInfo() const =0;
 

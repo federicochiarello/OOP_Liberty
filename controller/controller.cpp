@@ -71,16 +71,30 @@ void Controller::changeListOrder(const unsigned short listToMove, const unsigned
 }
 
 void Controller::convertToPrio(const unsigned short idList, const unsigned short idTask) {
+    // ritorna l'id del nuovo task "convertito"
+    // se il task non necessitava della conversione ritorna 0
     _model->convertToPriority(idList,idTask);
     //_view->aggId(_model->convertToPriority(idList,idTask));
 }
 
 void Controller::convertToCont(const unsigned short idList, const unsigned short idTask) {
+    // ritorna l'id del nuovo task "convertito"
+    // se il task non necessitava della conversione ritorna 0
     _model->convertToContainer(idList,idTask);
     //_view->aggId(_model->convertToContainer(idList,idTask));
 }
 
-void Controller::showTask(const unsigned short idList, const unsigned short idTask) const {
+void Controller::getTaskName(const unsigned short idList, const unsigned short idTask) const {
+    // ritorna un std::string
+    _model->getTaskName(idList,idTask);
+}
+
+void Controller::getTaskPriority(const unsigned short idList, const unsigned short idTask) const {
+    // ritorna un QDateTime
+    _model->getTaskPriority(idList,idTask);
+}
+
+void Controller::getTaskInfo(const unsigned short idList, const unsigned short idTask) const {
     //_view->visualizzaTask(_model->getTaskInfo(idList,idTask));
 }
 

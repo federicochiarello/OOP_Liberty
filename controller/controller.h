@@ -39,7 +39,6 @@ public slots:
     void        setActiveProject(const unsigned short indP);
     void        closeProject(const unsigned short indP);
 
-
 	void        addNewList();
     void        addNewTask(const unsigned short idList);
     void        addTaskChild(const unsigned short idList, const unsigned short idTask);
@@ -51,7 +50,9 @@ public slots:
     void        convertToPrio(const unsigned short idList, const unsigned short idTask);
     void        convertToCont(const unsigned short idList, const unsigned short idTask);
 
-    void        showTask(const unsigned short idList, const unsigned short idTask) const;
+    void        getTaskName(const unsigned short idList, const unsigned short idTask) const;
+    void        getTaskPriority(const unsigned short idList, const unsigned short idTask) const;
+    void        getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
     void        aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList);
 
     void        dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione =0);

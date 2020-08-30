@@ -1,24 +1,23 @@
 #include "list.h"
-#include <iostream>
 
 unsigned short List::nextID = 0;
 
-List::List(unsigned short id, const std::string name) :		_id(id),
+List::List(const unsigned short id, const std::string name) :		_id(id),
 															m_name(name),
-															m_tasks(std::map<unsigned short, AbsTask*>()),
-															m_tasksOrder(std::vector<unsigned short>()) {
+                                                            m_tasks(std::map<const unsigned short, AbsTask*>()),
+                                                            m_tasksOrder(std::vector<const unsigned short>()) {
 	if (id > nextID) nextID = id;
 }
 
 List::List(const std::string p_name) :		_id(++nextID),
 											m_name(p_name),
-											m_tasks(std::map<unsigned short, AbsTask*>()),
-											m_tasksOrder(std::vector<unsigned short>()) {}
+                                            m_tasks(std::map<const unsigned short, AbsTask*>()),
+                                            m_tasksOrder(std::vector<const unsigned short>()) {}
 
 List::List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<unsigned short, unsigned short>& idsMap) :	_id(++nextID),
 									m_name(object.value("listName").toString().toStdString()),
-									m_tasks(std::map<unsigned short, AbsTask*>()),
-									m_tasksOrder(std::vector<unsigned short>()) {
+                                    m_tasks(std::map<const unsigned short, AbsTask*>()),
+                                    m_tasksOrder(std::vector<const unsigned short>()) {
 
 	for (const QJsonValue task : object.value("tasks").toArray()) {
 		AbsTask* tmp = nullptr;
@@ -37,7 +36,7 @@ List::List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<uns
 				break;
 		}
 		if (tmp) {
-			m_tasks.insert(std::pair<unsigned short, AbsTask*>(tmp->getId(), tmp));
+            m_tasks.insert(std::pair<const unsigned short, AbsTask*>(tmp->getId(), tmp));
 			tasks.push_back(tmp);
 			m_tasksOrder.push_back(tmp->getId());
 		}
@@ -79,7 +78,7 @@ void List::setName(const std::string & p_name) { m_name = p_name; }
 
 void List::addTask(AbsTask * p_task) {
     p_task->setList(this);
-    std::map<unsigned short,AbsTask*>::value_type t(p_task->getId(),p_task);
+    std::map<const unsigned short,AbsTask*>::value_type t(p_task->getId(),p_task);
     m_tasks.insert(t);
 }
 
@@ -91,7 +90,7 @@ void List::removeTask(const unsigned short idTask) {
     AbsTask* t = m_tasks.at(idTask);
     t->setList(nullptr);
     if(!t->getParent())
-        for(std::vector<unsigned short>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
+        for(std::vector<const unsigned short>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
             if (*i == idTask) {
                 m_tasksOrder.erase(i);
                 i = m_tasksOrder.end();
@@ -101,9 +100,11 @@ void List::removeTask(const unsigned short idTask) {
 
 void List::updateTask(const unsigned short idTask, AbsTask *p_task) {
     if(!m_tasks.at(idTask)->getParent()) {
-        for(std::vector<unsigned short>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); ++i)
+        for(std::vector<const unsigned short>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); ++i)
             if (*i == idTask) {
-                *i = p_task->getId();
+                m_tasksOrder.insert(i,p_task->getId());
+                m_tasksOrder.erese(++i);
+                //*i = p_task->getId();     USATO QUANDO AVEVA IL const
                 i = m_tasksOrder.end();
             }
     }
@@ -115,7 +116,7 @@ void List::insertTask(const unsigned short idTask, const unsigned short Posizion
     if(!Posizione)
         m_tasksOrder.insert(m_tasksOrder.begin(),idTask);
     else
-        for(std::vector<unsigned short>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
+        for(std::vector<const unsigned short>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
             if (*i == Posizione) {
                 m_tasksOrder.insert(i,idTask);
                 i = m_tasksOrder.end();

@@ -6,8 +6,7 @@ TaskPriorityContainer::TaskPriorityContainer(const std::string p_label, const st
 TaskPriorityContainer::TaskPriorityContainer(const QJsonObject& object, std::map<unsigned short, unsigned short>& idsMap) :
 	AbsTask(object, idsMap),
 	TaskContainer(object, idsMap),
-	TaskPriority(object, idsMap)
-	{}
+    TaskPriority(object, idsMap) {}
 
 TaskPriorityContainer *TaskPriorityContainer::clone() const { return new TaskPriorityContainer(*this); }
 
@@ -36,3 +35,17 @@ void TaskPriorityContainer::setPriority(QDateTime p_priority) {
             p->setPriority(p_priority);
     }
 }
+
+QStringList TaskPriorityContainer::getTaskInfo() const {
+    QStringList tmp;
+    tmp.push_back("TASKPRIORITYCONTAINER");
+    tmp = tmp + AbsTask::getTaskInfo();
+    tmp.push_back(getPriority().toString(AbsTask::dateTimeFormat));
+    for(auto i = m_child.begin(); i != m_child.end(); i++)
+        tmp.push_back(QVariant((*i)->getId()).toString());
+    return tmp;
+}
+
+AbsTask *TaskPriorityContainer::convertToContainer() const { return nullptr; }
+
+AbsTask *TaskPriorityContainer::convertToPriority() const { return nullptr; }

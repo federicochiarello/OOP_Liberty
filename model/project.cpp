@@ -104,7 +104,9 @@ void Project::changeListOrder(const unsigned short listToMove, const unsigned sh
 }
 
 QStringList Project::getTaskInfo(const unsigned short idList, const unsigned short idTask) const {
-	AbsTask* t = m_lists.at(idList)->getTask(idTask);
+    return m_lists.at(idList)->getTask(idTask)->getTaskInfo();
+    /*
+    AbsTask* t = m_lists.at(idList)->getTask(idTask);
     QStringList tmp;
 
     TaskPriority* tPrio = dynamic_cast<TaskPriority*>(t);
@@ -127,8 +129,25 @@ QStringList Project::getTaskInfo(const unsigned short idList, const unsigned sho
         for(std::vector<AbsTask*>::iterator i = v.begin(); i != v.end(); i++)
             tmp.push_back(QVariant((*i)->getId()).toString());
     }
-
     return tmp;
+    */
+}
+
+std::string Project::getTaskName(const unsigned short idList, const unsigned short idTask) const {
+    return m_lists.at(idList)->getTask(idTask)->getLabel();
+}
+
+QDateTime Project::getTaskPriority(const unsigned short idList, const unsigned short idTask) const {
+    return dynamic_cast<TaskPriority*>(m_lists.at(idList)->getTask(idTask))->getPriority();
+    /*
+    TIPO DI RITORNO std::string
+
+    TaskPriority* t = dynamic_cast<TaskPriority*>(m_lists.at(idList)->getTask(idTask));
+    if(t)
+        return t->getPriority().toString("dd/MM/yyyy hh:mm:ss").toStdString();
+    else
+        return "ERROR";
+    */
 }
 
 void Project::aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info) {
@@ -223,6 +242,22 @@ unsigned short Project::addNewList() {
 }
 
 unsigned short Project::convertToPriority(const unsigned short idList, const unsigned short idTask) {
+    List* l = m_lists.at(idList);
+    AbsTask* t = l->getTask(idTask);
+    AbsTask* tNew = t->convertToPriority();
+
+    if(!tNew) return 0;
+    else {
+        //  Sostituito t (non Priority) con tNew (Priority)
+        l->updateTask(idTask,tNew);
+        //  Se t ha (parent != nullptr) va aggiornato il padre
+        if(t->getParent())
+            dynamic_cast<TaskContainer*>(t->getParent())->updateChild(t,tNew);
+        delete t;
+        return tNew->getId();
+    }
+
+    /*
     //  l lista da cui prendere task t da trasformare in priority
     List* l = m_lists.at(idList);
     AbsTask* t = l->getTask(idTask), * tNew;
@@ -244,9 +279,23 @@ unsigned short Project::convertToPriority(const unsigned short idList, const uns
 
     delete t;
     return tNew->getId();
+    */
 }
 
 unsigned short Project::convertToContainer(const unsigned short idList, const unsigned short idTask) {
+    List* l = m_lists.at(idList);
+    AbsTask* t = l->getTask(idTask);
+    AbsTask* tNew = t->convertToContainer();
+
+    if(!tNew) return 0;
+    else {
+        l->updateTask(idTask,tNew);
+        if(t->getParent())
+            dynamic_cast<TaskContainer*>(t->getParent())->updateChild(t,tNew);
+        delete t;
+        return tNew->getId();
+    }
+    /*
     List* l = m_lists.at(idList);
     AbsTask* t = l->getTask(idTask), * tNew;
 
@@ -263,13 +312,19 @@ unsigned short Project::convertToContainer(const unsigned short idList, const un
 
     delete t;
     return tNew->getId();
+    */
 }
 
 void Project::dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione) {
+    // Versione funzionante in cui un task (idTask) viene spostato dalla lista LPartenza alla lista
+    // LArrivo sotto al task con id Posizione, se Posizione == 0 viene messo in testa alla lista.
+
     List* lp = m_lists.at(LPartenza);
     List* la = m_lists.at(LArrivo);
     AbsTask* t = lp->getTask(idTask);
 
+    if(t->getParent())
+        dynamic_cast<TaskContainer*>(t->getParent())->removeChild(t);
     lp->removeTask(idTask);
     la->addTask(t);
     la->insertTask(idTask,Posizione);
