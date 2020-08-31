@@ -46,7 +46,7 @@ signals:
 public slots:
 
 	void fetchExistingProjects(const QStringList&);
-	void fetchProjectInfo(const std::pair<const unsigned short, const QString&>& projectInfo);
+    void fetchProjectInfo(const std::pair<unsigned short, const QString&>& projectInfo);
 };
 
 #endif // VIEW_H

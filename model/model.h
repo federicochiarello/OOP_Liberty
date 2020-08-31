@@ -10,14 +10,13 @@
 #include "taskprioritycontainer.h"
 
 #include <vector>
-
 #include <QFile>
 #include <QJsonDocument>
 
 class Model {
 private:
-//    std::string                         m_basePath;
-    std::map<const unsigned short,Project*>   m_projects;
+//  std::string                         m_basePath;
+    std::map<unsigned short,Project*>   m_projects;
     Project*                            m_activeProject;
 
 	void setActiveProject(Project* project);
@@ -25,7 +24,6 @@ private:
 	static std::string path;
 
 public:
-
 	Model();
     ~Model();
 
@@ -41,7 +39,7 @@ public:
     void                setListName(const unsigned short idList, const std::string& p_name);
     void                changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
 
-	std::vector<const unsigned short> getLists(const unsigned short projectId) const;
+    std::vector<unsigned short> getLists(const unsigned short projectId) const;
 	QString				getListName(const unsigned short projectId, const unsigned short listId) const;
 	QStringList         getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
     std::string         getTaskName(const unsigned short idList, const unsigned short idTask) const;

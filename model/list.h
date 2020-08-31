@@ -20,19 +20,19 @@ class List {
 
     const unsigned short                    _id;
     std::string                             m_name;
-    std::map<const unsigned short,AbsTask*>       m_tasks;
-    std::vector<const unsigned short>             m_tasksOrder;   //contiene i task figli diretti della lista ordinati
+    std::map<unsigned short,AbsTask*>       m_tasks;
+    std::vector<unsigned short>             m_tasksOrder;   //contiene i task figli diretti della lista ordinati
 
     static unsigned short int               nextID;
 
 public:
 											explicit List(const std::string name =std::string());
                                             explicit List(const unsigned short id, const std::string name =std::string());
-											explicit List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<const unsigned short, const unsigned short>& idsMap);
+                                            explicit List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<unsigned short,unsigned short>& idsMap);
                                             List(const List& p_list);
                                             ~List();
 
-	QJsonObject toJson() const;
+    QJsonObject                             toJson() const;
     std::string                             getName() const;
     unsigned short                          getId() const;
     void                                    setName(const std::string& p_name);

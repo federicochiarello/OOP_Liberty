@@ -5,7 +5,7 @@
 TaskContainer::TaskContainer(const std::string p_label, const std::string p_desc, List* p_list, AbsTask* p_parent) :
 	AbsTask(p_label,p_desc,p_list,p_parent) {}
 
-TaskContainer::TaskContainer(const QJsonObject& object, std::map<const unsigned short, const unsigned short>& idsMap) :
+TaskContainer::TaskContainer(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap) :
 	AbsTask(object, idsMap),
 	m_child(std::vector<AbsTask*>()) {}
 
@@ -34,10 +34,10 @@ QJsonObject TaskContainer::toJson() const {
 void TaskContainer::setList(List *p_list) {
     List* oldL = getList();
     if(!p_list)
-        for(std::vector<AbsTask*>::iterator i = m_child.begin(); i < m_child.end(); i++)
+        for(auto i = m_child.begin(); i < m_child.end(); i++)
             oldL->removeTask((*i)->getId());
     else
-        for(std::vector<AbsTask*>::iterator i = m_child.begin(); i < m_child.end(); i++)
+        for(auto i = m_child.begin(); i < m_child.end(); i++)
             p_list->addTask(*i);
 
     this->AbsTask::setList(p_list);
@@ -70,7 +70,7 @@ void TaskContainer::addChild(AbsTask * p_child) {
 }
 
 void TaskContainer::removeChild(AbsTask * p_child) {
-    for(std::vector<AbsTask*>::iterator i = m_child.begin(); i < m_child.end(); i++)
+    for(auto i = m_child.begin(); i < m_child.end(); i++)
         if (*i == p_child) {
             p_child->setParent(nullptr);
             m_child.erase(i);

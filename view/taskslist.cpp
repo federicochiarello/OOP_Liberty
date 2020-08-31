@@ -68,7 +68,7 @@ void TasksList::addTask() {
 	//	//dynamic_cast<TaskPreview*>(widget()->layout()->itemAt(widget()->layout()->count()))->setFocus();
 }
 
-void TasksList::addTask(const std::pair<const unsigned short, const TaskType&> taskId) {
+void TasksList::addTask(const std::pair<unsigned short, const TaskType&> taskId) {
 	TaskPreview* task;
 	switch (taskId.second) {
 		case TASK:

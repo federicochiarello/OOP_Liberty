@@ -48,8 +48,8 @@ View::View(Controller* controller,QWidget* parent) :
 	connect(_controller, SIGNAL(sendExistingProjects(const QStringList&)),
 			this, SLOT(fetchExistingProjects(const QStringList&)));
 
-	connect(_controller, SIGNAL(sendProjectInfo(const std::pair<const unsigned short, const QString&>&)),
-			this, SLOT(fetchProjectInfo(const std::pair<const unsigned short, const QString&>&)));
+    connect(_controller, SIGNAL(sendProjectInfo(const std::pair<unsigned short, const QString&>&)),
+            this, SLOT(fetchProjectInfo(const std::pair<unsigned short, const QString&>&)));
 
 //	connect(this, SIGNAL(openProject(const QString)), _controller, SLOT(openProject(const QString))); eliminato
 
@@ -120,7 +120,7 @@ void View::fetchExistingProjects(const QStringList& projects) {
 	setCentralWidget(startCentralWidget);
 }
 
-void View::fetchProjectInfo(const std::pair<const unsigned short, const QString&>& projectInfo) {
+void View::fetchProjectInfo(const std::pair<unsigned short, const QString&>& projectInfo) {
 
 
 	QTabWidget* widget = dynamic_cast<QTabWidget*>(centralWidget());
@@ -137,8 +137,8 @@ void View::fetchProjectInfo(const std::pair<const unsigned short, const QString&
 //	connect(project, SIGNAL(getLists(const unsigned short)),
 //			_controller, SLOT(onGetLists(const unsigned short))); elminato
 
-//	connect(_controller, SIGNAL(sendListsIds(const unsigned short, std::vector<const unsigned short>)),
-//			project, SLOT(fetchListsIds(const unsigned short, std::vector<const unsigned short>))); eliminato
+//	connect(_controller, SIGNAL(sendListsIds(const unsigned short, std::vector<unsigned short>)),
+//			project, SLOT(fetchListsIds(const unsigned short, std::vector<unsigned short>))); eliminato
 
 	connect(project, SIGNAL(getListName(const unsigned short, const unsigned short)),
 			_controller, SLOT(onGetListName(const unsigned short, const unsigned short)));

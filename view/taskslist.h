@@ -48,7 +48,7 @@ public slots:
 	void fetchTaskName(const unsigned short taskId, const QString& taskName);
 
 	void addTask();
-	void addTask(const std::pair<const unsigned short, const TaskType&> taskId);
+    void addTask(const std::pair<unsigned short, const TaskType&> taskId);
 
 };
 

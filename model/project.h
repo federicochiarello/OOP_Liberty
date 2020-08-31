@@ -6,24 +6,21 @@
 #include <map>
 #include <QDateTime>
 #include <QVariant>
-
 #include <QJsonArray>
-
 
 #include "abstask.h"
 #include "task.h"
 #include "taskcontainer.h"
 #include "taskpriority.h"
 #include "taskprioritycontainer.h"
-
 #include "list.h"
 
 class Project {
 
     const unsigned short                _id;
     std::string                         m_name;
-	std::map<const unsigned short,List*>      m_lists;
-	std::vector<const unsigned short>         m_listsOrder;
+    std::map<unsigned short,List*>      m_lists;
+    std::vector<unsigned short>         m_listsOrder;
 	bool _modified;
 
 	static unsigned short               nextID;
@@ -37,9 +34,9 @@ public:
     void                                    addList(List* p_list);
     void                                    removeList(unsigned short idList);
 
-	const unsigned short                          getId() const;
+    unsigned short                          getId() const;
 	std::string                             getName() const;
-	std::vector<const unsigned short>				getLists() const;
+    std::vector<unsigned short>				getLists() const;
 	QJsonObject								object();
 	Project*								fromJson(const QJsonObject& object);
 
@@ -52,7 +49,6 @@ public:
 	QString									getListName(const unsigned short listId) const;
     void                                    setListName(const unsigned short idList, const std::string& p_name);
     void                                    changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
-
 
     QStringList                             getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
     std::string                             getTaskName(const unsigned short idList, const unsigned short idTask) const;

@@ -8,15 +8,14 @@ Model::Model() :
 
 Model::~Model() {
     if(! m_projects.empty())
-		for(std::map<const unsigned short,Project*>::iterator i=m_projects.begin(); i != m_projects.end(); i++)
+        for(auto i=m_projects.begin(); i != m_projects.end(); i++)
             delete i->second;
     //m_projects.clear();
 }
 
-void Model::createNewProject(const std::string& p_name) {
+void Model::createNewProject(const std::string& p_name) {    
     Project* p = new Project(p_name);
-    std::map<unsigned short,Project*>::value_type Proj(p->getId(),p);
-    m_projects.insert(Proj);
+    m_projects.insert(std::pair<unsigned short,Project*>(p->getId(),p));
     m_activeProject = p;
 }
 
@@ -66,7 +65,7 @@ void Model::changeListOrder(const unsigned short listToMove, const unsigned shor
 	m_activeProject->changeListOrder(listToMove,Posizione);
 }
 
-std::vector<const unsigned short> Model::getLists(const unsigned short projectId) const {
+std::vector<unsigned short> Model::getLists(const unsigned short projectId) const {
 	return m_projects.at(projectId)->getLists();
 }
 

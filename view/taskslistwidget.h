@@ -53,7 +53,7 @@ signals:
 public slots:
 
 	void fetchListName(const unsigned short projectId, const unsigned short listId, const QString& listName);
-	void fetchTasksIds(const unsigned short projectId, const unsigned short listId, const std::vector<std::pair<const unsigned short, const TaskType&>> tasksIds);
+    void fetchTasksIds(const unsigned short projectId, const unsigned short listId, const std::vector<std::pair<unsigned short, const TaskType&>> tasksIds);
 
 	void onGetTaskName(const unsigned short taskId);
 	void onSendTaskName(const unsigned short listId, const unsigned short taskId, const QString& taskName);

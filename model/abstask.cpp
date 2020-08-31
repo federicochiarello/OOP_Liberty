@@ -1,6 +1,5 @@
 #include "abstask.h"
 
-
 unsigned short AbsTask::nextID = 0;
 QString AbsTask::dateTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
@@ -12,14 +11,14 @@ AbsTask::AbsTask(const std::string p_label, const std::string p_desc, List* p_li
     m_parent(p_parent),
 	m_list(p_list) {}
 
-AbsTask::AbsTask(const QJsonObject& object, std::map<const unsigned short, const unsigned short>& idsMap) :
+AbsTask::AbsTask(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap) :
 	_id(++nextID),
 	m_label(object.value("taskLabel").toString().toStdString()),
 	m_desc(object.value("taskDescription").toString().toStdString()),
 	m_eta(QDateTime::fromString(object.value("taskEta").toString(), dateTimeFormat)),
 	m_parent(nullptr),
 	m_list() {
-	idsMap.insert(std::pair<const unsigned short, const unsigned short>(object.value("taskId").toInt(), _id));
+    idsMap.insert(std::pair<unsigned short,unsigned short>(object.value("taskId").toInt(), _id));
 }
 
 AbsTask::AbsTask(const AbsTask &p_task) :
@@ -43,7 +42,6 @@ QJsonObject AbsTask::toJson() const {
 	return taskObject;
 }
 
-
 AbsTask::~AbsTask() {}
 
 std::string		AbsTask::getLabel() const { return m_label; }
@@ -56,7 +54,7 @@ AbsTask*		AbsTask::getParent() const { return m_parent; }
 
 List*           AbsTask::getList() const { return m_list; }
 
-const unsigned short  AbsTask::getId() const { return _id; }
+unsigned short  AbsTask::getId() const { return _id; }
 
 void			AbsTask::setLabel(const std::string& p_label) { m_label = p_label; }
 

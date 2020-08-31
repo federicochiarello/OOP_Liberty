@@ -31,7 +31,7 @@ class ProjectView : public QWidget {
 
 public:
 	explicit ProjectView(QWidget *parent = nullptr);
-	explicit ProjectView(const std::pair<const unsigned short, const QString&>& projectInfo, const Controller* controller, QWidget* parent =nullptr);
+    explicit ProjectView(const std::pair<unsigned short, const QString&>& projectInfo, const Controller* controller, QWidget* parent =nullptr);
 
 	unsigned short getId() const;
 
@@ -58,7 +58,7 @@ private slots:
 
 public slots:
 
-	void fetchListsIds(const unsigned short projectId, const std::vector<const unsigned short> listsIds);
+    void fetchListsIds(const unsigned short projectId, const std::vector<unsigned short> listsIds);
 
 	void addList(std::string listName =std::string());
 //	void onGetListName(const unsigned short listId);

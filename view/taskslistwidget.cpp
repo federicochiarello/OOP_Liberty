@@ -94,7 +94,7 @@ void TasksListWidget::fetchListName(const unsigned short projectId, const unsign
 	}
 }
 
-void TasksListWidget::fetchTasksIds(const unsigned short projectId, const unsigned short listId, const std::vector<std::pair<const unsigned short, const TaskType&> > tasksIds) {
+void TasksListWidget::fetchTasksIds(const unsigned short projectId, const unsigned short listId, const std::vector<std::pair<unsigned short, const TaskType&> > tasksIds) {
 	if (listId == _id) {
 		for (auto taskId: tasksIds) {
 			_list->addTask(taskId);
