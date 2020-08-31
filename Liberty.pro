@@ -28,8 +28,8 @@ SOURCES += \
         view/projectpreview.cpp \
         view/projectview.cpp \
         view/taskcontainerwidget.cpp \
-        view/taskholder.cpp \
         view/taskpreview.cpp \
+        view/taskprioritycontainerwidget.cpp \
         view/taskprioritywidget.cpp \
         view/taskslist.cpp \
         view/taskslistwidget.cpp \
@@ -57,8 +57,8 @@ HEADERS += \
     view/projectpreview.h \
     view/projectview.h \
     view/taskcontainerwidget.h \
-    view/taskholder.h \
     view/taskpreview.h \
+    view/taskprioritycontainerwidget.h \
     view/taskprioritywidget.h \
     view/taskslist.h \
     view/taskslistwidget.h \

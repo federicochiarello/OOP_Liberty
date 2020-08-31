@@ -26,6 +26,10 @@ void Controller::setView(View* view) {
 	_view = view;
 }
 
+void Controller::onAppStart() {
+	getExistingProjects();
+}
+
 void Controller::createNewProject(const std::string& p_name) {
     _model->createNewProject(p_name);
 }
@@ -118,7 +122,7 @@ void Controller::getExistingProjects() {
 	emit sendExistingProjects(projects);
 }
 
-void Controller::openProject(QString path) {
+void Controller::onOpenProject(const QString& path) {
 	_model->load(path);
 	emit sendProjectInfo(_model->getProjectInfo());
 }

@@ -27,15 +27,24 @@ public:
 signals:
 
 	void sendExistingProjects(const QStringList&);
-	void sendProjectInfo(const std::pair<unsigned short, QString>&);
-	void sendListsIds(const unsigned short, std::vector<unsigned short>);
+	void sendProjectInfo(const std::pair<const unsigned short, const QString&>&);
+	void sendListsIds(const unsigned short, const std::vector<const unsigned short>);
 	void sendListName(const unsigned short, const unsigned short, const QString&);
-	void sendTasksIds(const unsigned short, const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>);
+	void sendTasksIds(const unsigned short, const unsigned short, const std::vector<std::pair<const unsigned short, const TaskType&>>);
 	void sendTaskName(const unsigned short, const unsigned short, const unsigned short, const QString&);
 
 public slots:
 
-    void        createNewProject(const std::string& = std::string());
+	void		onAppStart();
+
+	void        getExistingProjects();
+	void        onOpenProject(const QString& path);
+	void		onGetLists(const unsigned short projectId);
+	void		onGetListName(const unsigned short projectId, const unsigned short listId);
+	void		onGetTasksIds(const unsigned short projectId, const unsigned short listId);
+	void		onGetTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId);
+
+	void        createNewProject(const std::string& = std::string());
     void        setActiveProject(const unsigned short indP);
     void        closeProject(const unsigned short indP);
 
@@ -57,15 +66,9 @@ public slots:
 
     void        dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione =0);
 
-    void        getExistingProjects();
-	void        openProject(const QString);
 	void		saveProject(const unsigned short idProject);
 
-	void		onGetLists(const unsigned short projectId);
-	void		onGetListName(const unsigned short projectId, const unsigned short listId);
 
-	void		onGetTasksIds(const unsigned short projectId, const unsigned short listId);
-	void		onGetTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId);
 };
 
 #endif // CONTROLLER_H

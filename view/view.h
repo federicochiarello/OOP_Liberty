@@ -12,8 +12,6 @@
 #include <QDesktopWidget>
 #include <QTabWidget>
 
-#include "taskholder.h"
-#include "taskwidget.h"
 #include "projectpreview.h"
 #include "projectview.h"
 #include "controller/controller.h"
@@ -24,13 +22,16 @@ class View : public QMainWindow {
 	Controller* _controller;
 	QVBoxLayout* _windowLayout;
 	QHBoxLayout* _mainLayout;
-	TaskWidget* t;
 	QTabWidget* _projects;
 
 	void setup();
+	void connects();
 	void openProject();
+
 public:
-	View(Controller* controller =nullptr, QWidget* parent =nullptr);
+
+	explicit View(Controller* controller =nullptr, QWidget* parent =nullptr);
+
 	void addMainLayout();
 	void addList();
 	void addMenu();
@@ -38,12 +39,14 @@ public:
 	void addStatusBar();
 
 signals:
+
 	void appStart();
-	void openProject(const QString);
+//	void openProject(const QString); eliminato
 
 public slots:
+
 	void fetchExistingProjects(const QStringList&);
-	void fetchProjectInfo(const std::pair<unsigned short, QString>&);
+	void fetchProjectInfo(const std::pair<const unsigned short, const QString&>& projectInfo);
 };
 
 #endif // VIEW_H

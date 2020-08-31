@@ -2,8 +2,11 @@
 
 static inline QString libertyMimeType() {return QStringLiteral("application/x-Liberty");}
 
-TasksList::TasksList(QWidget *parent) :
+TasksList::TasksList(const unsigned short id, const unsigned short projectId, const Controller* controller, QWidget *parent) :
 	QScrollArea(parent),
+	_id(id),
+	_projectId(projectId),
+	_controller(controller),
 	_layout(new QVBoxLayout()),
 	_widget(new QWidget(this)) {
 
@@ -65,23 +68,23 @@ void TasksList::addTask() {
 	//	//dynamic_cast<TaskPreview*>(widget()->layout()->itemAt(widget()->layout()->count()))->setFocus();
 }
 
-void TasksList::addTask(std::pair<unsigned short, TaskType> task) {
-	TaskPreview* newTask;
-	switch (task.second) {
-	case TASK:
-		newTask = new TaskPreview(task.first, this);
-		break;
-	case TASKCONTAINER:
-		newTask = new TaskPreview(task.first, this);
-		break;
-    case TASKPRIORITY:
-		newTask = new TaskPreview(task.first, this);
-		break;
-	case TASKPRIORITYCONTAINER:
-		newTask = new TaskPreview(task.first, this);
-		break;
+void TasksList::addTask(const std::pair<const unsigned short, const TaskType&> taskId) {
+	TaskPreview* task;
+	switch (taskId.second) {
+		case TASK:
+			task = new TaskPreview(taskId.first, _id, _projectId, _controller, this);
+			break;
+		case TASK_CONTAINER:
+			task = new TaskPreview(taskId.first, _id, _projectId, _controller, this);
+			break;
+		case TASK_PRIORITY:
+			task = new TaskPreview(taskId.first, _id, _projectId, _controller, this);
+			break;
+		case TASK_PRIORITY_CONTAINER:
+			task = new TaskPreview(taskId.first, _id, _projectId, _controller, this);
+			break;
 	}
-	addWidget(newTask);
+	addWidget(task);
 }
 
 DragDrop::DragDrop(QWidget* parent) : QWidget(parent) {

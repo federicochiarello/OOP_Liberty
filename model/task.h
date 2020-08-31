@@ -6,7 +6,7 @@
 class Task : public AbsTask {
 public:
 	explicit Task(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr);
-	explicit Task(const QJsonObject& object, std::map<unsigned short, unsigned short>& idsMap);
+	explicit Task(const QJsonObject& object, std::map<const unsigned short, const unsigned short>& idsMap);
 
     Task*               clone() const override;
     QJsonObject         toJson() const override;

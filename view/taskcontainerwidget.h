@@ -6,7 +6,7 @@
 class TaskContainerWidget : public TaskWidget {
 	Q_OBJECT
 public:
-	TaskContainerWidget();
+
 	explicit TaskContainerWidget(QWidget* parent =nullptr);
 	TaskContainerWidget(const TaskContainerWidget& widget,QWidget* parent =nullptr);
 	TaskContainerWidget(const QString& name, const QString& desc =QString(), QWidget* parent =nullptr);

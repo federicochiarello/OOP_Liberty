@@ -28,7 +28,7 @@ class List {
 public:
 											explicit List(const std::string name =std::string());
                                             explicit List(const unsigned short id, const std::string name =std::string());
-											explicit List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<unsigned short, unsigned short>& idsMap);
+											explicit List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<const unsigned short, const unsigned short>& idsMap);
                                             List(const List& p_list);
                                             ~List();
 
@@ -43,8 +43,6 @@ public:
     void                                    insertTask(const unsigned short Posizione,const unsigned short idTask);
     void                                    setAsDirectTask(const unsigned short idTask);
     AbsTask*                                getTask(const unsigned short idTask);
-
-	List* fromJsonObject(QJsonObject object);
 };
 
 #endif // LIST_H

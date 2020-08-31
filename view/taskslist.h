@@ -11,16 +11,22 @@
 
 #include "src/globalenums.h"
 
+#include "controller/controller.h"
+
 #include "taskwidget.h"
 #include "taskpreview.h"
 
 class TasksList : public QScrollArea {
 	Q_OBJECT
 
+	const unsigned short _id;
+	const unsigned short _projectId;
+	const Controller* _controller;
 	QVBoxLayout* _layout;
 	QWidget* _widget;
+
 public:
-	explicit TasksList(QWidget *parent = nullptr);
+	explicit TasksList(const unsigned short id, const unsigned short projectId, const Controller* controller, QWidget* parent = nullptr);
 
 	void addWidget(QLineEdit* widget);
 protected:
@@ -42,7 +48,7 @@ public slots:
 	void fetchTaskName(const unsigned short taskId, const QString& taskName);
 
 	void addTask();
-	void addTask(std::pair<unsigned short, TaskType>);
+	void addTask(const std::pair<const unsigned short, const TaskType&> taskId);
 
 };
 

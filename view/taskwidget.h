@@ -16,6 +16,7 @@
 
 class TaskWidget : public QWidget {
 	Q_OBJECT
+
 	QVBoxLayout*	_layout;
 	QLineEdit*		_name;
 	TextHolder*		_desc;

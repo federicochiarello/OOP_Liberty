@@ -1,6 +1,11 @@
 #include "view.h"
 
-View::View(Controller* controller,QWidget* parent) : QMainWindow(parent), _controller(controller), _windowLayout(new QVBoxLayout()), _projects(new QTabWidget(this)) {
+View::View(Controller* controller,QWidget* parent) :
+	QMainWindow(parent),
+	_controller(controller),
+	_windowLayout(new QVBoxLayout()),
+	_projects(new QTabWidget(this)) {
+
 	// Menu
 
 	// Declaration menus and actions
@@ -37,11 +42,17 @@ View::View(Controller* controller,QWidget* parent) : QMainWindow(parent), _contr
 //	connect(undoAct, SIGNAL(triggered()), _controller, SLOT());
 //	connect(redoAct, SIGNAL(triggered()), _controller, SLOT());
 
-	connect(this, SIGNAL(appStart()), _controller, SLOT(getExistingProjects()));
-	connect(this, SIGNAL(openProject(const QString)), _controller, SLOT(openProject(const QString)));
+	connect(this, SIGNAL(appStart()),
+			_controller, SLOT(onAppStart()));
 
-	connect(_controller, SIGNAL(sendExistingProjects(const QStringList&)), this, SLOT(fetchExistingProjects(const QStringList&)));
-	connect(_controller, SIGNAL(sendProjectInfo(const std::pair<unsigned short, QString>&)), this, SLOT(fetchProjectInfo(const std::pair<unsigned short, QString>&)));
+	connect(_controller, SIGNAL(sendExistingProjects(const QStringList&)),
+			this, SLOT(fetchExistingProjects(const QStringList&)));
+
+	connect(_controller, SIGNAL(sendProjectInfo(const std::pair<const unsigned short, const QString&>&)),
+			this, SLOT(fetchProjectInfo(const std::pair<const unsigned short, const QString&>&)));
+
+//	connect(this, SIGNAL(openProject(const QString)), _controller, SLOT(openProject(const QString))); eliminato
+
 	// Add actions to menu
 
 	fileMenu->addAction(newProAct);
@@ -72,10 +83,10 @@ void View::addMainLayout() {
 	_windowLayout->addLayout(_mainLayout);
 }
 
-void View::addList() {
-	TaskHolder* taskHolder = new TaskHolder(this);
-	_mainLayout->addWidget(taskHolder);
-}
+//void View::addList() {
+//	TaskHolder* taskHolder = new TaskHolder(this);
+//	_mainLayout->addWidget(taskHolder);
+//}
 
 void View::addToolBar() {
 	/* Declaration of toolbar and toolbuttons */
@@ -100,20 +111,20 @@ void View::fetchExistingProjects(const QStringList& projects) {
 	QVBoxLayout* startCentralWidgetLayout = new QVBoxLayout();
 
 	for (int i=1; i<projects.size(); i++) {
-		ProjectPreview* tmp = new ProjectPreview(projects.at(i), projects.at(0), startCentralWidget);
+		ProjectPreview* tmp = new ProjectPreview(projects.at(i), projects.at(0), _controller, startCentralWidget);
 		startCentralWidgetLayout->addWidget(tmp);
-		connect(tmp, SIGNAL(openProject(const QString)), this, SIGNAL(openProject(const QString)));
+//		connect(tmp, SIGNAL(openProject(const QString)), this, SIGNAL(openProject(const QString))); eliminato
 	}
 
 	startCentralWidget->setLayout(startCentralWidgetLayout);
 	setCentralWidget(startCentralWidget);
 }
 
-void View::fetchProjectInfo(const std::pair<unsigned short, QString>& projectInfo) {
+void View::fetchProjectInfo(const std::pair<const unsigned short, const QString&>& projectInfo) {
 
 
 	QTabWidget* widget = dynamic_cast<QTabWidget*>(centralWidget());
-	ProjectView* project = new ProjectView(projectInfo, widget);
+	ProjectView* project = new ProjectView(projectInfo, _controller, widget);
 	if (widget) { // vi sono già dei progetti aperti
 		widget->addTab(project, projectInfo.second);
 	} else { // non vi sono progetti aperti, bisogna creare il QTabWidget che conterrá i progetti
@@ -123,11 +134,11 @@ void View::fetchProjectInfo(const std::pair<unsigned short, QString>& projectInf
 	}
 
 //	Creazione liste
-	connect(project, SIGNAL(getLists(const unsigned short)),
-			_controller, SLOT(onGetLists(const unsigned short)));
+//	connect(project, SIGNAL(getLists(const unsigned short)),
+//			_controller, SLOT(onGetLists(const unsigned short))); elminato
 
-	connect(_controller, SIGNAL(sendListsIds(const unsigned short, std::vector<const unsigned short>)),
-			project, SLOT(fetchListsIds(const unsigned short, std::vector<const unsigned short>)));
+//	connect(_controller, SIGNAL(sendListsIds(const unsigned short, std::vector<const unsigned short>)),
+//			project, SLOT(fetchListsIds(const unsigned short, std::vector<const unsigned short>))); eliminato
 
 	connect(project, SIGNAL(getListName(const unsigned short, const unsigned short)),
 			_controller, SLOT(onGetListName(const unsigned short, const unsigned short)));

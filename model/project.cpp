@@ -5,25 +5,25 @@ unsigned short Project::nextID = 0;
 Project::Project(std::string p_name) :
 	_id(++nextID),
 	m_name(p_name),
-	m_lists(std::map<unsigned short, List*>()),
-	m_listsOrder(std::vector<unsigned short>()),
+	m_lists(std::map<const unsigned short, List*>()),
+	m_listsOrder(std::vector<const unsigned short>()),
 	_modified(false) {}
 
 Project::Project(const QJsonObject& object) :
 	_id(++nextID),
 	m_name(object.value("projectName").toString().toStdString()),
-	m_lists(std::map<unsigned short, List*>()),
-	m_listsOrder(std::vector<unsigned short>()),
+	m_lists(std::map<const unsigned short, List*>()),
+	m_listsOrder(std::vector<const unsigned short>()),
 	_modified(false) {
 
 	std::vector<AbsTask*> tasks;
-	std::map<unsigned short, unsigned short> idsMap;
-	std::map<unsigned short, std::vector<unsigned short>> childsMap;
+	std::map<const unsigned short, const unsigned short> idsMap;
+	std::map<const unsigned short, std::vector<const unsigned short>> childsMap;
 
 	const QJsonArray listsArray = object.value("lists").toArray();
 	for (const QJsonValue list : listsArray) {
 		List* tmp = new List(list.toObject(), tasks, idsMap);
-		m_lists.insert(std::pair<unsigned short, List*>(tmp->getId(), tmp));
+		m_lists.insert(std::pair<const unsigned short, List*>(tmp->getId(), tmp));
 		m_listsOrder.push_back(tmp->getId());
 	}
 //	Le liste sono state create e ogni task ha puntatore alla lista, però mancano da inizializzare i vector childs nei TaskContainer e i puntatori a parent dei task figli
@@ -34,10 +34,10 @@ Project::Project(const QJsonObject& object) :
 //		Verifico che il task considerato nell'i-esima iterazione sia un TaskContainer o una sua sottoclasse
 		if (taskContainer) {
 //			Ricavo il vector contenente gli Id dei Task figli
-			std::vector<unsigned short> taskContainerChildsId = childsMap.find(taskContainer->getId())->second;
+			std::vector<const unsigned short> taskContainerChildsId = childsMap.find(taskContainer->getId())->second;
 //			Itero nuovamente il vector contenente tutti i task per individuare i Task figli di taskContainer
 			for (auto childTask : tasks) {
-				unsigned short childTaskId = childTask->getId();
+				const unsigned short childTaskId = childTask->getId();
 //				Itero il vector contenente gli Id dei task figli di taskContainer per verificare se il childTask considerato nella i,j-esima iterazione abbia Id uguale ad uno dei figli
 				for (auto id : taskContainerChildsId) {
 					if (childTaskId == id) {
@@ -55,7 +55,7 @@ Project::Project(const QJsonObject& object) :
 
 Project::~Project() {
     if(! m_lists.empty())
-        for(std::map<unsigned short,List*>::iterator i=m_lists.begin(); i!=m_lists.end(); i++)
+		for(std::map<const unsigned short,List*>::iterator i=m_lists.begin(); i!=m_lists.end(); i++)
             delete i->second;
 }
 
@@ -71,14 +71,14 @@ void Project::removeList(unsigned short idList) {
     delete m_lists.at(idList);
 
     // Elimina da m_listOrder
-	for(std::vector<unsigned short>::iterator i = m_listsOrder.begin(); i != m_listsOrder.end(); i++)
+	for(std::vector<const unsigned short>::const_iterator i = m_listsOrder.begin(); i != m_listsOrder.end(); i++)
         if (*i == idList) {
             m_listsOrder.erase(i);
             i = m_listsOrder.end();
         }
 }
 
-unsigned short Project::getId() const {
+const unsigned short Project::getId() const {
 	return _id;
 }
 
@@ -96,7 +96,7 @@ void Project::changeListOrder(const unsigned short listToMove, const unsigned sh
     if(!Posizione)
         m_listsOrder.insert(m_listsOrder.begin(),listToMove);
     else
-        for(std::vector<unsigned short>::iterator i = m_listsOrder.begin(); i < m_listsOrder.end(); i++)
+		for(std::vector<const unsigned short>::iterator i = m_listsOrder.begin(); i < m_listsOrder.end(); i++)
             if (*i == Posizione) {
                 m_listsOrder.insert(i,listToMove);
                 i = m_listsOrder.end();
@@ -162,14 +162,14 @@ unsigned short Project::verifyContainer(const unsigned short idList, const unsig
 
 std::string Project::getName() const { return m_name; }
 
-std::vector<unsigned short> Project::getLists() const {
+std::vector<const unsigned short> Project::getLists() const {
 	return m_listsOrder;
 }
 
 Project* Project::fromJson(const QJsonObject& object) {
 	std::vector<AbsTask*> tasks;
-	std::map<unsigned short, unsigned short> idsMap;
-	std::map<unsigned short, std::vector<unsigned short>> childsMap;
+	std::map<const unsigned short, const unsigned short> idsMap;
+	std::map<const unsigned short, std::vector<const unsigned short>> childsMap;
 	m_name = object.value("projectName").toString().toStdString();
 	const QJsonArray listsArray = object.value("lists").toArray();
 
@@ -186,10 +186,10 @@ Project* Project::fromJson(const QJsonObject& object) {
 //		Verifico che il task considerato nell'i-esima iterazione sia un TaskContainer o una sua sottoclasse
 		if (taskContainer) {
 //			Ricavo il vector contenente gli Id dei Task figli
-			std::vector<unsigned short> taskContainerChildsId = childsMap.find(taskContainer->getId())->second;
+			std::vector<const unsigned short> taskContainerChildsId = childsMap.find(taskContainer->getId())->second;
 //			Itero nuovamente il vector contenente tutti i task per individuare i Task figli di taskContainer
 			for (auto childTask : tasks) {
-				unsigned short childTaskId = childTask->getId();
+				const unsigned short childTaskId = childTask->getId();
 //				Itero il vector contenente gli Id dei task figli di taskContainer per verificare se il childTask considerato nella i,j-esima iterazione abbia Id uguale ad uno dei figli
 				for (auto id : taskContainerChildsId) {
 					if (childTaskId == id) {

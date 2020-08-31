@@ -8,24 +8,28 @@
 #include <QKeyEvent>
 #include <QShortcut>
 
+#include "controller/controller.h"
+
 class ProjectPreview : public QWidget {
 	Q_OBJECT
 
-//	const unsigned short _id;
-	QString _name;
-	QString _path;
+	const QString _name;
+	const QString _path;
+	const Controller* _controller;
+
+	void connects();
 
 public:
 	explicit ProjectPreview(QWidget* parent = nullptr);
 
-	ProjectPreview(QString name, QString path =QString(), QWidget* parent =nullptr);
+	ProjectPreview(const QString& name, const QString& path, const Controller* controller, QWidget* parent =nullptr);
 
 protected:
 	virtual void mouseDoubleClickEvent(QMouseEvent*) override;
 //	virtual void keyPressEvent(QKeyEvent* key) override;
 
 signals:
-	void openProject(const QString);
+	void openProject(const QString&);
 };
 
 #endif // PROJECTPREVIEW_H

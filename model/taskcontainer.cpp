@@ -5,9 +5,13 @@
 TaskContainer::TaskContainer(const std::string p_label, const std::string p_desc, List* p_list, AbsTask* p_parent) :
 	AbsTask(p_label,p_desc,p_list,p_parent) {}
 
-TaskContainer::TaskContainer(const QJsonObject& object, std::map<unsigned short, unsigned short>& idsMap) : AbsTask(object, idsMap), m_child(std::vector<AbsTask*>()) {}
+TaskContainer::TaskContainer(const QJsonObject& object, std::map<const unsigned short, const unsigned short>& idsMap) :
+	AbsTask(object, idsMap),
+	m_child(std::vector<AbsTask*>()) {}
 
-TaskContainer::TaskContainer(const TaskContainer & p_task) : AbsTask(p_task), m_child(p_task.m_child) {}
+TaskContainer::TaskContainer(const TaskContainer & p_task) :
+	AbsTask(p_task),
+	m_child(p_task.m_child) {}
 
 TaskContainer *TaskContainer::clone() const { return new TaskContainer(*this); }
 

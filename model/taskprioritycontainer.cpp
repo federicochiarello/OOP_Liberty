@@ -3,7 +3,7 @@
 TaskPriorityContainer::TaskPriorityContainer(const std::string p_label, const std::string p_desc, List *p_list, AbsTask *p_parent, QDateTime p_priority)
 	: AbsTask(p_label,p_desc,p_list,p_parent), TaskContainer(p_label,p_desc,p_list,p_parent), TaskPriority(p_label,p_desc,p_list,p_parent,p_priority) {}
 
-TaskPriorityContainer::TaskPriorityContainer(const QJsonObject& object, std::map<unsigned short, unsigned short>& idsMap) :
+TaskPriorityContainer::TaskPriorityContainer(const QJsonObject& object, std::map<const unsigned short, const unsigned short>& idsMap) :
 	AbsTask(object, idsMap),
 	TaskContainer(object, idsMap),
     TaskPriority(object, idsMap) {}

@@ -9,6 +9,7 @@
 
 #include <QJsonArray>
 
+
 #include "abstask.h"
 #include "task.h"
 #include "taskcontainer.h"
@@ -21,14 +22,14 @@ class Project {
 
     const unsigned short                _id;
     std::string                         m_name;
-	std::map<unsigned short,List*>      m_lists;
-	std::vector<unsigned short>         m_listsOrder;
+	std::map<const unsigned short,List*>      m_lists;
+	std::vector<const unsigned short>         m_listsOrder;
 	bool _modified;
 
 	static unsigned short               nextID;
 
 public:
-											Project(std::string p_name = std::string());
+											explicit Project(std::string p_name = std::string());
 											Project(const QJsonObject& object);
 //											Project(const Project& p_pro);
                                             ~Project();
@@ -36,9 +37,9 @@ public:
     void                                    addList(List* p_list);
     void                                    removeList(unsigned short idList);
 
-    unsigned short                          getId() const;
+	const unsigned short                          getId() const;
 	std::string                             getName() const;
-	std::vector<unsigned short>				getLists() const;
+	std::vector<const unsigned short>				getLists() const;
 	QJsonObject								object();
 	Project*								fromJson(const QJsonObject& object);
 

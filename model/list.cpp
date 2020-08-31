@@ -14,7 +14,7 @@ List::List(const std::string p_name) :		_id(++nextID),
                                             m_tasks(std::map<const unsigned short, AbsTask*>()),
                                             m_tasksOrder(std::vector<const unsigned short>()) {}
 
-List::List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<unsigned short, unsigned short>& idsMap) :	_id(++nextID),
+List::List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<const unsigned short, const unsigned short>& idsMap) :	_id(++nextID),
 									m_name(object.value("listName").toString().toStdString()),
                                     m_tasks(std::map<const unsigned short, AbsTask*>()),
                                     m_tasksOrder(std::vector<const unsigned short>()) {
@@ -50,7 +50,7 @@ List::List(const List &p_list) :	_id(++nextID),
 
 List::~List() {
     if(! m_tasks.empty())
-        for(std::map<unsigned short,AbsTask*>::iterator i=m_tasks.begin(); i!=m_tasks.end(); i++)
+		for(std::map<const unsigned short,AbsTask*>::iterator i=m_tasks.begin(); i!=m_tasks.end(); i++)
             delete i->second;
 }
 
@@ -90,7 +90,7 @@ void List::removeTask(const unsigned short idTask) {
     AbsTask* t = m_tasks.at(idTask);
     t->setList(nullptr);
     if(!t->getParent())
-        for(std::vector<const unsigned short>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
+		for(auto i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
             if (*i == idTask) {
                 m_tasksOrder.erase(i);
                 i = m_tasksOrder.end();
@@ -100,10 +100,10 @@ void List::removeTask(const unsigned short idTask) {
 
 void List::updateTask(const unsigned short idTask, AbsTask *p_task) {
     if(!m_tasks.at(idTask)->getParent()) {
-        for(std::vector<const unsigned short>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); ++i)
+		for(std::vector<const unsigned short>::const_iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); ++i)
             if (*i == idTask) {
                 m_tasksOrder.insert(i,p_task->getId());
-                m_tasksOrder.erese(++i);
+				m_tasksOrder.erase(++i);
                 //*i = p_task->getId();     USATO QUANDO AVEVA IL const
                 i = m_tasksOrder.end();
             }
@@ -116,7 +116,7 @@ void List::insertTask(const unsigned short idTask, const unsigned short Posizion
     if(!Posizione)
         m_tasksOrder.insert(m_tasksOrder.begin(),idTask);
     else
-        for(std::vector<const unsigned short>::iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
+		for(std::vector<const unsigned short>::const_iterator i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++)
             if (*i == Posizione) {
                 m_tasksOrder.insert(i,idTask);
                 i = m_tasksOrder.end();
@@ -125,9 +125,5 @@ void List::insertTask(const unsigned short idTask, const unsigned short Posizion
 
 AbsTask *List::getTask(const unsigned short idTask) {
 	return m_tasks.at(idTask);
-}
-
-List *List::fromJsonObject(QJsonObject object) {
-
 }
 

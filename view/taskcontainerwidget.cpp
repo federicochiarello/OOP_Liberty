@@ -1,5 +1,5 @@
 #include "taskcontainerwidget.h"
 
-TaskContainerWidget::TaskContainerWidget() {
+TaskContainerWidget::TaskContainerWidget(QWidget* parent) : TaskWidget(parent) {
 
 }
