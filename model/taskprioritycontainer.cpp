@@ -49,3 +49,7 @@ QStringList TaskPriorityContainer::getTaskInfo() const {
 AbsTask *TaskPriorityContainer::convertToContainer() const { return nullptr; }
 
 AbsTask *TaskPriorityContainer::convertToPriority() const { return nullptr; }
+
+TaskType TaskPriorityContainer::getType() const {
+	return TASK_PRIORITY_CONTAINER;
+}

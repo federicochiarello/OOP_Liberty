@@ -15,6 +15,7 @@ ProjectPreview::ProjectPreview(const QString& name, const QString& pathToDir, co
 	_path(pathToDir+"/"+name),
 	_controller(controller) {
 
+	connects();
 	QVBoxLayout* layout = new QVBoxLayout();
 
 	if (layout) {
@@ -25,7 +26,7 @@ ProjectPreview::ProjectPreview(const QString& name, const QString& pathToDir, co
 }
 
 void ProjectPreview::mouseDoubleClickEvent(QMouseEvent *) {
-	emit openProject(_name);
+	emit openProject(_path);
 }
 
 //void ProjectPreview::keyPressEvent(QKeyEvent* event) {

@@ -10,6 +10,8 @@
 #include "src/globalenums.h"
 #include "model/model.h"
 
+#include <QDebug>
+
 class View;
 
 class Controller : public QObject {
@@ -25,12 +27,13 @@ public:
 
 signals:
 
-	void sendExistingProjects(const QStringList&);
-    void sendProjectInfo(const std::pair<unsigned short, const QString&>&);
-    void sendListsIds(const unsigned short, const std::vector<unsigned short>);
-	void sendListName(const unsigned short, const unsigned short, const QString&);
-    void sendTasksIds(const unsigned short, const unsigned short, const std::vector<std::pair<unsigned short, const TaskType&>>);
-	void sendTaskName(const unsigned short, const unsigned short, const unsigned short, const QString&);
+	void sendExistingProjects(const QStringList& projectsNames);
+	void sendProjectInfo(std::pair<unsigned short, QString> projectInfo);
+	void sendListsIds(const unsigned short projectId, std::vector<unsigned short> listsIds);
+	void sendListName(const unsigned short listId, const QString& listName);
+	void sendTasksIds(const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>>& tasksIds);
+	void sendTaskName(const unsigned short taskId, const QString& taskName);
+	void sendTaskInfo(const unsigned short taskId, const QStringList& taskInfo);
 
 public slots:
 
@@ -43,7 +46,11 @@ public slots:
 	void		onGetTasksIds(const unsigned short projectId, const unsigned short listId);
 	void		onGetTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId);
 
-	void        createNewProject(const std::string& = std::string());
+	void		onOpenTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId);
+
+	void		onNewProject();
+	void        createNewProject(const std::string& = std::string()); // forse da sostituire a onNewProject(), da decidere se avere finestra per il nome e se averla in controller o in view (probabilmente meglio)
+
     void        setActiveProject(const unsigned short indP);
     void        closeProject(const unsigned short indP);
 
@@ -58,7 +65,7 @@ public slots:
     void        convertToPrio(const unsigned short idList, const unsigned short idTask);
     void        convertToCont(const unsigned short idList, const unsigned short idTask);
 
-    void        getTaskName(const unsigned short idList, const unsigned short idTask) const;
+//    void        getTaskName(const unsigned short idList, const unsigned short idTask) const;
     void        getTaskPriority(const unsigned short idList, const unsigned short idTask) const;
     void        getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
     void        aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList);

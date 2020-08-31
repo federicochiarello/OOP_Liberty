@@ -41,6 +41,7 @@ public:
     virtual QStringList                 getTaskInfo() const;
     virtual AbsTask*                    convertToContainer() const =0;
     virtual AbsTask*                    convertToPriority() const =0;
+	virtual TaskType					getType() const =0;
 
 //	virtual std::pair<TaskType, QStringList> getTaskInfo() const =0;
 

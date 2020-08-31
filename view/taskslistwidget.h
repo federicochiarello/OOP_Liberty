@@ -15,6 +15,8 @@
 
 #include "taskslist.h"
 
+#include <QDebug>
+
 class TasksListWidget : public QWidget {
 	Q_OBJECT
 
@@ -22,11 +24,12 @@ class TasksListWidget : public QWidget {
 	const unsigned short _projectId;
 	const Controller* _controller;
 
-	QLineEdit* _title;
 	QVBoxLayout* _layout;
-	std::string _name;
+	QHBoxLayout* _header;
+
+	QLineEdit* _title;
+	QPushButton* _buttonActions;
 	TasksList* _list;
-//	Controller* _controller;
 
 	void setup();
 	void connects();
@@ -43,7 +46,7 @@ public:
 signals:
 
 	void getListName(const unsigned short, const unsigned short);
-	void getTasksIds(const unsigned short);
+	void getTasksIds(const unsigned short, const unsigned short);
 	void getTaskName(const unsigned short, const unsigned short);
 	void sendTaskName(const unsigned short, const QString&);
 
@@ -52,11 +55,11 @@ signals:
 
 public slots:
 
-	void fetchListName(const unsigned short projectId, const unsigned short listId, const QString& listName);
-    void fetchTasksIds(const unsigned short projectId, const unsigned short listId, const std::vector<std::pair<unsigned short, const TaskType&>> tasksIds);
+	void fetchListName(const unsigned short listId, const QString& listName);
+	void fetchTasksIds(const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>>& tasksIds);
 
-	void onGetTaskName(const unsigned short taskId);
-	void onSendTaskName(const unsigned short listId, const unsigned short taskId, const QString& taskName);
+//	void onGetTaskName(const unsigned short taskId);
+//	void onSendTaskName(const unsigned short listId, const unsigned short taskId, const QString& taskName);
 	//	void addTask();
 };
 

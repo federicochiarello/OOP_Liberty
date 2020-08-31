@@ -57,7 +57,11 @@ AbsTask *TaskContainer::convertToContainer() const { return nullptr; }
 AbsTask *TaskContainer::convertToPriority() const {
     TaskPriorityContainer* t = new TaskPriorityContainer(getLabel(),getDesc());
     t->addChildList(getChilds());
-    return t;
+	return t;
+}
+
+TaskType TaskContainer::getType() const {
+	return TASK_CONTAINER;
 }
 
 std::vector<AbsTask *> TaskContainer::getChilds() const {

@@ -31,5 +31,9 @@ AbsTask *Task::convertToContainer() const {
 }
 
 AbsTask *Task::convertToPriority() const {
-    return new TaskPriority(getLabel(),getDesc());
+	return new TaskPriority(getLabel(),getDesc());
+}
+
+TaskType Task::getType() const {
+	return TASK;
 }

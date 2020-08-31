@@ -68,20 +68,20 @@ void TasksList::addTask() {
 	//	//dynamic_cast<TaskPreview*>(widget()->layout()->itemAt(widget()->layout()->count()))->setFocus();
 }
 
-void TasksList::addTask(const std::pair<unsigned short, const TaskType&> taskId) {
+void TasksList::addTask(const std::pair<unsigned short, TaskType>& taskId) {
 	TaskPreview* task;
 	switch (taskId.second) {
 		case TASK:
 			task = new TaskPreview(taskId.first, _id, _projectId, _controller, this);
 			break;
 		case TASK_CONTAINER:
-			task = new TaskPreview(taskId.first, _id, _projectId, _controller, this);
+			task = new TaskContainerPreview(taskId.first, _id, _projectId, _controller, this);
 			break;
 		case TASK_PRIORITY:
-			task = new TaskPreview(taskId.first, _id, _projectId, _controller, this);
+			task = new TaskPriorityPreview(taskId.first, _id, _projectId, _controller, this);
 			break;
 		case TASK_PRIORITY_CONTAINER:
-			task = new TaskPreview(taskId.first, _id, _projectId, _controller, this);
+			task = new TaskPriorityContainerPreview(taskId.first, _id, _projectId, _controller, this);
 			break;
 	}
 	addWidget(task);

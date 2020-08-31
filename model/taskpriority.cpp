@@ -42,6 +42,10 @@ AbsTask *TaskPriority::convertToContainer() const {
 
 AbsTask *TaskPriority::convertToPriority() const { return nullptr; }
 
+TaskType TaskPriority::getType() const {
+	return TASK_PRIORITY;
+}
+
 QDateTime TaskPriority::getPriority() const {
     return m_priority;
 }

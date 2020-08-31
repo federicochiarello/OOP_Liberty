@@ -13,6 +13,8 @@
 #include <QFile>
 #include <QJsonDocument>
 
+#include <QDebug>
+
 class Model {
 private:
 //  std::string                         m_basePath;
@@ -27,7 +29,7 @@ public:
 	Model();
     ~Model();
 
-    void                createNewProject(const std::string& p_name);
+	void                createNewProject(const std::string& p_name =std::string());
     void                setActiveProject(const unsigned short idProj);
     void                closeProject(const unsigned short idProj);
 
@@ -41,8 +43,9 @@ public:
 
     std::vector<unsigned short> getLists(const unsigned short projectId) const;
 	QString				getListName(const unsigned short projectId, const unsigned short listId) const;
-	QStringList         getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
-    std::string         getTaskName(const unsigned short idList, const unsigned short idTask) const;
+	QStringList         getTaskInfo(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const;
+	std::string         getTaskName(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const;
+	std::vector<std::pair<unsigned short, TaskType>> getTasksIds(const unsigned short projectId, const unsigned short listId) const;
     QDateTime           getTaskPriority(const unsigned short idList, const unsigned short idTask) const;
 
     void                aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info);
@@ -56,7 +59,7 @@ public:
 	void	load(const QString& filename);
 	void	save(const unsigned short projectId) const;
 
-	std::pair<unsigned short, QString> getProjectInfo(const unsigned short projectId =0);
+	std::pair<unsigned short, std::string> getProjectInfo(const unsigned short projectId =0);
 	// se projectId =0 allora si richiedono le info di activeProject
 
 };

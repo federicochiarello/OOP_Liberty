@@ -1,20 +1,20 @@
 #include "taskwidget.h"
 
-TaskWidget::TaskWidget(QWidget* parent) :
-	QWidget(parent),
-	_layout(new QVBoxLayout()),
-	_name(new QLineEdit(this)),
-	_desc(new TextHolder(this)) {
-	setup();
-}
+//TaskWidget::TaskWidget(QWidget* parent) :
+//	QWidget(parent),
+//	_layout(new QVBoxLayout()),
+//	_name(new QLineEdit(this)),
+//	_desc(new TextHolder(this)) {
+//	setup();
+//}
 
-TaskWidget::TaskWidget(const QString& name, const QString& desc, QWidget* parent) :
-	QWidget(parent),
-	_layout(new QVBoxLayout()),
-	_name(new QLineEdit(name, this)),
-	_desc(new TextHolder(desc, this)) {
-	setup();
-}
+//TaskWidget::TaskWidget(const QString& name, const QString& desc, QWidget* parent) :
+//	QWidget(parent),
+//	_layout(new QVBoxLayout()),
+//	_name(new QLineEdit(name, this)),
+//	_desc(new TextHolder(desc, this)) {
+//	setup();
+//}
 
 void TaskWidget::setup() {
 	//QTextEdit* name = new TextHolder(tr("Inserire il nome del task"), this);
@@ -61,4 +61,30 @@ void TaskWidget::setup() {
 	_layout->addWidget(_desc);
 	setLayout(_layout);
 	setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
+}
+
+TaskWidget::TaskWidget(const unsigned short id, const unsigned short listId, const unsigned short projectId, const Controller *controller, const QStringList& taskInfo, QWidget *parent) :
+	QWidget(parent),
+	_id(id),
+	_listId(listId),
+	_projectId(projectId),
+	_controller(controller),
+	_layout(new QVBoxLayout()),
+	_name(new QLineEdit((taskInfo.size()>1?taskInfo[1]:""), this)),
+	_desc(new TextHolder((taskInfo.size()>2?taskInfo[2]:""), this)) {
+
+	setup();
+}
+
+TaskWidget::TaskWidget(const unsigned short id, const unsigned short listId, const unsigned short projectId, const Controller *controller, const QString &taskName, QWidget *parent) :
+	QWidget(parent),
+	_id(id),
+	_listId(listId),
+	_projectId(projectId),
+	_controller(controller),
+	_layout(new QVBoxLayout()),
+	_name(new QLineEdit(taskName, this)),
+	_desc(new TextHolder(this)) {
+
+	setup();
 }

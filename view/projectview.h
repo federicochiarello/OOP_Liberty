@@ -16,22 +16,28 @@
 
 #include "taskslistwidget.h"
 
+#include <QDebug>
+
 class ProjectView : public QWidget {
 	Q_OBJECT
 
 	const unsigned short _id;
-	std::vector<QWidget*> _lists;
+	std::vector<TasksListWidget*> _lists;
 	const Controller* _controller;
 
 	QVBoxLayout* _mainLayout;
 	QHBoxLayout* _centralLayout;
 
+	QLineEdit* _projectName;
+	QPushButton* _buttonAddList;
+
 	void connects();
-	void setup(std::string name = std::string());
+	void setup();
 
 public:
-	explicit ProjectView(QWidget *parent = nullptr);
-    explicit ProjectView(const std::pair<unsigned short, const QString&>& projectInfo, const Controller* controller, QWidget* parent =nullptr);
+//	explicit ProjectView(QWidget *parent = nullptr);
+//	ProjectView(const unsigned short id, const Controller* controller, QWidget* parent);
+	ProjectView(const std::pair<unsigned short, QString>& projectInfo, const Controller* controller, QWidget* parent =nullptr);
 
 	unsigned short getId() const;
 
@@ -58,15 +64,15 @@ private slots:
 
 public slots:
 
-    void fetchListsIds(const unsigned short projectId, const std::vector<unsigned short> listsIds);
+	void fetchListsIds(const unsigned short projectId, std::vector<unsigned short> listsIds);
 
 	void addList(std::string listName =std::string());
 //	void onGetListName(const unsigned short listId);
 //	void fetchListName(const unsigned short projectId, const unsigned short listId, const QString& listName);
 //	void onGetTasksIds(const unsigned short listId);
 //	void onSendTasksIds(const unsigned short projectId, const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>> tasksIds);
-	void onGetTaskName(const unsigned short listId, const unsigned short taskId);
-	void onSentTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const QString& taskName);
+//	void onGetTaskName(const unsigned short listId, const unsigned short taskId);
+//	void onSentTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const QString& taskName);
 };
 
 #endif // PROJECTVIEW_H

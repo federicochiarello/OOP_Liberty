@@ -15,7 +15,7 @@ Model::~Model() {
 
 void Model::createNewProject(const std::string& p_name) {    
     Project* p = new Project(p_name);
-    m_projects.insert(std::pair<unsigned short,Project*>(p->getId(),p));
+	m_projects.insert(std::pair<unsigned short, Project*>(p->getId(),p));
     m_activeProject = p;
 }
 
@@ -69,12 +69,16 @@ std::vector<unsigned short> Model::getLists(const unsigned short projectId) cons
 	return m_projects.at(projectId)->getLists();
 }
 
-QStringList Model::getTaskInfo(const unsigned short idList, const unsigned short idTask) const {
-    return m_activeProject->getTaskInfo(idList,idTask);
+QStringList Model::getTaskInfo(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const {
+	return m_projects.at(projectId)->getTaskInfo(idList,idTask);
 }
 
-std::string Model::getTaskName(const unsigned short idList, const unsigned short idTask) const {
-    return m_activeProject->getTaskName(idList,idTask);
+std::string Model::getTaskName(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const {
+	return m_projects.at(projectId)->getTaskName(idList,idTask);
+}
+
+std::vector<std::pair<unsigned short, TaskType> > Model::getTasksIds(const unsigned short projectId, const unsigned short listId) const {
+	return m_projects.at(projectId)->getTasksIds(listId);
 }
 
 QDateTime Model::getTaskPriority(const unsigned short idList, const unsigned short idTask) const {
@@ -102,9 +106,11 @@ void Model::dragAndDrop(const unsigned short LPartenza, const unsigned short LAr
 }
 
 void Model::load(const QString& filename) {
+	qDebug() << filename;
 	QFile file(filename);
 	if (file.open(QIODevice::ReadOnly)){
 		QJsonDocument document = QJsonDocument::fromJson(file.readAll());
+		qDebug() << "File opened";
 		if (document.isObject()) {
 			Project* tmp = new Project(document.object());
 			m_projects.insert(std::pair<unsigned short,Project*>(tmp->getId(), tmp));
@@ -122,9 +128,9 @@ void Model::save(const unsigned short projectId) const {
 	file.close();
 }
 
-std::pair<unsigned short, QString> Model::getProjectInfo(const unsigned short projectId) {
+std::pair<unsigned short, std::string> Model::getProjectInfo(const unsigned short projectId) {
 
 	Project* project = (projectId ? m_projects.at(projectId) : m_activeProject);
 
-	return std::pair<unsigned short, QString>(project->getId(), QString::fromStdString(project->getName()));
+	return std::pair<unsigned short, std::string>(project->getId(), project->getName());
 }

@@ -16,13 +16,15 @@
 #include "projectview.h"
 #include "controller/controller.h"
 
+#include <QDebug>
+
 class View : public QMainWindow {
 	Q_OBJECT
 
-	Controller* _controller;
+	const Controller* _controller;
 	QVBoxLayout* _windowLayout;
 	QHBoxLayout* _mainLayout;
-	QTabWidget* _projects;
+	QTabWidget* _centralWidget;
 
 	void setup();
 	void connects();
@@ -30,10 +32,9 @@ class View : public QMainWindow {
 
 public:
 
-	explicit View(Controller* controller =nullptr, QWidget* parent =nullptr);
+	explicit View(const Controller* controller =nullptr, QWidget* parent =nullptr);
 
 	void addMainLayout();
-	void addList();
 	void addMenu();
 	void addToolBar();
 	void addStatusBar();
@@ -41,12 +42,14 @@ public:
 signals:
 
 	void appStart();
+	void getStartingWidget();
+	void newProject();
 //	void openProject(const QString); eliminato
 
 public slots:
 
 	void fetchExistingProjects(const QStringList&);
-    void fetchProjectInfo(const std::pair<unsigned short, const QString&>& projectInfo);
+	void fetchProjectInfo(std::pair<unsigned short, QString> projectInfo);
 };
 
 #endif // VIEW_H

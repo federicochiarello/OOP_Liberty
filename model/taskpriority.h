@@ -18,6 +18,7 @@ public:
     QStringList                     getTaskInfo() const override;
     AbsTask*                        convertToContainer() const override;
     AbsTask*                        convertToPriority() const override;
+	TaskType getType() const override;
 
     QDateTime                       getPriority() const;
 

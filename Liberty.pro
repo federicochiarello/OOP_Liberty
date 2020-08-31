@@ -27,9 +27,12 @@ SOURCES += \
         controller/controller.cpp \
         view/projectpreview.cpp \
         view/projectview.cpp \
+        view/taskcontainerpreview.cpp \
         view/taskcontainerwidget.cpp \
         view/taskpreview.cpp \
+        view/taskprioritycontainerpreview.cpp \
         view/taskprioritycontainerwidget.cpp \
+        view/taskprioritypreview.cpp \
         view/taskprioritywidget.cpp \
         view/taskslist.cpp \
         view/taskslistwidget.cpp \
@@ -56,9 +59,12 @@ HEADERS += \
     controller/controller.h \
     view/projectpreview.h \
     view/projectview.h \
+    view/taskcontainerpreview.h \
     view/taskcontainerwidget.h \
     view/taskpreview.h \
+    view/taskprioritycontainerpreview.h \
     view/taskprioritycontainerwidget.h \
+    view/taskprioritypreview.h \
     view/taskprioritywidget.h \
     view/taskslist.h \
     view/taskslistwidget.h \

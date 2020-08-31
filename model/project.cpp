@@ -7,7 +7,7 @@ Project::Project(std::string p_name) :
 	m_name(p_name),
     m_lists(std::map<unsigned short, List*>()),
     m_listsOrder(std::vector<unsigned short>()),
-	_modified(false) {}
+	_modified(true) {}
 
 Project::Project(const QJsonObject& object) :
 	_id(++nextID),
@@ -93,14 +93,20 @@ void Project::setListName(const unsigned short idList, const std::string& p_name
 }
 
 void Project::changeListOrder(const unsigned short listToMove, const unsigned short Posizione) {
-    if(!Posizione)
+	if(!Posizione) {
         m_listsOrder.insert(m_listsOrder.begin(),listToMove);
-    else
-        for(auto i = m_listsOrder.begin(); i < m_listsOrder.end(); i++)
+	} else {
+		for(auto i = m_listsOrder.begin(); i < m_listsOrder.end(); i++) {
             if (*i == Posizione) {
                 m_listsOrder.insert(i,listToMove);
                 i = m_listsOrder.end();
             }
+		}
+	}
+}
+
+std::vector<std::pair<unsigned short, TaskType> > Project::getTasksIds(const unsigned short listId) const {
+	return m_lists.at(listId)->getTasksIds();
 }
 
 QStringList Project::getTaskInfo(const unsigned short idList, const unsigned short idTask) const {

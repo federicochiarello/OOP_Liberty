@@ -88,10 +88,10 @@ void Controller::convertToCont(const unsigned short idList, const unsigned short
     //_view->aggId(_model->convertToContainer(idList,idTask));
 }
 
-void Controller::getTaskName(const unsigned short idList, const unsigned short idTask) const {
-    // ritorna un std::string
-    _model->getTaskName(idList,idTask);
-}
+//void Controller::getTaskName(const unsigned short idList, const unsigned short idTask) const {
+//    // ritorna un std::string
+//    _model->getTaskName(idList,idTask);
+//}
 
 void Controller::getTaskPriority(const unsigned short idList, const unsigned short idTask) const {
     // ritorna un QDateTime
@@ -124,7 +124,9 @@ void Controller::getExistingProjects() {
 
 void Controller::onOpenProject(const QString& path) {
 	_model->load(path);
-	emit sendProjectInfo(_model->getProjectInfo());
+	qDebug() << "Model loaded";
+	auto projectInfo = _model->getProjectInfo();
+	emit sendProjectInfo(std::pair<unsigned short, QString>(projectInfo.first, QString::fromStdString(projectInfo.second)));
 }
 
 void Controller::saveProject(const unsigned short idProject) {
@@ -137,7 +139,25 @@ void Controller::onGetLists(const unsigned short projectId) {
 
 void Controller::onGetListName(const unsigned short projectId, const unsigned short listId) {
 
-	emit sendListName(projectId, listId, _model->getListName(projectId, listId));
+	emit sendListName(listId, _model->getListName(projectId, listId));
+}
+
+void Controller::onGetTasksIds(const unsigned short projectId, const unsigned short listId) {
+	emit sendTasksIds(listId, _model->getTasksIds(projectId, listId));
+}
+
+void Controller::onGetTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) {
+	emit sendTaskName(taskId, QString::fromStdString(_model->getTaskName(projectId, listId, taskId)));
+}
+
+void Controller::onOpenTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) {
+	_model->getTaskInfo(projectId, listId, taskId);
+}
+
+void Controller::onNewProject() {
+	_model->createNewProject();
+	auto projectInfo = _model->getProjectInfo();
+	emit sendProjectInfo(std::pair<unsigned short, QString>(projectInfo.first, QString::fromStdString(projectInfo.second)));
 }
 
 //Illegal characters for files " \ / : | < > * ?

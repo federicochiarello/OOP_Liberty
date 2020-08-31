@@ -26,8 +26,9 @@ class List {
     static unsigned short int               nextID;
 
 public:
-											explicit List(const std::string name =std::string());
-                                            explicit List(const unsigned short id, const std::string name =std::string());
+
+											explicit List(const std::string& name =std::string());
+											explicit List(const unsigned short id, const std::string& name =std::string());
                                             explicit List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<unsigned short,unsigned short>& idsMap);
                                             List(const List& p_list);
                                             ~List();
@@ -37,6 +38,7 @@ public:
     unsigned short                          getId() const;
     void                                    setName(const std::string& p_name);
 
+	std::vector<std::pair<unsigned short, TaskType>> getTasksIds() const;
     void                                    addTask(AbsTask* p_task);
     void                                    removeTask(const unsigned short idTask);
     void                                    updateTask(const unsigned short idTask, AbsTask* p_task);

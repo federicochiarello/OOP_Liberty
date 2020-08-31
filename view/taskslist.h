@@ -13,8 +13,10 @@
 
 #include "controller/controller.h"
 
-#include "taskwidget.h"
 #include "taskpreview.h"
+#include "taskcontainerpreview.h"
+#include "taskprioritypreview.h"
+#include "taskprioritycontainerpreview.h"
 
 class TasksList : public QScrollArea {
 	Q_OBJECT
@@ -45,10 +47,10 @@ signals:
 
 public slots:
 
-	void fetchTaskName(const unsigned short taskId, const QString& taskName);
+//	void fetchTaskName(const unsigned short taskId, const QString& taskName);
 
 	void addTask();
-    void addTask(const std::pair<unsigned short, const TaskType&> taskId);
+	void addTask(const std::pair<unsigned short, TaskType>& taskId);
 
 };
 

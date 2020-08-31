@@ -4,21 +4,19 @@ void TasksListWidget::setup() {
 	// setMinimumSize()
 	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
-	_title->setFocus();
+//	_title->setFocus();
 
-	QPushButton* button = new QPushButton(tr("Actions"), this);
-	QMenu* menu = new QMenu(button);
+	QMenu* menu = new QMenu(_buttonActions);
 	QAction* add = new QAction(tr("Add Task"), menu);
 
 	menu->addAction(add);
-	button->setMenu(menu);
+	_buttonActions->setMenu(menu);
 
 	connect(add, SIGNAL(triggered()), _list, SLOT(addTask()));
 
-	QHBoxLayout* header = new QHBoxLayout();
-	header->setAlignment(Qt::AlignVCenter);
-	header->addWidget(_title);
-	header->addWidget(button);
+	_header->setAlignment(Qt::AlignVCenter);
+	_header->addWidget(_title);
+	_header->addWidget(_buttonActions);
 
 	/*
 	_list->setDragEnabled(true);
@@ -31,7 +29,7 @@ void TasksListWidget::setup() {
 
 
 	_layout->setAlignment(Qt::AlignLeft);
-	_layout->addLayout(header);
+	_layout->addLayout(_header);
 	_layout->addWidget(_list);
 	setLayout(_layout);
 }
@@ -40,11 +38,14 @@ void TasksListWidget::connects() {
 	connect(this, SIGNAL(getListName(const unsigned short, const unsigned short)),
 			_controller, SLOT(onGetListName(const unsigned short, const unsigned short)));
 
-	connect(_controller, SIGNAL(sendListName(const unsigned short, const unsigned short, const QString&)),
-			this, SLOT(fetchListName(const unsigned short, const unsigned short, const QString&)));
+	connect(_controller, SIGNAL(sendListName(const unsigned short, const QString&)),
+			this, SLOT(fetchListName(const unsigned short, const QString&)));
 
-	connect(_controller, SIGNAL(sendTasksIds(const unsigned short, const unsigned short, const std::vector<std::pair<const unsigned short, const TaskType&>>);),
-			this, SLOT(fetchTasksIds(const unsigned short, const unsigned short, const std::vector<std::pair<const unsigned short, const TaskType&>>)));
+	connect(this, SIGNAL(getTasksIds(const unsigned short, const unsigned short)),
+			_controller, SLOT(onGetTasksIds(const unsigned short, const unsigned short)));
+
+	connect(_controller, SIGNAL(sendTasksIds(const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>&)),
+			this, SLOT(fetchTasksIds(const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>&)));
 }
 
 //TasksListWidget::TasksListWidget(QString listName, QWidget* parent) :
@@ -61,13 +62,17 @@ TasksListWidget::TasksListWidget(const unsigned short listId, const unsigned sho
 	_id(listId),
 	_projectId(projectId),
 	_controller(controller),
+	_layout(new QVBoxLayout()),
+	_header(new QHBoxLayout()),
 	_title(new QLineEdit(this)),
+	_buttonActions(new QPushButton("Actions", this)),
 	_list(new TasksList(_id, _projectId, controller, this)) {
 
 	setup();
 	connects();
 
 	emit getListName(_projectId, _id);
+	emit getTasksIds(_projectId, _id);
 }
 
 
@@ -87,14 +92,14 @@ TasksListWidget::~TasksListWidget() {}
 
 unsigned short TasksListWidget::getId() const { return _id; }
 
-void TasksListWidget::fetchListName(const unsigned short projectId, const unsigned short listId, const QString &listName) {
+void TasksListWidget::fetchListName(const unsigned short listId, const QString &listName) {
 
 	if (listId == _id) {
 		_title->setText(listName);
 	}
 }
 
-void TasksListWidget::fetchTasksIds(const unsigned short projectId, const unsigned short listId, const std::vector<std::pair<unsigned short, const TaskType&> > tasksIds) {
+void TasksListWidget::fetchTasksIds(const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>>& tasksIds) {
 	if (listId == _id) {
 		for (auto taskId: tasksIds) {
 			_list->addTask(taskId);
