@@ -81,7 +81,7 @@ void View::fetchExistingProjects(const QStringList& projects) {
 	QVBoxLayout* startingWidgetLayout = new QVBoxLayout();
 
 	for (int i=1; i<projects.size(); i++) {
-		ProjectPreview* tmp = new ProjectPreview(projects.at(i), projects.at(0), _controller, startingWidget);
+		ProjectPreview* tmp = new ProjectPreview(_controller, projects.at(i), projects.at(0), startingWidget);
 		startingWidgetLayout->addWidget(tmp);
 //		connect(tmp, SIGNAL(openProject(const QString)), this, SIGNAL(openProject(const QString))); eliminato
 	}

@@ -30,7 +30,7 @@ unsigned short ProjectView::getId() const { return _id; }
 void ProjectView::connects() {
 
 	connect(_projectName, SIGNAL(textChanged(const QString&)),
-			this, SIGNAL(projectNameChanged(const QString&)));
+			this, SLOT(onProjectNameChanged(const QString&)));
 
 	connect(this, SIGNAL(projectNameChanged(const unsigned short, const QString&)),
 			_controller, SLOT(onProjectNameChanged(const unsigned short, const QString&)));
@@ -93,6 +93,10 @@ void ProjectView::fetchListId(const unsigned short projectId, const unsigned sho
 		_centralLayout->addWidget(newList);
 	}
 	_centralLayout->addWidget(_buttonAddList);
+}
+
+void ProjectView::onProjectNameChanged(const QString& projectName) {
+	emit projectNameChanged(_id, projectName);
 }
 
 void ProjectView::onSetProjectName(const unsigned short projectId, const QString& projectName) {

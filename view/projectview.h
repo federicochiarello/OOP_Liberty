@@ -69,6 +69,7 @@ public slots:
 	void fetchListsIds(const unsigned short projectId, std::vector<unsigned short> listsIds);
 	void onAddNewList();
 	void fetchListId(const unsigned short projectId, const unsigned short listId);
+	void onProjectNameChanged(const QString& projectName);
 	void onSetProjectName(const unsigned short projectId, const QString& projectName);
 
 //	void onGetListName(const unsigned short listId);

@@ -13,16 +13,19 @@
 class ProjectPreview : public QWidget {
 	Q_OBJECT
 
-	const QString _name;
-	const QString _path;
 	const Controller* _controller;
+
+	QVBoxLayout* _layout;
+
+	QLabel* _name;
+	QLabel* _path;
 
 	void connects();
 
 public:
 	explicit ProjectPreview(QWidget* parent = nullptr);
 
-	ProjectPreview(const QString& name, const QString& path, const Controller* controller, QWidget* parent =nullptr);
+	ProjectPreview(const Controller* controller, const QString& name, const QString& path, QWidget* parent =nullptr);
 
 protected:
 	virtual void mouseDoubleClickEvent(QMouseEvent*) override;

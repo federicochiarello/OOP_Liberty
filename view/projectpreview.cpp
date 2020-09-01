@@ -10,23 +10,21 @@ ProjectPreview::ProjectPreview(QWidget *parent) : QWidget(parent) {
 	//shortcut->setAutoRepeat(false);
 }
 
-ProjectPreview::ProjectPreview(const QString& name, const QString& pathToDir, const Controller* controller, QWidget *parent) :
-	_name(name),
-	_path(pathToDir+"/"+name),
-	_controller(controller) {
+ProjectPreview::ProjectPreview(const Controller* controller, const QString& name, const QString& pathToDir, QWidget *parent) :
+	QWidget(parent),
+	_controller(controller),
+	_layout(new QVBoxLayout(this)),
+	_name(new QLabel(name, this)),
+	_path(new QLabel(pathToDir+"/"+name, this)) {
 
 	connects();
-	QVBoxLayout* layout = new QVBoxLayout();
 
-	if (layout) {
-		layout->addWidget(new QLabel(_name, this));
-		layout->addWidget(new QLabel(_path, this));
-	}
-	setLayout(layout);
+	_layout->addWidget(_name);
+	_layout->addWidget(_path);
 }
 
 void ProjectPreview::mouseDoubleClickEvent(QMouseEvent *) {
-	emit openProject(_path);
+	emit openProject(_path->text());
 }
 
 //void ProjectPreview::keyPressEvent(QKeyEvent* event) {
