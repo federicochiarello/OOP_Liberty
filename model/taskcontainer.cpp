@@ -7,7 +7,9 @@ TaskContainer::TaskContainer(const std::string p_label, const std::string p_desc
 
 TaskContainer::TaskContainer(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap) :
 	AbsTask(object, idsMap),
-	m_child(std::vector<AbsTask*>()) {}
+	m_child(std::vector<AbsTask*>()) {
+	qDebug() << "TaskContainer creato";
+}
 
 TaskContainer::TaskContainer(const TaskContainer & p_task) :
 	AbsTask(p_task),

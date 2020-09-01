@@ -15,6 +15,8 @@
 #include "taskprioritycontainer.h"
 #include "list.h"
 
+#include <QDebug>
+
 class Project {
 
     const unsigned short                _id;

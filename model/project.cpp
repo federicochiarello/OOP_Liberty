@@ -16,6 +16,8 @@ Project::Project(const QJsonObject& object) :
     m_listsOrder(std::vector<unsigned short>()),
 	_modified(false) {
 
+	qDebug() << "Progetto creato";
+
 	std::vector<AbsTask*> tasks;
     std::map<unsigned short,unsigned short> idsMap;
     std::map<unsigned short, std::vector<unsigned short>> childsMap;
