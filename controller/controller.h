@@ -25,6 +25,8 @@ public:
 	explicit Controller(Model* m, QObject *parent = nullptr);
 
 	void setView(View* view);
+    QString             stuffing(const QString&);
+    QString             deStuffing(const QString&);
 
 signals:
 
@@ -61,25 +63,25 @@ public slots:
 	void		onNewProject(const QString& projectName);
 	void        createNewProject(const std::string& = std::string()); // forse da sostituire a onNewProject(), da decidere se avere finestra per il nome e se averla in controller o in view (probabilmente meglio)
 
-    void        setActiveProject(const unsigned short indP);
-    void        closeProject(const unsigned short indP);
+    void        setActiveProject(const unsigned short projectId);
+    void        closeProject(const unsigned short projectId);
 
-    void        addNewTask(const unsigned short idList);
-    void        addTaskChild(const unsigned short idList, const unsigned short idTask);
+    void        addNewTask(const unsigned short projectId, const unsigned short idList);
+    void        addTaskChild(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
 
 //    void        setProjectName(const std::string& p_name);
 //    void        setListName(const unsigned short idList, const std::string& p_name);
-    void        changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
+    void        changeListOrder(const unsigned short projectId, const unsigned short listToMove, const unsigned short Posizione);
 
-    void        convertToPrio(const unsigned short idList, const unsigned short idTask);
-    void        convertToCont(const unsigned short idList, const unsigned short idTask);
+    void        convertToPrio(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
+    void        convertToCont(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
 
 //    void        getTaskName(const unsigned short idList, const unsigned short idTask) const;
-    void        getTaskPriority(const unsigned short idList, const unsigned short idTask) const;
-    void        getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
-    void        aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList);
+    void        getTaskPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const;
+    void        getTaskInfo(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const;
+    void        aggiornaTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask, const QStringList);
 
-    void        dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione =0);
+    void        dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione =0);
 
 	void		saveProject(const unsigned short idProject);
 

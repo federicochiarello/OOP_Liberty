@@ -33,7 +33,77 @@ Controller::Controller(Model* m, QObject *parent) : QObject(parent), _view(nullp
 }
 
 void Controller::setView(View* view) {
-	_view = view;
+    _view = view;
+}
+
+QString Controller::stuffing(const QString & p_string) {
+    QString backSlash, stuffed;
+    int j = 0;
+    for(int i = 0; i < p_string.size(); i++) {
+        if(p_string[i] == QChar('\\')) {
+            backSlash.insert(j,QString("\\\\"));
+            j++;
+        } else
+            backSlash[j] = p_string[i];
+        j++;
+    }
+    j = 0;
+    for(int i = 0; i < backSlash.size(); i++) {
+        if(backSlash[i] == QChar('"')) {
+            stuffed.insert(j,QString("\\\""));
+            j++;
+        } else if(backSlash[i] == QChar('\n')) {
+            stuffed.insert(j,QString("\\n"));
+            j++;
+        } else if(backSlash[i] == QChar('\t')) {
+            stuffed.insert(j,QString("\\t"));
+            j++;
+        } else if(backSlash[i] == QChar('\b')) {
+            stuffed.insert(j,QString("\\b"));
+            j++;
+        } else if(backSlash[i] == QChar('\r')) {
+            stuffed.insert(j,QString("\\r"));
+            j++;
+        } else if(backSlash[i] == QChar('\f')) {
+            stuffed.insert(j,QString("\\f"));
+            j++;
+        } else
+            stuffed[j] = backSlash[i];
+        j++;
+    }
+    return stuffed;
+}
+
+QString Controller::deStuffing(const QString & p_string) {
+    QString deStuffed;
+    for(int i = 0; i < p_string.size(); i++)
+        if(p_string[i] == QChar('\\')) {
+            if(p_string[i+1] == QChar('\\')) {
+                deStuffed.push_back('\\');
+                i++;
+            } else if(p_string[i+1] == QChar('"')) {
+                deStuffed.push_back('"');
+                i++;
+            } else if(p_string[i+1] == QChar('n')) {
+                deStuffed.push_back('\n');
+                i++;
+            } else if(p_string[i+1] == QChar('t')) {
+                deStuffed.push_back('\t');
+                i++;
+            } else if(p_string[i+1] == QChar('b')) {
+                deStuffed.push_back('\b');
+                i++;
+            } else if(p_string[i+1] == QChar('r')) {
+                deStuffed.push_back('\r');
+                i++;
+            } else if(p_string[i+1] == QChar('f')) {
+                deStuffed.push_back('\f');
+                i++;
+            } else
+                deStuffed.push_back(p_string[i]);
+        } else
+            deStuffed.push_back(p_string[i]);
+    return deStuffed;
 }
 
 void Controller::onAppStart() {
@@ -44,12 +114,12 @@ void Controller::createNewProject(const std::string& p_name) {
     _model->createNewProject(p_name);
 }
 
-void Controller::setActiveProject(const unsigned short indP) {
-	 _model->setActiveProject(indP);
+void Controller::setActiveProject(const unsigned short projectId) {
+     _model->setActiveProject(projectId);
 }
 
-void Controller::closeProject(const unsigned short indP) {
-    _model->closeProject(indP);
+void Controller::closeProject(const unsigned short projectId) {
+    _model->closeProject(projectId);
 }
 
 //void Controller::addNewList() {
@@ -57,14 +127,14 @@ void Controller::closeProject(const unsigned short indP) {
 //    //_view->getLastListId(_model->addNewList());
 //}
 
-void Controller::addNewTask(const unsigned short idList) {
-    _model->addNewTask(idList);
+void Controller::addNewTask(const unsigned short projectId, const unsigned short idList) {
+    _model->addNewTask(projectId,idList);
     //_view->getLastTaskId(List,_model->addNewTask(idList));
 }
 
-void Controller::addTaskChild(const unsigned short idList, const unsigned short idTask) {
-    unsigned short tParent = _model->verifyContainer(idList,idTask);
-    unsigned short tChild = _model->addNewTaskChild(idList,tParent);
+void Controller::addTaskChild(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
+    unsigned short tParent = _model->verifyContainer(projectId,idList,idTask);
+    unsigned short tChild = _model->addNewTaskChild(projectId,idList,tParent);
 
     // necessario settare nella vista sia l'id del nuovo task (tChild) che l'id del task padre che potrebbe
     // essere stato cambiato se non era un TaskContainer (tParent)
@@ -80,21 +150,21 @@ void Controller::addTaskChild(const unsigned short idList, const unsigned short 
 //    _model->setListName(idList,p_name);
 //}
 
-void Controller::changeListOrder(const unsigned short listToMove, const unsigned short Posizione) {
-    _model->changeListOrder(listToMove,Posizione);
+void Controller::changeListOrder(const unsigned short projectId, const unsigned short listToMove, const unsigned short Posizione) {
+    _model->changeListOrder(projectId,listToMove,Posizione);
 }
 
-void Controller::convertToPrio(const unsigned short idList, const unsigned short idTask) {
+void Controller::convertToPrio(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
     // ritorna l'id del nuovo task "convertito"
     // se il task non necessitava della conversione ritorna 0
-    _model->convertToPriority(idList,idTask);
+    _model->convertToPriority(projectId,idList,idTask);
     //_view->aggId(_model->convertToPriority(idList,idTask));
 }
 
-void Controller::convertToCont(const unsigned short idList, const unsigned short idTask) {
+void Controller::convertToCont(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
     // ritorna l'id del nuovo task "convertito"
     // se il task non necessitava della conversione ritorna 0
-    _model->convertToContainer(idList,idTask);
+    _model->convertToContainer(projectId,idList,idTask);
     //_view->aggId(_model->convertToContainer(idList,idTask));
 }
 
@@ -103,21 +173,21 @@ void Controller::convertToCont(const unsigned short idList, const unsigned short
 //    _model->getTaskName(idList,idTask);
 //}
 
-void Controller::getTaskPriority(const unsigned short idList, const unsigned short idTask) const {
+void Controller::getTaskPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const {
     // ritorna un QDateTime
-    _model->getTaskPriority(idList,idTask);
+    _model->getTaskPriority(projectId,idList,idTask);
 }
 
-void Controller::getTaskInfo(const unsigned short idList, const unsigned short idTask) const {
-    //_view->visualizzaTask(_model->getTaskInfo(idList,idTask));
+void Controller::getTaskInfo(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const {
+    //_view->visualizzaTask(_model->getTaskInfo(projectId,idList,idTask));
 }
 
-void Controller::aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info) {
-    _model->aggiornaTask(idList,idTask,info);
+void Controller::aggiornaTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask, const QStringList info) {
+    _model->aggiornaTask(projectId,idList,idTask,info);
 }
 
-void Controller::dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione){
-    _model->dragAndDrop(LPartenza,LArrivo,idTask,Posizione);
+void Controller::dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione){
+    _model->dragAndDrop(projectId,LPartenza,LArrivo,idTask,Posizione);
     //_view->aggiorna vista????????????????????
 }
 

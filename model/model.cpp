@@ -41,12 +41,12 @@ unsigned short Model::addNewList(const unsigned short projectId) {
 	return m_projects.at(projectId)->addNewList();
 }
 
-unsigned short Model::addNewTask(const unsigned short idList) {
-    return m_activeProject->addNewTask(idList);
+unsigned short Model::addNewTask(const unsigned short projectId, const unsigned short idList) {
+    return m_projects.at(projectId)->addNewTask(idList);
 }
 
-unsigned short Model::addNewTaskChild(const unsigned short idList, const unsigned short idTask) {
-    return m_activeProject->addNewTask(idList,idTask);
+unsigned short Model::addNewTaskChild(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
+    return m_projects.at(projectId)->addNewTask(idList,idTask);
 }
 
 void Model::setProjectName(const unsigned short projectId, const std::string& p_name) {
@@ -61,8 +61,12 @@ void Model::setListName(const unsigned short projectId,const unsigned short idLi
 	m_projects.at(projectId)->setListName(idList,p_name);
 }
 
-void Model::changeListOrder(const unsigned short listToMove, const unsigned short Posizione) {
-	m_activeProject->changeListOrder(listToMove,Posizione);
+void Model::changeListOrder(const unsigned short projectId, const unsigned short listToMove, const unsigned short Posizione) {
+    m_projects.at(projectId)->changeListOrder(listToMove,Posizione);
+}
+
+std::string Model::getProjectName(const unsigned short projectId) const {
+    return m_projects.at(projectId)->getName();
 }
 
 std::vector<unsigned short> Model::getLists(const unsigned short projectId) const {
@@ -81,28 +85,28 @@ std::vector<std::pair<unsigned short, TaskType> > Model::getTasksIds(const unsig
 	return m_projects.at(projectId)->getTasksIds(listId);
 }
 
-QDateTime Model::getTaskPriority(const unsigned short idList, const unsigned short idTask) const {
-    return m_activeProject->getTaskPriority(idList,idTask);
+QDateTime Model::getTaskPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const {
+    return m_projects.at(projectId)->getTaskPriority(idList,idTask);
 }
 
-void Model::aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info) {
-    m_activeProject->aggiornaTask(idList,idTask,info);
+void Model::aggiornaTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask, const QStringList info) {
+    m_projects.at(projectId)->aggiornaTask(idList,idTask,info);
 }
 
-unsigned short Model::convertToPriority(const unsigned short idList, const unsigned short idTask) {
-    return m_activeProject->convertToPriority(idList,idTask);
+unsigned short Model::convertToPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
+    return m_projects.at(projectId)->convertToPriority(idList,idTask);
 }
 
-unsigned short Model::convertToContainer(const unsigned short idList, const unsigned short idTask) {
-    return m_activeProject->convertToContainer(idList,idTask);
+unsigned short Model::convertToContainer(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
+    return m_projects.at(projectId)->convertToContainer(idList,idTask);
 }
 
-unsigned short Model::verifyContainer(const unsigned short idList, const unsigned short idTask) {
-    return m_activeProject->verifyContainer(idList,idTask);
+unsigned short Model::verifyContainer(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
+    return m_projects.at(projectId)->verifyContainer(idList,idTask);
 }
 
-void Model::dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione) {
-	m_activeProject->dragAndDrop(LPartenza,LArrivo,idTask,Posizione);
+void Model::dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione) {
+    m_projects.at(projectId)->dragAndDrop(LPartenza,LArrivo,idTask,Posizione);
 }
 
 void Model::load(const QString& filename) {

@@ -34,27 +34,28 @@ public:
     void                closeProject(const unsigned short idProj);
 
 	unsigned short      addNewList(const unsigned short projectId);
-    unsigned short      addNewTask(const unsigned short idList);
-    unsigned short      addNewTaskChild(const unsigned short idList, const unsigned short idTask);
+    unsigned short      addNewTask(const unsigned short projectId, const unsigned short idList);
+    unsigned short      addNewTaskChild(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
 
 	void                setProjectName(const unsigned short, const std::string& p_name);
 	void                setListName(const unsigned short projectId, const unsigned short idList, const std::string& p_name);
-    void                changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
+    void                changeListOrder(const unsigned short projectId, const unsigned short listToMove, const unsigned short Posizione);
 
+    std::string         getProjectName(const unsigned short projectId) const;
     std::vector<unsigned short> getLists(const unsigned short projectId) const;
 	QString				getListName(const unsigned short projectId, const unsigned short listId) const;
 	QStringList         getTaskInfo(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const;
 	std::string         getTaskName(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const;
 	std::vector<std::pair<unsigned short, TaskType>> getTasksIds(const unsigned short projectId, const unsigned short listId) const;
-    QDateTime           getTaskPriority(const unsigned short idList, const unsigned short idTask) const;
+    QDateTime           getTaskPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const;
 
-    void                aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info);
+    void                aggiornaTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask, const QStringList info);
 
-    unsigned short      convertToPriority(const unsigned short idList, const unsigned short idTask);
-    unsigned short      convertToContainer(const unsigned short idList, const unsigned short idTask);
-    unsigned short      verifyContainer(const unsigned short idList, const unsigned short idTask);
+    unsigned short      convertToPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
+    unsigned short      convertToContainer(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
+    unsigned short      verifyContainer(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
 
-    void    dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione);
+    void    dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione);
 
 	void	load(const QString& filename);
 	void	save(const unsigned short projectId) const;
