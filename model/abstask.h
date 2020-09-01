@@ -11,6 +11,7 @@
 class List;
 
 class AbsTask {
+protected:
 
     const unsigned short				_id;
     std::string							m_label;
@@ -23,7 +24,6 @@ class AbsTask {
 
     QDateTime                           initEta(const QJsonValue& eta);
 
-protected:
 	static QString						dateTimeFormat;
 
 public:

@@ -13,7 +13,7 @@ protected:
 
 public:
 										explicit TaskContainer(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr);
-                                        explicit TaskContainer(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap);
+										explicit TaskContainer(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap, std::map<unsigned short, std::vector<unsigned short>>& childsMap);
                                         TaskContainer(const TaskContainer& p_task);
 
     TaskContainer*                      clone() const override;

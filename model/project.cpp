@@ -12,8 +12,8 @@ Project::Project(std::string p_name) :
 Project::Project(const QJsonObject& object) :
 	_id(++nextID),
 	m_name(object.value("projectName").toString().toStdString()),
-    m_lists(std::map<unsigned short, List*>()),
-    m_listsOrder(std::vector<unsigned short>()),
+	m_lists(std::map<unsigned short, List*>()),
+	m_listsOrder(std::vector<unsigned short>()),
 	_modified(false) {
 
 	qDebug() << "Progetto creato";
@@ -24,7 +24,7 @@ Project::Project(const QJsonObject& object) :
 
 	const QJsonArray listsArray = object.value("lists").toArray();
 	for (const QJsonValue list : listsArray) {
-		List* tmp = new List(list.toObject(), tasks, idsMap);
+		List* tmp = new List(list.toObject(), tasks, idsMap, childsMap);
         m_lists.insert(std::pair<unsigned short, List*>(tmp->getId(), tmp));
 		m_listsOrder.push_back(tmp->getId());
 	}

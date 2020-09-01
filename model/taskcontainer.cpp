@@ -5,9 +5,15 @@
 TaskContainer::TaskContainer(const std::string p_label, const std::string p_desc, List* p_list, AbsTask* p_parent) :
 	AbsTask(p_label,p_desc,p_list,p_parent) {}
 
-TaskContainer::TaskContainer(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap) :
+TaskContainer::TaskContainer(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap, std::map<unsigned short, std::vector<unsigned short>>& childsMap) :
 	AbsTask(object, idsMap),
 	m_child(std::vector<AbsTask*>()) {
+
+	std::vector<unsigned short> childsIds;
+	for (auto childId : object.value("tasksIds").toArray()) {
+		childsIds.push_back(childId.toInt());
+	}
+	childsMap.insert(std::pair<unsigned short, std::vector<unsigned short>>(_id, childsIds));
 	qDebug() << "TaskContainer creato";
 }
 

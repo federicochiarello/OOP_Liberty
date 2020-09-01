@@ -31,7 +31,7 @@ public:
 
 											explicit List(const std::string& name =std::string());
 											explicit List(const unsigned short id, const std::string& name =std::string());
-                                            explicit List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<unsigned short,unsigned short>& idsMap);
+											explicit List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<unsigned short,unsigned short>& idsMap, std::map<unsigned short, std::vector<unsigned short>>& childsMap);
                                             List(const List& p_list);
                                             ~List();
 

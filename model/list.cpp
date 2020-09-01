@@ -14,7 +14,7 @@ List::List(const std::string& p_name) :
 	m_tasks(std::map<unsigned short, AbsTask*>()),
 	m_tasksOrder(std::vector<unsigned short>()) {}
 
-List::List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<unsigned short,unsigned short>& idsMap) :
+List::List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<unsigned short,unsigned short>& idsMap, std::map<unsigned short, std::vector<unsigned short>>& childsMap) :
 	_id(++nextID),
 	m_name(object.value("listName").toString().toStdString()),
 	m_tasks(std::map<unsigned short, AbsTask*>()),
@@ -22,21 +22,23 @@ List::List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<uns
 
 	qDebug() << "Lista creata";
 
+	AbsTask* tmp = nullptr;
 	for (const QJsonValue task : object.value("tasks").toArray()) {
-		AbsTask* tmp = nullptr;
 		switch(task.toObject().value("taskType").toInt()) {
 			case 1:
 				tmp = new Task(task.toObject(), idsMap);
 				break;
 			case 2:
-				tmp = new TaskContainer(task.toObject(), idsMap);
+				tmp = new TaskContainer(task.toObject(), idsMap, childsMap);
 				break;
 			case 3:
 				tmp = new TaskPriority(task.toObject(), idsMap);
 				break;
 			case 4:
-				tmp = new TaskPriorityContainer(task.toObject(), idsMap);
+				tmp = new TaskPriorityContainer(task.toObject(), idsMap, childsMap);
 				break;
+			default:
+				tmp = nullptr;
 		}
 		if (tmp) {
             m_tasks.insert(std::pair<unsigned short, AbsTask*>(tmp->getId(), tmp));
