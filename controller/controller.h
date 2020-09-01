@@ -39,6 +39,7 @@ signals:
 	void projectNameValid();
 	void projectNameNotValid();
 	void setProjectName(const unsigned short projectId, const QString& projectName);
+	void setListName(const unsigned short listId, const QString& listName);
 
 public slots:
 
@@ -55,6 +56,7 @@ public slots:
 	void        onAddNewList(const unsigned short projectId);
 
 	void		onProjectNameChanged(const unsigned short projectId, const QString& newProjectName);
+	void		onListNameChanged(const unsigned short projectId, const unsigned short listId, const QString& newListName);
 
 	void		onNewProject(const QString& projectName);
 	void        createNewProject(const std::string& = std::string()); // forse da sostituire a onNewProject(), da decidere se avere finestra per il nome e se averla in controller o in view (probabilmente meglio)
@@ -66,7 +68,7 @@ public slots:
     void        addTaskChild(const unsigned short idList, const unsigned short idTask);
 
 //    void        setProjectName(const std::string& p_name);
-    void        setListName(const unsigned short idList, const std::string& p_name);
+//    void        setListName(const unsigned short idList, const std::string& p_name);
     void        changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
 
     void        convertToPrio(const unsigned short idList, const unsigned short idTask);

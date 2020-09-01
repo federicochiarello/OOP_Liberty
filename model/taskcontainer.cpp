@@ -53,7 +53,7 @@ void TaskContainer::setList(List *p_list) {
 
 QStringList TaskContainer::getTaskInfo() const {
     QStringList tmp;
-    tmp.push_back("TASKCONTAINER");
+	tmp.push_back("TASK_CONTAINER");
     tmp = tmp + AbsTask::getTaskInfo();
     for(auto i = m_child.begin(); i != m_child.end(); i++)
         tmp.push_back(QVariant((*i)->getId()).toString());

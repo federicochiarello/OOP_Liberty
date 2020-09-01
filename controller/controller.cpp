@@ -76,9 +76,9 @@ void Controller::addTaskChild(const unsigned short idList, const unsigned short 
 //	_model->setActiveProjName(p_name);
 //}
 
-void Controller::setListName(const unsigned short idList, const std::string& p_name) {
-    _model->setListName(idList,p_name);
-}
+//void Controller::setListName(const unsigned short idList, const std::string& p_name) {
+//    _model->setListName(idList,p_name);
+//}
 
 void Controller::changeListOrder(const unsigned short listToMove, const unsigned short Posizione) {
     _model->changeListOrder(listToMove,Posizione);
@@ -170,9 +170,16 @@ void Controller::onAddNewList(const unsigned short projectId) {
 
 void Controller::onProjectNameChanged(const unsigned short projectId, const QString& newProjectName) {
 //	Controllare che sia un nome valido e stuffing
-//	if (validProjectName()) {
+//	if (validName()) {
 	_model->setProjectName(projectId, newProjectName.toStdString());
-//	} else { emit setProjectName(projectId, QString::fromStdString(_model->getProjectName())); }inutile aggiornare la lista a meno che il nome no vada bene (mettere vecchio nome)
+	//	} else { emit setProjectName(projectId, QString::fromStdString(_model->getProjectName(projectId))); }inutile aggiornare la lista a meno che il nome no vada bene (mettere vecchio nome)
+}
+
+void Controller::onListNameChanged(const unsigned short projectId, const unsigned short listId, const QString &newListName) {
+//	Controllare che sia un nome valido e stuffing
+//	if (validName()) {
+	_model->setListName(projectId, listId, newListName.toStdString());
+//	} else { emit setListName(listId, QString::fromStdString(_model->getListName(projectId, listId))); }inutile aggiornare la lista a meno che il nome no vada bene (mettere vecchio nome)
 }
 
 void Controller::onNewProject(const QString& projectName) {

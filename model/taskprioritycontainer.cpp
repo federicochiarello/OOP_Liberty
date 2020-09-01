@@ -42,7 +42,7 @@ void TaskPriorityContainer::setPriority(QDateTime p_priority) {
 
 QStringList TaskPriorityContainer::getTaskInfo() const {
     QStringList tmp;
-    tmp.push_back("TASKPRIORITYCONTAINER");
+	tmp.push_back("TASK_PRIORITY_CONTAINER");
     tmp = tmp + AbsTask::getTaskInfo();
     tmp.push_back(getPriority().toString(AbsTask::dateTimeFormat));
     for(auto i = m_child.begin(); i != m_child.end(); i++)

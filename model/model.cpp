@@ -57,8 +57,8 @@ QString Model::getListName(const unsigned short projectId, const unsigned short 
 	return m_projects.at(projectId)->getListName(listId);
 }
 
-void Model::setListName(const unsigned short idList, const std::string& p_name) {
-    m_activeProject->setListName(idList,p_name);
+void Model::setListName(const unsigned short projectId,const unsigned short idList, const std::string& p_name) {
+	m_projects.at(projectId)->setListName(idList,p_name);
 }
 
 void Model::changeListOrder(const unsigned short listToMove, const unsigned short Posizione) {

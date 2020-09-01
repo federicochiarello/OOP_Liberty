@@ -35,6 +35,12 @@ void TasksListWidget::setup() {
 }
 
 void TasksListWidget::connects() {
+	connect(_title, SIGNAL(textChanged(const QString&)),
+			this, SLOT(onListNameChanged(const QString&)));
+
+	connect(this, SIGNAL(listNameChanged(const unsigned short, const unsigned short, const QString&)),
+			_controller, SLOT(onListNameChanged(const unsigned short, const unsigned short, const QString&)));
+
 	connect(this, SIGNAL(getListName(const unsigned short, const unsigned short)),
 			_controller, SLOT(onGetListName(const unsigned short, const unsigned short)));
 
@@ -107,5 +113,9 @@ void TasksListWidget::fetchTasksIds(const unsigned short listId, const std::vect
 			_list->addTask(taskId);
 		}
 	}
+}
+
+void TasksListWidget::onListNameChanged(const QString &newListName) {
+	emit listNameChanged(_projectId, _id, newListName);
 }
 

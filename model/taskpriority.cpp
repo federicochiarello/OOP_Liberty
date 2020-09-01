@@ -34,7 +34,7 @@ void TaskPriority::aggiornaTask(const QStringList info) {
 
 QStringList TaskPriority::getTaskInfo() const {
     QStringList tmp;
-    tmp.push_back("TASKPRIORITY");
+	tmp.push_back("TASK_PRIORITY");
     tmp = tmp + AbsTask::getTaskInfo();
     tmp.push_back(getPriority().toString(AbsTask::dateTimeFormat));
     return tmp;
