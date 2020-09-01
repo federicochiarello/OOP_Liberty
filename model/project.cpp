@@ -156,7 +156,7 @@ Project* Project::fromJson(const QJsonObject& object) {
 	const QJsonArray listsArray = object.value("lists").toArray();
 
 	for (const QJsonValue list : listsArray) {
-		List* tmp = new List(list.toObject(), tasks, idsMap);
+		List* tmp = new List(list.toObject(), tasks, idsMap, childsMap);
 		m_lists.insert(std::pair<unsigned short, List*>(tmp->getId(), tmp));
 		m_listsOrder.push_back(tmp->getId());
 	}
