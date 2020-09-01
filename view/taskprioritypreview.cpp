@@ -5,6 +5,7 @@ TaskPriorityPreview::TaskPriorityPreview(const unsigned short id, const unsigned
 
 void TaskPriorityPreview::fetchTaskInfo(const unsigned short taskId, const QStringList &taskInfo) {
 	if (taskId == _id) {
-		_task = new TaskPriorityWidget(_id, _listId, _projectId, _controller, taskInfo, this);
+		_task = new TaskPriorityWidget(_id, _listId, _projectId, _controller, taskInfo);
+		_task->show();
 	}
 }

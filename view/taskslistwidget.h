@@ -38,7 +38,7 @@ public:
 
 //	explicit TasksListWidget(QWidget* parent =nullptr);
 //	explicit TasksListWidget(QString listName, QWidget* parent =nullptr);
-	TasksListWidget(const unsigned short listId, const unsigned short projectId, const Controller* controller, QWidget* parent =nullptr);
+	TasksListWidget(const unsigned short listId, const unsigned short projectId, const bool& isNew, const Controller* controller, QWidget* parent =nullptr);
 	~TasksListWidget();
 
 	unsigned short getId() const;

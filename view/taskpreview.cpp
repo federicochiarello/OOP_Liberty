@@ -37,7 +37,7 @@ TaskPreview::TaskPreview(const unsigned short id, const unsigned short listId, c
 //}
 
 void TaskPreview::mouseDoubleClickEvent(QMouseEvent *event) {
-	emit openTask(_id);
+	emit openTask(_projectId, _listId, _id);
 }
 
 void TaskPreview::keyPressEvent(QKeyEvent *event) {
@@ -53,20 +53,8 @@ void TaskPreview::fetchTaskName(const unsigned short taskId, const QString& task
 
 void TaskPreview::fetchTaskInfo(const unsigned short taskId, const QStringList& taskInfo) {
 	if (taskId == _id) {
-		_task = new TaskWidget(taskId, _listId, _projectId, _controller, taskInfo, this);
-		switch (task_type_map.at(taskInfo[0].toStdString())) {
-			case(TASK):
-				break;
-			case(TASK_CONTAINER):
-				_task = new TaskWidget(taskId, _listId, _projectId, _controller, taskInfo, this);
-				break;
-			case(TASK_PRIORITY):
-				_task = new TaskWidget(taskId, _listId, _projectId, _controller, taskInfo, this);
-				break;
-			case(TASK_PRIORITY_CONTAINER):
-				_task = new TaskWidget(taskId, _listId, _projectId, _controller, taskInfo, this);
-				break;
-		}
+		_task = new TaskWidget(taskId, _listId, _projectId, _controller, taskInfo);
+		_task->show();
 	}
 }
 

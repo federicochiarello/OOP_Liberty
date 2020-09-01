@@ -33,11 +33,11 @@ public:
     void                setActiveProject(const unsigned short idProj);
     void                closeProject(const unsigned short idProj);
 
-    unsigned short      addNewList();
+	unsigned short      addNewList(const unsigned short projectId);
     unsigned short      addNewTask(const unsigned short idList);
     unsigned short      addNewTaskChild(const unsigned short idList, const unsigned short idTask);
 
-    void                setActiveProjName(const std::string& p_name);
+	void                setProjectName(const unsigned short, const std::string& p_name);
     void                setListName(const unsigned short idList, const std::string& p_name);
     void                changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
 

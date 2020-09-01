@@ -41,9 +41,9 @@ protected:
 signals:
 
 	void getTaskName(const unsigned short, const unsigned short, const unsigned short);
-	void openTask(const unsigned short);
+	void openTask(const unsigned short, const unsigned short, const unsigned short);
 
-	void openTaskInfo(unsigned short);
+	void openTaskInfo(const unsigned short);
 	void changedTaskName(unsigned short, std::string);
 
 public slots:

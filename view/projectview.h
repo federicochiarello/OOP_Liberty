@@ -45,6 +45,8 @@ signals:
 
 //	Creazione liste
 	void getLists(const unsigned short);
+	void addNewList(const unsigned short);
+	void projectNameChanged(const unsigned short, const QString&);
 //	void getListName(const unsigned short, const unsigned short);
 //	void sendListName(const unsigned short, const QString&);
 
@@ -65,8 +67,10 @@ private slots:
 public slots:
 
 	void fetchListsIds(const unsigned short projectId, std::vector<unsigned short> listsIds);
+	void onAddNewList();
+	void fetchListId(const unsigned short projectId, const unsigned short listId);
+	void onSetProjectName(const unsigned short projectId, const QString& projectName);
 
-	void addList(std::string listName =std::string());
 //	void onGetListName(const unsigned short listId);
 //	void fetchListName(const unsigned short projectId, const unsigned short listId, const QString& listName);
 //	void onGetTasksIds(const unsigned short listId);

@@ -57,7 +57,7 @@ void TasksListWidget::connects() {
 //	setup();
 //}
 
-TasksListWidget::TasksListWidget(const unsigned short listId, const unsigned short projectId, const Controller* controller, QWidget *parent) :
+TasksListWidget::TasksListWidget(const unsigned short listId, const unsigned short projectId, const bool& isNew, const Controller* controller, QWidget *parent) :
 	QWidget(parent),
 	_id(listId),
 	_projectId(projectId),
@@ -71,8 +71,10 @@ TasksListWidget::TasksListWidget(const unsigned short listId, const unsigned sho
 	setup();
 	connects();
 
-	emit getListName(_projectId, _id);
-	emit getTasksIds(_projectId, _id);
+	if (!isNew) {
+		emit getListName(_projectId, _id);
+		emit getTasksIds(_projectId, _id);
+	}
 }
 
 

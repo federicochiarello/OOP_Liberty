@@ -20,6 +20,7 @@ class Controller : public QObject {
 	View* _view;
 	Model* _model;
 
+	bool isValidProjectName(const QString& projectName);
 public:
 	explicit Controller(Model* m, QObject *parent = nullptr);
 
@@ -29,11 +30,15 @@ signals:
 
 	void sendExistingProjects(const QStringList& projectsNames);
 	void sendProjectInfo(std::pair<unsigned short, QString> projectInfo);
+	void sendListId(const unsigned short projectId, const unsigned short listId);
 	void sendListsIds(const unsigned short projectId, std::vector<unsigned short> listsIds);
 	void sendListName(const unsigned short listId, const QString& listName);
 	void sendTasksIds(const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>>& tasksIds);
 	void sendTaskName(const unsigned short taskId, const QString& taskName);
 	void sendTaskInfo(const unsigned short taskId, const QStringList& taskInfo);
+	void projectNameValid();
+	void projectNameNotValid();
+	void setProjectName(const unsigned short projectId, const QString& projectName);
 
 public slots:
 
@@ -47,18 +52,20 @@ public slots:
 	void		onGetTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId);
 
 	void		onOpenTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId);
+	void        onAddNewList(const unsigned short projectId);
 
-	void		onNewProject();
+	void		onProjectNameChanged(const unsigned short projectId, const QString& newProjectName);
+
+	void		onNewProject(const QString& projectName);
 	void        createNewProject(const std::string& = std::string()); // forse da sostituire a onNewProject(), da decidere se avere finestra per il nome e se averla in controller o in view (probabilmente meglio)
 
     void        setActiveProject(const unsigned short indP);
     void        closeProject(const unsigned short indP);
 
-	void        addNewList();
     void        addNewTask(const unsigned short idList);
     void        addTaskChild(const unsigned short idList, const unsigned short idTask);
 
-    void        setProjectName(const std::string& p_name);
+//    void        setProjectName(const std::string& p_name);
     void        setListName(const unsigned short idList, const std::string& p_name);
     void        changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
 

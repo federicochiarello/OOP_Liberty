@@ -1,6 +1,16 @@
 #include "controller.h"
 #include "view/view.h"
 
+bool Controller::isValidProjectName(const QString &projectName) {
+	QString illegal=".,<>:\"|?*";
+	for (auto character : projectName) {
+		if (illegal.contains(character)) {
+			return false;
+		}
+	}
+	return true;
+}
+
 Controller::Controller(Model* m, QObject *parent) : QObject(parent), _view(nullptr), _model(m) {
 
 //	connect(VistaDiPartenza, SIGNAL(requestNewProject(const std::string&)), this, SLOT(createNewProject(const std::string&)));
@@ -42,10 +52,10 @@ void Controller::closeProject(const unsigned short indP) {
     _model->closeProject(indP);
 }
 
-void Controller::addNewList() {
-    _model->addNewList();
-    //_view->getLastListId(_model->addNewList());
-}
+//void Controller::addNewList() {
+//    _model->addNewList();
+//    //_view->getLastListId(_model->addNewList());
+//}
 
 void Controller::addNewTask(const unsigned short idList) {
     _model->addNewTask(idList);
@@ -62,9 +72,9 @@ void Controller::addTaskChild(const unsigned short idList, const unsigned short 
     // ......
 }
 
-void Controller::setProjectName(const std::string& p_name) {
-	_model->setActiveProjName(p_name);
-}
+//void Controller::setProjectName(const std::string& p_name) {
+//	_model->setActiveProjName(p_name);
+//}
 
 void Controller::setListName(const unsigned short idList, const std::string& p_name) {
     _model->setListName(idList,p_name);
@@ -151,13 +161,30 @@ void Controller::onGetTaskName(const unsigned short projectId, const unsigned sh
 }
 
 void Controller::onOpenTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) {
-	_model->getTaskInfo(projectId, listId, taskId);
+	emit sendTaskInfo(taskId, _model->getTaskInfo(projectId, listId, taskId));
 }
 
-void Controller::onNewProject() {
-	_model->createNewProject();
-	auto projectInfo = _model->getProjectInfo();
-	emit sendProjectInfo(std::pair<unsigned short, QString>(projectInfo.first, QString::fromStdString(projectInfo.second)));
+void Controller::onAddNewList(const unsigned short projectId) {
+	emit sendListId(projectId, _model->addNewList(projectId));
+}
+
+void Controller::onProjectNameChanged(const unsigned short projectId, const QString& newProjectName) {
+//	Controllare che sia un nome valido e stuffing
+//	if (validProjectName()) {
+	_model->setProjectName(projectId, newProjectName.toStdString());
+//	} else { emit setProjectName(projectId, QString::fromStdString(_model->getProjectName())); }inutile aggiornare la lista a meno che il nome no vada bene (mettere vecchio nome)
+}
+
+void Controller::onNewProject(const QString& projectName) {
+
+	if (isValidProjectName(projectName)) {
+		_model->createNewProject(projectName.toStdString());
+		auto projectInfo = _model->getProjectInfo();
+		emit projectNameValid();
+		emit sendProjectInfo(std::pair<unsigned short, QString>(projectInfo.first, QString::fromStdString(projectInfo.second)));
+	} else {
+		emit projectNameNotValid();
+	}
 }
 
 //Illegal characters for files " \ / : | < > * ?

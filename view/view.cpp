@@ -13,8 +13,25 @@ void View::connects() {
 	connect(_controller, SIGNAL(sendProjectInfo(std::pair<unsigned short, QString>)),
 			this, SLOT(fetchProjectInfo(std::pair<unsigned short, QString>)));
 
-	connect(this, SIGNAL(newProject()),
-			_controller, SLOT(onNewProject()));
+	connect(this, SIGNAL(newProjectInfo(const QString&)),
+			_controller, SLOT(onNewProject(const QString&)));
+}
+
+void View::createActions() {
+	_newProject = new QAction(tr("&New project"), this);
+	_newProject->setShortcut(QKeySequence::New);
+	_newProject->setStatusTip(tr("Create new project"));
+	connect(_newProject, SIGNAL(triggered()),
+			this, SLOT(newProject()));
+}
+
+void View::createMenus() {
+	createActions();
+
+	_file = menuBar()->addMenu(tr("&File"));
+	_file->addAction(_newProject);
+
+	_edit = menuBar()->addMenu(tr("&Edit"));
 }
 
 View::View(const Controller* controller,QWidget* parent) :
@@ -23,65 +40,9 @@ View::View(const Controller* controller,QWidget* parent) :
 	_windowLayout(new QVBoxLayout()),
 	_centralWidget(new QTabWidget(this)) {
 
-	// Menu
-
-	// Declaration menus and actions
-
-	QMenu* fileMenu = new QMenu(tr("File"), menuBar());
-	QAction* newProAct = new QAction(tr("New project"), fileMenu);
-	QAction* openProAct = new QAction(tr("Open project"), fileMenu);
-	QAction* importProAct = new QAction(tr("Import project"), fileMenu);
-
-	QMenu* editMenu = new QMenu(tr("Edit"), menuBar());
-	QAction* undoAct = new QAction(tr("Undo"), editMenu);
-	QAction* redoAct = new QAction(tr("Redo"), editMenu);
-
-	// Set shortcut
-
-	newProAct->setShortcut(QKeySequence::New);
-
-
-	// Set status tip
-
-	newProAct->setStatusTip(tr(""));
-	openProAct->setStatusTip(tr(""));
-	importProAct->setStatusTip(tr(""));
-
-	undoAct->setStatusTip(tr(""));
-	redoAct->setStatusTip(tr(""));
-
-	// Connect actions
-
+	setup();
 	connects();
-	connect(newProAct, SIGNAL(triggered()), _controller, SLOT(onNewProject()));
-//	connect(openProAct, SIGNAL(triggered()), _controller, SLOT());
-//	connect(importProAct, SIGNAL(triggered()), _controller, SLOT());
 
-//	connect(undoAct, SIGNAL(triggered()), _controller, SLOT());
-//	connect(redoAct, SIGNAL(triggered()), _controller, SLOT());
-
-//	connect(this, SIGNAL(openProject(const QString)), _controller, SLOT(openProject(const QString))); eliminato
-
-	// Add actions to menu
-
-	fileMenu->addAction(newProAct);
-	fileMenu->addAction(openProAct);
-	fileMenu->addAction(importProAct);
-
-	editMenu->addAction(undoAct);
-	editMenu->addAction(redoAct);
-
-	// Add menus to menuBar
-
-	menuBar()->addMenu(fileMenu);
-	menuBar()->addMenu(editMenu);
-
-	// Toolbar
-
-	// DockWidget
-
-	// Central widget
-	setCentralWidget(_centralWidget);
 	qDebug() << "Start";
 	emit appStart();
 }
@@ -164,17 +125,83 @@ void View::fetchProjectInfo(std::pair<unsigned short, QString> projectInfo) {
 //	connect(_controller, SIGNAL(sendTasksIds(const unsigned short, const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>)),
 //			project, SLOT(onSendTasksIds(const unsigned short, const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>)));
 
-//	emit project->getLists(project->getId());
+	//	emit project->getLists(project->getId());
+}
+
+void View::newProject() {
+	NewProjectDialog* project = new NewProjectDialog(_controller, this);
+	project->show();
+}
+
+void View::getNewProjectName(const QString& projectName) {
+	qDebug() << projectName;
+//	emit newProjectInfo(projectName);
 }
 
 void View::setup() {
-	//addMenu();
-//	addToolBar();
-	//addMainLayout();
-//	addList();
-//	_windowLayout->addWidget(_centralWidget);
-//	ProjectView* proj = new ProjectView(this);
-//	_projects->addTab(proj, tr("Titolo"));
-//	setLayout(_windowLayout);
+
 	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+	// Menu
+
+	// Declaration menus and actions
+
+	createMenus();
+//	QMenuBar* menuBar = new QMenuBar(this);
+//	QMenu* fileMenu = new QMenu(tr("File"), menuBar);
+//	QAction* newProAct = new QAction(tr("New project"), fileMenu);
+//	QAction* openProAct = new QAction(tr("Open project"), fileMenu);
+//	QAction* importProAct = new QAction(tr("Import project"), fileMenu);
+
+//	QMenu* editMenu = new QMenu(tr("Edit"), menuBar);
+//	QAction* undoAct = new QAction(tr("Undo"), editMenu);
+//	QAction* redoAct = new QAction(tr("Redo"), editMenu);
+
+	// Set shortcut
+
+//	newProAct->setShortcut(QKeySequence::New);
+
+
+//	// Set status tip
+
+//	newProAct->setStatusTip(tr(""));
+//	openProAct->setStatusTip(tr(""));
+//	importProAct->setStatusTip(tr(""));
+
+//	undoAct->setStatusTip(tr(""));
+//	redoAct->setStatusTip(tr(""));
+
+//	// Connect actions
+
+
+//	connect(newProAct, SIGNAL(triggered()),
+//			this, SLOT(newProject()));
+//	connect(openProAct, SIGNAL(triggered()), _controller, SLOT());
+//	connect(importProAct, SIGNAL(triggered()), _controller, SLOT());
+
+//	connect(undoAct, SIGNAL(triggered()), _controller, SLOT());
+//	connect(redoAct, SIGNAL(triggered()), _controller, SLOT());
+
+//	connect(this, SIGNAL(openProject(const QString)), _controller, SLOT(openProject(const QString))); eliminato
+
+	// Add actions to menu
+
+//	fileMenu->addAction(newProAct);
+//	fileMenu->addAction(openProAct);
+//	fileMenu->addAction(importProAct);
+
+//	editMenu->addAction(undoAct);
+//	editMenu->addAction(redoAct);
+
+	// Add menus to menuBar
+
+
+//	menuBar->addMenu(fileMenu);
+//	menuBar->addMenu(editMenu);
+
+	// Toolbar
+
+	// DockWidget
+
+	// Central widget
+	setCentralWidget(_centralWidget);
 }

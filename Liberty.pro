@@ -25,6 +25,7 @@ SOURCES += \
         model/taskpriority.cpp \
         model/taskprioritycontainer.cpp \
         controller/controller.cpp \
+        view/newprojectdialog.cpp \
         view/projectpreview.cpp \
         view/projectview.cpp \
         view/taskcontainerpreview.cpp \
@@ -57,6 +58,7 @@ HEADERS += \
     src/globalenums.h \
     veqtor.h \
     controller/controller.h \
+    view/newprojectdialog.h \
     view/projectpreview.h \
     view/projectview.h \
     view/taskcontainerpreview.h \

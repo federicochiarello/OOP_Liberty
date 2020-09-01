@@ -37,8 +37,8 @@ void Model::closeProject(const unsigned short idProj) {
     delete p;
 }
 
-unsigned short Model::addNewList() {
-    return m_activeProject->addNewList();
+unsigned short Model::addNewList(const unsigned short projectId) {
+	return m_projects.at(projectId)->addNewList();
 }
 
 unsigned short Model::addNewTask(const unsigned short idList) {
@@ -49,8 +49,8 @@ unsigned short Model::addNewTaskChild(const unsigned short idList, const unsigne
     return m_activeProject->addNewTask(idList,idTask);
 }
 
-void Model::setActiveProjName(const std::string& p_name) {
-	m_activeProject->setName(p_name);
+void Model::setProjectName(const unsigned short projectId, const std::string& p_name) {
+	m_projects.at(projectId)->setName(p_name);
 }
 
 QString Model::getListName(const unsigned short projectId, const unsigned short listId) const {
