@@ -125,8 +125,9 @@ void Controller::onMoveTask(const unsigned short projectId, const unsigned short
 	const unsigned short newListId = _model->moveTask(projectId, listId, taskId.first, moveDirection);
 
 	if (newListId) {
-		emit sendNewTasksList(newListId, taskId);
+		emit moveTask(taskId.first);
 		emit sendDeleteTaskFromList(listId, taskId.first);
+		emit sendNewTasksList(newListId, taskId);
 	}
 }
 
@@ -268,6 +269,10 @@ void Controller::onSaveProject(const unsigned short projectId) {
 		file.write(_model->save(projectId));
 	}
 	file.close();
+}
+
+void Controller::onSaveAllProjects() {
+
 }
 
 void Controller::onGetLists(const unsigned short projectId) {

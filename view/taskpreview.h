@@ -65,6 +65,7 @@ public slots:
 
 	void onTaskNameChanged();
 	void setName(const unsigned short taskId, const QString& newTaskName);
+	void onMoveTask(const unsigned short taskId);
 };
 
 #endif // TASKPREVIEW_H

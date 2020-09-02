@@ -42,6 +42,9 @@ void TaskPreview::connects() {
 
 	connect(_controller, SIGNAL(updateTaskPreviewName(const unsigned short, const QString&)),
 			this, SLOT(setName(const unsigned short, const QString&)));
+
+	connect(_controller, SIGNAL(moveTask(const unsigned short)),
+			this, SLOT(onMoveTask(const unsigned short)));
 }
 
 TaskPreview::TaskPreview(const unsigned short id, const unsigned short listId, const unsigned short projectId, const Controller* controller, QWidget *parent) :
@@ -113,6 +116,13 @@ void TaskPreview::onTaskNameChanged() {
 void TaskPreview::setName(const unsigned short taskId, const QString &newTaskName) {
 	if (taskId == _id) {
 		setText(newTaskName);
+	}
+}
+
+void TaskPreview::onMoveTask(const unsigned short taskId) {
+	if (taskId == _id) {
+		disconnect(this, SIGNAL(taskNameChanged(const unsigned short, const unsigned short, const unsigned short, const QString&)),
+					_controller, SLOT(onTaskNameChanged(const unsigned short, const unsigned short, const unsigned short, const QString&)));
 	}
 }
 

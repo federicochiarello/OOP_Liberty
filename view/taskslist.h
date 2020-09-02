@@ -35,12 +35,6 @@ public:
 	explicit TasksList(const unsigned short id, const unsigned short projectId, const Controller* controller, QWidget* parent = nullptr);
 
 	void addWidget(TaskPreview* task);
-protected:
-	virtual void dragMoveEvent(QDragMoveEvent* event) override;
-	virtual void dragEnterEvent(QDragEnterEvent* event) override;
-	virtual void dragLeaveEvent(QDragLeaveEvent* event) override;
-	virtual void dropEvent(QDropEvent* event) override;
-	virtual void mousePressEvent(QMouseEvent* event) override;
 
 signals:
 
@@ -57,20 +51,6 @@ public slots:
 	void addTask(const std::pair<unsigned short, TaskType>& taskId);
 	void fetchNewTasksList(const unsigned short newListId, const std::pair<unsigned short, TaskType>& taskId);
 	void fetchDeleteTaskFromList(const unsigned short listId, const unsigned short taskId);
-
-};
-
-class DragDrop : public QWidget {
-	Q_OBJECT
-public:
-	explicit DragDrop(QWidget* parent =nullptr);
-
-protected:
-	virtual void dragMoveEvent(QDragMoveEvent* event) override;
-	virtual void dragEnterEvent(QDragEnterEvent* event) override;
-	virtual void dragLeaveEvent(QDragLeaveEvent* event) override;
-	virtual void dropEvent(QDropEvent* event) override;
-	virtual void mousePressEvent(QMouseEvent* event) override;
 
 };
 

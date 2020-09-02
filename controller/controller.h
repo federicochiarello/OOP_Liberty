@@ -51,6 +51,7 @@ signals:
 	void sendNewTasksList(const unsigned short newListId, const std::pair<unsigned short, TaskType>& taskId);
 	void sendDeleteTaskFromList(const unsigned short listId, const unsigned short taskId);
 	void updateTaskPreviewName(const unsigned short taskId, const QString& newTaskName);
+	void moveTask(const unsigned short);
 
 public slots:
 
@@ -100,6 +101,7 @@ public slots:
 	void        dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione =0);
 
 	void		onSaveProject(const unsigned short idProject =0);
+	void		onSaveAllProjects();
 
 
 };

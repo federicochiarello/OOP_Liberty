@@ -42,11 +42,17 @@ void View::createActions() {
 	connect(_openProject, SIGNAL(triggered()),
 			this, SLOT(onOpenProject()));
 
-	_saveProject = new QAction(tr("Salva progetto corrente"), _file);
+	_saveProject = new QAction(tr("Salva"), _file);
 	_saveProject->setShortcut(QKeySequence::Save);
-	_saveProject->setStatusTip(tr(""));
+	_saveProject->setStatusTip(tr("Salva progetto corrente"));
 	connect(_saveProject, SIGNAL(triggered()),
-			_controller, SLOT());
+			_controller, SLOT(onSaveProject()));
+
+	_saveAllProjects = new QAction(tr("Salva tutti"), _file);
+//	_saveAllProjects->setShortcut(QKeySequence(QKeySequence::Save+);
+	_saveAllProjects->setStatusTip(tr("Salva tutti i progetti aperti"));
+	connect(_saveAllProjects, SIGNAL(triggered()),
+			_controller, SLOT(onSaveAllProjects()));
 
 	_importProject = new QAction(tr("Import project"), _file);
 //	_importProject->setShortcut();
