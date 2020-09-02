@@ -44,14 +44,14 @@ public:
 
     unsigned short                          addNewTask(const unsigned short idList);
     unsigned short                          addNewTask(const unsigned short idList, const unsigned short idTask);
-    AbsTask*                                getPointer(const unsigned short idList, const unsigned short idTask);
+	AbsTask*                                getPointer(const unsigned short idList, const unsigned short idTask) const;
     unsigned short                          addNewList();
 
     void                                    setName(const std::string& p_name);
 	QString									getListName(const unsigned short listId) const;
     void                                    setListName(const unsigned short idList, const std::string& p_name);
 	void									setTaskName(const unsigned short listId, const unsigned short taskId, const std::string& newTaskName);
-    void                                    changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
+	bool                                    changeListOrder(const unsigned short listToMove, const Direction& moveDirection);
 
 	std::vector<std::pair<unsigned short, TaskType>> getTasksIds(const unsigned short listId) const;
     QStringList                             getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
@@ -63,7 +63,8 @@ public:
     unsigned short                          convertToPriority(const unsigned short idList, const unsigned short idTask);
     unsigned short                          convertToContainer(const unsigned short idList, const unsigned short idTask);
 
-    void    dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione);
+	void            dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione);
+		 unsigned short  moveTask(const unsigned short idList, const unsigned short idTask, const Direction &moveDirection);
 };
 
 #endif // PROJECT_H

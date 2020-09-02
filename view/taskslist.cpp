@@ -31,6 +31,7 @@ void TasksList::removeTask(const unsigned short taskId) {
 	for (auto child : children) {
 		TaskPreview* tmp = dynamic_cast<TaskPreview*>(child);
 		if (tmp && (tmp->getId() == taskId)) {
+			_layout->removeWidget(tmp);
 			delete tmp;
 		}
 	}
@@ -111,6 +112,7 @@ void TasksList::addTask(const std::pair<unsigned short, TaskType>& taskId) {
 	}
 	if (task) {
 		addWidget(task);
+		task->setFocus();
 	}
 }
 

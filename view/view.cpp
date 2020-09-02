@@ -42,6 +42,12 @@ void View::createActions() {
 	connect(_openProject, SIGNAL(triggered()),
 			this, SLOT(onOpenProject()));
 
+	_saveProject = new QAction(tr("Salva progetto corrente"), _file);
+	_saveProject->setShortcut(QKeySequence::Save);
+	_saveProject->setStatusTip(tr(""));
+	connect(_saveProject, SIGNAL(triggered()),
+			_controller, SLOT());
+
 	_importProject = new QAction(tr("Import project"), _file);
 //	_importProject->setShortcut();
 	_importProject->setStatusTip(tr("Import existing project from file"));

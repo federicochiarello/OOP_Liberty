@@ -70,7 +70,7 @@ bool Model::changeListOrder(const unsigned short projectId, const unsigned short
 }
 
 std::string Model::getProjectName(const unsigned short projectId) const {
-    return m_projects.at(projectId)->getName();
+	return (projectId?m_projects.at(projectId):m_activeProject)->getName();
 }
 
 std::vector<unsigned short> Model::getLists(const unsigned short projectId) const {
@@ -126,7 +126,7 @@ void Model::load(const QJsonDocument& document) {
 }
 
 QByteArray Model::save(const unsigned short projectId) {
-	return QJsonDocument(m_projects.at(projectId)->object()).toJson();
+	return QJsonDocument((projectId?m_projects.at(projectId):m_activeProject)->object()).toJson();
 }
 
 std::pair<unsigned short, std::string> Model::getProjectInfo(const unsigned short projectId) {

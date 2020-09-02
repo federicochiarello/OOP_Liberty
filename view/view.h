@@ -37,6 +37,8 @@ class View : public QMainWindow {
 
 	QAction* _newProject;
 	QAction* _openProject;
+	QAction* _saveProject;
+	QAction* _saveAllProjects;
 	QAction* _importProject;
 	QAction* _exportProject;
 

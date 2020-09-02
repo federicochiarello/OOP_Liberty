@@ -122,7 +122,7 @@ void Controller::createNewProject(const std::string& p_name) {
 }
 
 void Controller::onMoveTask(const unsigned short projectId, const unsigned short listId, const std::pair<unsigned short, TaskType>& taskId, const Direction& moveDirection) {
-	const unsigned short newListId = 0/*_model->moveTask(projectId, listId, taskId.first, moveDirection)*/;
+	const unsigned short newListId = _model->moveTask(projectId, listId, taskId.first, moveDirection);
 
 	if (newListId) {
 		emit sendNewTasksList(newListId, taskId);
@@ -262,7 +262,7 @@ void Controller::onExportProject(const unsigned short projectId, const QString& 
 	exportFile.close();
 }
 
-void Controller::saveProject(const unsigned short projectId) {
+void Controller::onSaveProject(const unsigned short projectId) {
 	QFile file(projectsDir.absolutePath()+QString::fromStdString(_model->getProjectName(projectId)));
 	if (file.open(QIODevice::WriteOnly)) {
 		file.write(_model->save(projectId));
