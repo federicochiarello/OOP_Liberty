@@ -19,9 +19,4 @@ static std::map<std::string, TaskType> task_type_map =
 	{"TASK_PRIORITY_CONTAINER", TASK_PRIORITY_CONTAINER}
 };
 
-enum Direction {
-    LEFT = 2,
-    RIGHT = 1
-};
-
 #endif // GLOBALENUMS_H

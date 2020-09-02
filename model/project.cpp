@@ -62,13 +62,12 @@ Project::~Project() {
 }
 
 void Project::addList(List *p_list) {
-    _modified = true;
+//	std::map<unsigned short,List*>::value_type l(p_list->getId(),p_list);
 	m_lists.insert(std::pair<unsigned short, List*>(p_list->getId(), p_list));
 	m_listsOrder.push_back(p_list->getId());
 }
 
 void Project::removeList(unsigned short idList) {
-    _modified = true;
 
     // Se p_list ha figli -> eliminali
     delete m_lists.at(idList);
@@ -85,45 +84,17 @@ unsigned short Project::getId() const {
 	return _id;
 }
 
-void Project::setName(const std::string& p_name) {
-    _modified = true;
-    m_name = p_name;
-}
+void Project::setName(const std::string& p_name) { m_name = p_name; }
 
 QString Project::getListName(const unsigned short listId) const {
 	return QString::fromStdString(m_lists.at(listId)->getName());
 }
 
 void Project::setListName(const unsigned short idList, const std::string& p_name) {
-    _modified = true;
     m_lists.at(idList)->setName(p_name);
 }
 
-bool Project::changeListOrder(const unsigned short listToMove, const Direction& moveDirection) {
-// Ho interpretato che moveDirection = LEFT voglia dire invertire listToMove con quella alla sua sx
-// specularmente per RIGHT
-    for (auto i = m_listsOrder.begin(); i < m_listsOrder.end(); ++i)
-        if(*i == listToMove) {
-            if(moveDirection == LEFT  && (i-1) >= m_listsOrder.begin()) {
-                _modified = true;
-
-                unsigned short tmp = *i;
-                *i = *(i-1);
-                *(i-1) = tmp;
-
-                return true;
-            } else if(moveDirection == RIGHT  && (i+1) < m_listsOrder.end()) {
-                _modified = true;
-
-                unsigned short tmp = *i;
-                *i = *(i+1);
-                *(i+1) = tmp;
-
-                return true;
-            }
-        }
-/*  OLD
-    _modified = true;
+void Project::changeListOrder(const unsigned short listToMove, const unsigned short Posizione) {
 	if(!Posizione) {
         m_listsOrder.insert(m_listsOrder.begin(),listToMove);
 	} else {
@@ -134,10 +105,9 @@ bool Project::changeListOrder(const unsigned short listToMove, const Direction& 
             }
 		}
 	}
-*/
 }
 
-std::vector<std::pair<unsigned short, TaskType>> Project::getTasksIds(const unsigned short listId) const {
+std::vector<std::pair<unsigned short, TaskType> > Project::getTasksIds(const unsigned short listId) const {
 	return m_lists.at(listId)->getTasksIds();
 }
 
@@ -163,12 +133,10 @@ QDateTime Project::getTaskPriority(const unsigned short idList, const unsigned s
 }
 
 void Project::aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info) {
-    _modified = true;
     m_lists.at(idList)->getTask(idTask)->aggiornaTask(info);
 }
 
 unsigned short Project::verifyContainer(const unsigned short idList, const unsigned short idTask) {
-    _modified = true;
     // se idTask è un TaskContainer -> ritorna il il suo id
     //                   altrimenti -> lo converte a TaskContainer e ritorna il nuovo id
     return (dynamic_cast<TaskContainer*>(m_lists.at(idList)->getTask(idTask)) == nullptr ? convertToPriority(idList,idTask) : idTask );
@@ -181,9 +149,6 @@ std::vector<unsigned short> Project::getLists() const {
 }
 
 Project* Project::fromJson(const QJsonObject& object) {
-
-    _modified = true;
-
 	std::vector<AbsTask*> tasks;
     std::map<unsigned short,unsigned short> idsMap;
     std::map<unsigned short, std::vector<unsigned short>> childsMap;
@@ -224,7 +189,6 @@ Project* Project::fromJson(const QJsonObject& object) {
 }
 
 unsigned short Project::addNewTask(const unsigned short idList) {
-    _modified = true;
     // aggiunto un nuovo task alla lista (figlio diretto)
     AbsTask* t = new Task;
     List* l = m_lists.at(idList);
@@ -235,7 +199,6 @@ unsigned short Project::addNewTask(const unsigned short idList) {
 }
 
 unsigned short Project::addNewTask(const unsigned short idList, const unsigned short idTask) {
-    _modified = true;
     // aggiunto un nuovo task alla lista (figlio di task(idTask))
     List* l = m_lists.at(idList);
     AbsTask* tParent = l->getTask(idTask);
@@ -245,12 +208,11 @@ unsigned short Project::addNewTask(const unsigned short idList, const unsigned s
     return t->getId();
 }
 
-AbsTask *Project::getPointer(const unsigned short idList, const unsigned short idTask) const {
+AbsTask *Project::getPointer(const unsigned short idList, const unsigned short idTask) {
     return m_lists.at(idList)->getTask(idTask);
 }
 
 unsigned short Project::addNewList() {
-    _modified = true;
     List* newList = new List();
     unsigned short id = newList->getId();
     m_lists.insert(std::pair<unsigned short, List*>(id,newList));
@@ -259,7 +221,6 @@ unsigned short Project::addNewList() {
 }
 
 unsigned short Project::convertToPriority(const unsigned short idList, const unsigned short idTask) {
-    _modified = true;
     List* l = m_lists.at(idList);
     AbsTask* t = l->getTask(idTask);
     AbsTask* tNew = t->convertToPriority();
@@ -277,7 +238,6 @@ unsigned short Project::convertToPriority(const unsigned short idList, const uns
 }
 
 unsigned short Project::convertToContainer(const unsigned short idList, const unsigned short idTask) {
-    _modified = true;
     List* l = m_lists.at(idList);
     AbsTask* t = l->getTask(idTask);
     AbsTask* tNew = t->convertToContainer();
@@ -293,7 +253,6 @@ unsigned short Project::convertToContainer(const unsigned short idList, const un
 }
 
 void Project::dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione) {
-    _modified = true;
     // Versione funzionante in cui un task (idTask) viene spostato dalla lista LPartenza alla lista
     // LArrivo sotto al task con id Posizione, se Posizione == 0 viene messo in testa alla lista.
 
@@ -306,36 +265,6 @@ void Project::dragAndDrop(const unsigned short LPartenza, const unsigned short L
     lp->removeTask(idTask);
     la->addTask(t);
     la->insertTask(idTask,Posizione);
-}
-
-unsigned short Project::moveTask(const unsigned short idList, const unsigned short idTask, const Direction &moveDirection) {
-    // trova posizione della lista target se esiste e la salva in it
-    // se non esiste it = m_listOrder.end() che funge da sentinella
-    std::vector<unsigned short>::iterator it = m_listsOrder.end();
-    for (auto i = m_listsOrder.begin(); i < m_listsOrder.end(); ++i)
-        if(*i == idList) {
-            if(moveDirection == LEFT  && (i-1) >= m_listsOrder.begin())
-                it = i-1;
-            else if(moveDirection == RIGHT  && (i+1) < m_listsOrder.end())
-                it = i+1;
-        }
-
-    if(it == m_listsOrder.end())
-        return 0;
-    else {
-        _modified = true;
-
-        unsigned short idTargetList = *it;
-        List* l = m_lists.at(idList);
-        AbsTask* t = l->getTask(idTask);
-        List* targetList = m_lists.at(idTargetList);
-
-        l->removeTask(idTask);
-        targetList->addTask(t);
-        targetList->setAsDirectTask(idTargetList);
-
-        return idTargetList;
-    }
 }
 
 QJsonObject Project::object() {
