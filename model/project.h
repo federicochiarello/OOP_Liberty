@@ -28,42 +28,42 @@ class Project {
 	static unsigned short               nextID;
 
 public:
-											explicit Project(std::string p_name = std::string());
-											Project(const QJsonObject& object);
-//											Project(const Project& p_pro);
-                                            ~Project();
+                                    explicit Project(std::string p_name = std::string());
+                                    Project(const QJsonObject& object);
+                                    ~Project();
 
-    void                                    addList(List* p_list);
-    void                                    removeList(unsigned short idList);
+    void                            addList(List* p_list);
+    void                            removeList(unsigned short listId);
 
-    unsigned short                          getId() const;
-	std::string                             getName() const;
-    std::vector<unsigned short>				getLists() const;
-	QJsonObject								object();
-	Project*								fromJson(const QJsonObject& object);
+    unsigned short                  getId() const;
+    std::string                     getName() const;
+    std::vector<unsigned short>		getLists() const;
+    QJsonObject						object();
+    Project*						fromJson(const QJsonObject& object);
 
-    unsigned short                          addNewTask(const unsigned short idList);
-    unsigned short                          addNewTask(const unsigned short idList, const unsigned short idTask);
-	AbsTask*                                getPointer(const unsigned short idList, const unsigned short idTask) const;
-    unsigned short                          addNewList();
+    unsigned short                  addNewTask(const unsigned short listId);
+    unsigned short                  addNewTask(const unsigned short listId, const unsigned short taskId);
+    AbsTask*                        getPointer(const unsigned short listId, const unsigned short taskId) const;
+    unsigned short                  addNewList();
 
-    void                                    setName(const std::string& p_name);
-	QString									getListName(const unsigned short listId) const;
-    void                                    setListName(const unsigned short idList, const std::string& p_name);
-	void									setTaskName(const unsigned short listId, const unsigned short taskId, const std::string& newTaskName);
-	bool                                    changeListOrder(const unsigned short listToMove, const Direction& moveDirection);
+    void                            setName(const std::string& p_name);
+    QString							getListName(const unsigned short listId) const;
+    void                            setListName(const unsigned short listId, const std::string& p_name);
+    void							setTaskName(const unsigned short listId, const unsigned short taskId, const std::string& newTaskName);
+    bool                            changeListOrder(const unsigned short listToMove, const Direction& moveDirection);
 
 	std::vector<std::pair<unsigned short, TaskType>> getTasksIds(const unsigned short listId) const;
-    QStringList                             getTaskInfo(const unsigned short idList, const unsigned short idTask) const;
-    std::string                             getTaskName(const unsigned short idList, const unsigned short idTask) const;
-    QDateTime                               getTaskPriority(const unsigned short idList, const unsigned short idTask) const;
-    void                                    aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info);
+    QStringList                     getTaskInfo(const unsigned short listId, const unsigned short taskId) const;
+    std::string                     getTaskName(const unsigned short listId, const unsigned short taskId) const;
+    QDateTime                       getTaskPriority(const unsigned short listId, const unsigned short taskId) const;
+    void                            aggiornaTask(const unsigned short listId, const unsigned short taskId, const QStringList info);
+    void                            deleteTask(const unsigned short listId, const unsigned short taskId);
 
-    void                          convertToPriority(const unsigned short idList, const unsigned short idTask);
-    void                          convertToContainer(const unsigned short idList, const unsigned short idTask);
+    void                            convertToPriority(const unsigned short listId, const unsigned short taskId);
+    void                            convertToContainer(const unsigned short listId, const unsigned short taskId);
 
-	void            dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione);
-		 unsigned short  moveTask(const unsigned short idList, const unsigned short idTask, const Direction &moveDirection);
+    void            dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short taskId, const unsigned short Posizione);
+    unsigned short  moveTask(const unsigned short listId, const unsigned short taskId, const Direction &moveDirection);
 };
 
 #endif // PROJECT_H

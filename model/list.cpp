@@ -116,6 +116,14 @@ void List::removeTask(const unsigned short idTask) {
     m_tasks.erase(idTask);
 }
 
+void List::deleteTask(const unsigned short idTask) {
+    AbsTask* t = getTask(idTask);
+    if(t->getParent())
+        dynamic_cast<TaskContainer*>(t->getParent())->removeChild(t);
+    removeTask(idTask);
+    delete t;
+}
+
 void List::aggiornaMap(AbsTask *p_task) {
     // essendo che il task "convertito" mantiene l'id, lo si sfrutta per eliminare dal map
     // il pair con il puntatore alla versione non convertita e poi si aggiunge quello nuovo

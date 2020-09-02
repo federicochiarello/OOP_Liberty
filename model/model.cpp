@@ -20,20 +20,20 @@ void Model::createNewProject(const std::string& p_name) {
 }
 
 void Model::setActiveProject(Project *project) {
-	m_activeProject = project;
+    m_activeProject = project;
 }
 
-void Model::setActiveProject(const unsigned short idProj) {
-    m_projects.at(idProj);
+void Model::setActiveProject(const unsigned short projectId) {
+    m_projects.at(projectId);
 }
 
-void Model::closeProject(const unsigned short idProj) {
-    Project* p = m_projects.at(idProj);
+void Model::closeProject(const unsigned short projectId) {
+    Project* p = m_projects.at(projectId);
 	if (m_activeProject == p) {
         m_activeProject = nullptr;
 	}
 //	save(idProj);
-    m_projects.erase(idProj);
+    m_projects.erase(projectId);
     delete p;
 }
 
@@ -41,12 +41,12 @@ unsigned short Model::addNewList(const unsigned short projectId) {
 	return m_projects.at(projectId)->addNewList();
 }
 
-unsigned short Model::addNewTask(const unsigned short projectId, const unsigned short idList) {
-    return m_projects.at(projectId)->addNewTask(idList);
+unsigned short Model::addNewTask(const unsigned short projectId, const unsigned short listId) {
+    return m_projects.at(projectId)->addNewTask(listId);
 }
 
-unsigned short Model::addNewTaskChild(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-    return m_projects.at(projectId)->addNewTask(idList,idTask);
+unsigned short Model::addNewTaskChild(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) {
+    return m_projects.at(projectId)->addNewTask(listId,taskId);
 }
 
 void Model::setProjectName(const unsigned short projectId, const std::string& p_name) {
@@ -57,8 +57,8 @@ QString Model::getListName(const unsigned short projectId, const unsigned short 
 	return m_projects.at(projectId)->getListName(listId);
 }
 
-void Model::setListName(const unsigned short projectId,const unsigned short idList, const std::string& p_name) {
-	m_projects.at(projectId)->setListName(idList,p_name);
+void Model::setListName(const unsigned short projectId,const unsigned short listId, const std::string& p_name) {
+    m_projects.at(projectId)->setListName(listId,p_name);
 }
 
 void Model::setTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const std::string &newTaskName) {
@@ -77,40 +77,44 @@ std::vector<unsigned short> Model::getLists(const unsigned short projectId) cons
 	return m_projects.at(projectId)->getLists();
 }
 
-QStringList Model::getTaskInfo(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const {
-	return m_projects.at(projectId)->getTaskInfo(idList,idTask);
+QStringList Model::getTaskInfo(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) const {
+    return m_projects.at(projectId)->getTaskInfo(listId,taskId);
 }
 
-std::string Model::getTaskName(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const {
-	return m_projects.at(projectId)->getTaskName(idList,idTask);
+std::string Model::getTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) const {
+    return m_projects.at(projectId)->getTaskName(listId,taskId);
 }
 
 std::vector<std::pair<unsigned short, TaskType> > Model::getTasksIds(const unsigned short projectId, const unsigned short listId) const {
 	return m_projects.at(projectId)->getTasksIds(listId);
 }
 
-QDateTime Model::getTaskPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const {
-    return m_projects.at(projectId)->getTaskPriority(idList,idTask);
+QDateTime Model::getTaskPriority(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) const {
+    return m_projects.at(projectId)->getTaskPriority(listId,taskId);
 }
 
-void Model::aggiornaTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask, const QStringList info) {
-    m_projects.at(projectId)->aggiornaTask(idList,idTask,info);
+void Model::aggiornaTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const QStringList info) {
+    m_projects.at(projectId)->aggiornaTask(listId,taskId,info);
 }
 
-void Model::convertToPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-    m_projects.at(projectId)->convertToPriority(idList,idTask);
+void Model::deleteTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) {
+    m_projects.at(projectId)->deleteTask(listId,taskId);
 }
 
-void Model::convertToContainer(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-    m_projects.at(projectId)->convertToContainer(idList,idTask);
+void Model::convertToPriority(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) {
+    m_projects.at(projectId)->convertToPriority(listId,taskId);
 }
 
-void Model::dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione) {
-    m_projects.at(projectId)->dragAndDrop(LPartenza,LArrivo,idTask,Posizione);
+void Model::convertToContainer(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) {
+    m_projects.at(projectId)->convertToContainer(listId,taskId);
 }
 
-unsigned short Model::moveTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask, const Direction &moveDirection) {
-	 return m_projects.at(projectId)->moveTask(idList,idTask,moveDirection);
+void Model::dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short taskId, const unsigned short Posizione) {
+    m_projects.at(projectId)->dragAndDrop(LPartenza,LArrivo,taskId,Posizione);
+}
+
+unsigned short Model::moveTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const Direction &moveDirection) {
+     return m_projects.at(projectId)->moveTask(listId,taskId,moveDirection);
  }
 
 void Model::load(const QJsonDocument& document) {
