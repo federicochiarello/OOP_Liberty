@@ -150,8 +150,8 @@ void Controller::addTaskChild(const unsigned short projectId, const unsigned sho
 //    _model->setListName(idList,p_name);
 //}
 
-void Controller::changeListOrder(const unsigned short projectId, const unsigned short listToMove, const unsigned short Posizione) {
-    _model->changeListOrder(projectId,listToMove,Posizione);
+bool Controller::changeListOrder(const unsigned short projectId, const unsigned short listToMove, const Direction& moveDirection) {
+    return _model->changeListOrder(projectId,listToMove,moveDirection);
 }
 
 void Controller::convertToPrio(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
@@ -194,8 +194,9 @@ void Controller::dragAndDrop(const unsigned short projectId, const unsigned shor
 void Controller::getExistingProjects() {
 
 //	QStandardPaths::displayName(QStandardPaths::AppDataLocation)
-	QDir projectsDir(QDir::homePath()+"/Documents/Universita/P2");
-	QStringList projects = projectsDir.entryList(QDir::Files, QDir::Time);
+    QDir projectsDir(QDir::homePath()+"/Documents/Universita/P2");
+
+    QStringList projects = projectsDir.entryList(QDir::Files,QDir::Time);
 
 	projects.prepend(projectsDir.absolutePath());
 

@@ -71,7 +71,7 @@ public slots:
 
 //    void        setProjectName(const std::string& p_name);
 //    void        setListName(const unsigned short idList, const std::string& p_name);
-    void        changeListOrder(const unsigned short projectId, const unsigned short listToMove, const unsigned short Posizione);
+    bool        changeListOrder(const unsigned short projectId, const unsigned short listToMove, const Direction& moveDirection);
 
     void        convertToPrio(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
     void        convertToCont(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
