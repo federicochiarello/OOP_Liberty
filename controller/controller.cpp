@@ -1,7 +1,10 @@
 #include "controller.h"
 #include "view/view.h"
 
-bool Controller::isValidProjectName(const QString &projectName) {
+QDir Controller::projectsDir = QDir::homePath()+"/Documents/Universita/P2";
+//	QStandardPaths::displayName(QStandardPaths::AppDataLocation)
+
+bool Controller::isValidName(const QString &projectName) {
 	QString illegal=".,<>:\"|?*";
 	for (auto character : projectName) {
 		if (illegal.contains(character)) {
@@ -33,93 +36,114 @@ Controller::Controller(Model* m, QObject *parent) : QObject(parent), _view(nullp
 }
 
 void Controller::setView(View* view) {
-    _view = view;
+	_view = view;
 }
 
-QString Controller::stuffing(const QString & p_string) {
-    QString backSlash, stuffed;
-    int j = 0;
-    for(int i = 0; i < p_string.size(); i++) {
-        if(p_string[i] == QChar('\\')) {
-            backSlash.insert(j,QString("\\\\"));
-            j++;
-        } else
-            backSlash[j] = p_string[i];
-        j++;
-    }
-    j = 0;
-    for(int i = 0; i < backSlash.size(); i++) {
-        if(backSlash[i] == QChar('"')) {
-            stuffed.insert(j,QString("\\\""));
-            j++;
-        } else if(backSlash[i] == QChar('\n')) {
-            stuffed.insert(j,QString("\\n"));
-            j++;
-        } else if(backSlash[i] == QChar('\t')) {
-            stuffed.insert(j,QString("\\t"));
-            j++;
-        } else if(backSlash[i] == QChar('\b')) {
-            stuffed.insert(j,QString("\\b"));
-            j++;
-        } else if(backSlash[i] == QChar('\r')) {
-            stuffed.insert(j,QString("\\r"));
-            j++;
-        } else if(backSlash[i] == QChar('\f')) {
-            stuffed.insert(j,QString("\\f"));
-            j++;
-        } else
-            stuffed[j] = backSlash[i];
-        j++;
-    }
-    return stuffed;
+QString Controller::stuffing(const QString & p_string) const {
+	QString backSlash, stuffed;
+	int j = 0;
+	for(int i = 0; i < p_string.size(); i++) {
+		if(p_string[i] == QChar('\\')) {
+			backSlash.insert(j,QString("\\\\"));
+			j++;
+		} else
+			backSlash[j] = p_string[i];
+		j++;
+	}
+	j = 0;
+	for(int i = 0; i < backSlash.size(); i++) {
+		if(backSlash[i] == QChar('"')) {
+			stuffed.insert(j,QString("\\\""));
+			j++;
+		} else if(backSlash[i] == QChar('\n')) {
+			stuffed.insert(j,QString("\\n"));
+			j++;
+		} else if(backSlash[i] == QChar('\t')) {
+			stuffed.insert(j,QString("\\t"));
+			j++;
+		} else if(backSlash[i] == QChar('\b')) {
+			stuffed.insert(j,QString("\\b"));
+			j++;
+		} else if(backSlash[i] == QChar('\r')) {
+			stuffed.insert(j,QString("\\r"));
+			j++;
+		} else if(backSlash[i] == QChar('\f')) {
+			stuffed.insert(j,QString("\\f"));
+			j++;
+		} else
+			stuffed[j] = backSlash[i];
+		j++;
+	}
+	return stuffed;
 }
 
-QString Controller::deStuffing(const QString & p_string) {
-    QString deStuffed;
-    for(int i = 0; i < p_string.size(); i++)
-        if(p_string[i] == QChar('\\')) {
-            if(p_string[i+1] == QChar('\\')) {
-                deStuffed.push_back('\\');
-                i++;
-            } else if(p_string[i+1] == QChar('"')) {
-                deStuffed.push_back('"');
-                i++;
-            } else if(p_string[i+1] == QChar('n')) {
-                deStuffed.push_back('\n');
-                i++;
-            } else if(p_string[i+1] == QChar('t')) {
-                deStuffed.push_back('\t');
-                i++;
-            } else if(p_string[i+1] == QChar('b')) {
-                deStuffed.push_back('\b');
-                i++;
-            } else if(p_string[i+1] == QChar('r')) {
-                deStuffed.push_back('\r');
-                i++;
-            } else if(p_string[i+1] == QChar('f')) {
-                deStuffed.push_back('\f');
-                i++;
-            } else
-                deStuffed.push_back(p_string[i]);
-        } else
-            deStuffed.push_back(p_string[i]);
-    return deStuffed;
+QString Controller::deStuffing(const QString & p_string) const {
+	QString deStuffed;
+	for(int i = 0; i < p_string.size(); i++)
+		if(p_string[i] == QChar('\\')) {
+			if(p_string[i+1] == QChar('\\')) {
+				deStuffed.push_back('\\');
+				i++;
+			} else if(p_string[i+1] == QChar('"')) {
+				deStuffed.push_back('"');
+				i++;
+			} else if(p_string[i+1] == QChar('n')) {
+				deStuffed.push_back('\n');
+				i++;
+			} else if(p_string[i+1] == QChar('t')) {
+				deStuffed.push_back('\t');
+				i++;
+			} else if(p_string[i+1] == QChar('b')) {
+				deStuffed.push_back('\b');
+				i++;
+			} else if(p_string[i+1] == QChar('r')) {
+				deStuffed.push_back('\r');
+				i++;
+			} else if(p_string[i+1] == QChar('f')) {
+				deStuffed.push_back('\f');
+				i++;
+			} else
+				deStuffed.push_back(p_string[i]);
+		} else
+			deStuffed.push_back(p_string[i]);
+	return deStuffed;
 }
 
 void Controller::onAppStart() {
 	getExistingProjects();
 }
 
+void Controller::onGetProjectsDir() {
+	emit sendProjectsDir(projectsDir);
+}
+
 void Controller::createNewProject(const std::string& p_name) {
-    _model->createNewProject(p_name);
+	_model->createNewProject(p_name);
+}
+
+void Controller::onMoveTask(const unsigned short projectId, const unsigned short listId, const std::pair<unsigned short, TaskType>& taskId, const Direction& moveDirection) {
+	const unsigned short newListId = 0/*_model->moveTask(projectId, listId, taskId.first, moveDirection)*/;
+
+	if (newListId) {
+		emit sendNewTasksList(newListId, taskId);
+		emit sendDeleteTaskFromList(listId, taskId.first);
+	}
+}
+
+void Controller::onTaskNameChanged(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const QString &newTaskName) {
+	_model->setTaskName(projectId, listId, taskId, newTaskName.toStdString());
+}
+
+void Controller::onUpdateTaskPreviewName(const unsigned short taskId, const QString& newTaskName) {
+	emit updateTaskPreviewName(taskId, newTaskName);
 }
 
 void Controller::setActiveProject(const unsigned short projectId) {
-     _model->setActiveProject(projectId);
+	 _model->setActiveProject(projectId);
 }
 
 void Controller::closeProject(const unsigned short projectId) {
-    _model->closeProject(projectId);
+	_model->closeProject(projectId);
 }
 
 //void Controller::addNewList() {
@@ -127,19 +151,19 @@ void Controller::closeProject(const unsigned short projectId) {
 //    //_view->getLastListId(_model->addNewList());
 //}
 
-void Controller::addNewTask(const unsigned short projectId, const unsigned short idList) {
-    _model->addNewTask(projectId,idList);
-    //_view->getLastTaskId(List,_model->addNewTask(idList));
+void Controller::onNewTask(const unsigned short projectId, const unsigned short listId) {
+	qDebug() << "Nuovo Task creato";
+	emit sendTaskId(listId, std::pair<unsigned short, TaskType>(_model->addNewTask(projectId, listId), TASK));
 }
 
 void Controller::addTaskChild(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-    unsigned short tParent = _model->verifyContainer(projectId,idList,idTask);
-    unsigned short tChild = _model->addNewTaskChild(projectId,idList,tParent);
+	unsigned short tParent = _model->verifyContainer(projectId,idList,idTask);
+	unsigned short tChild = _model->addNewTaskChild(projectId,idList,tParent);
 
-    // necessario settare nella vista sia l'id del nuovo task (tChild) che l'id del task padre che potrebbe
-    // essere stato cambiato se non era un TaskContainer (tParent)
+	// necessario settare nella vista sia l'id del nuovo task (tChild) che l'id del task padre che potrebbe
+	// essere stato cambiato se non era un TaskContainer (tParent)
 
-    // ......
+	// ......
 }
 
 //void Controller::setProjectName(const std::string& p_name) {
@@ -151,21 +175,21 @@ void Controller::addTaskChild(const unsigned short projectId, const unsigned sho
 //}
 
 void Controller::changeListOrder(const unsigned short projectId, const unsigned short listToMove, const unsigned short Posizione) {
-    _model->changeListOrder(projectId,listToMove,Posizione);
+	_model->changeListOrder(projectId,listToMove,Posizione);
 }
 
 void Controller::convertToPrio(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-    // ritorna l'id del nuovo task "convertito"
-    // se il task non necessitava della conversione ritorna 0
-    _model->convertToPriority(projectId,idList,idTask);
-    //_view->aggId(_model->convertToPriority(idList,idTask));
+	// ritorna l'id del nuovo task "convertito"
+	// se il task non necessitava della conversione ritorna 0
+	_model->convertToPriority(projectId,idList,idTask);
+	//_view->aggId(_model->convertToPriority(idList,idTask));
 }
 
 void Controller::convertToCont(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-    // ritorna l'id del nuovo task "convertito"
-    // se il task non necessitava della conversione ritorna 0
-    _model->convertToContainer(projectId,idList,idTask);
-    //_view->aggId(_model->convertToContainer(idList,idTask));
+	// ritorna l'id del nuovo task "convertito"
+	// se il task non necessitava della conversione ritorna 0
+	_model->convertToContainer(projectId,idList,idTask);
+	//_view->aggId(_model->convertToContainer(idList,idTask));
 }
 
 //void Controller::getTaskName(const unsigned short idList, const unsigned short idTask) const {
@@ -174,27 +198,25 @@ void Controller::convertToCont(const unsigned short projectId, const unsigned sh
 //}
 
 void Controller::getTaskPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const {
-    // ritorna un QDateTime
-    _model->getTaskPriority(projectId,idList,idTask);
+	// ritorna un QDateTime
+	_model->getTaskPriority(projectId,idList,idTask);
 }
 
 void Controller::getTaskInfo(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const {
-    //_view->visualizzaTask(_model->getTaskInfo(projectId,idList,idTask));
+	//_view->visualizzaTask(_model->getTaskInfo(projectId,idList,idTask));
 }
 
 void Controller::aggiornaTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask, const QStringList info) {
-    _model->aggiornaTask(projectId,idList,idTask,info);
+	_model->aggiornaTask(projectId,idList,idTask,info);
 }
 
 void Controller::dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione){
-    _model->dragAndDrop(projectId,LPartenza,LArrivo,idTask,Posizione);
-    //_view->aggiorna vista????????????????????
+	_model->dragAndDrop(projectId,LPartenza,LArrivo,idTask,Posizione);
+	//_view->aggiorna vista????????????????????
 }
 
 void Controller::getExistingProjects() {
 
-//	QStandardPaths::displayName(QStandardPaths::AppDataLocation)
-	QDir projectsDir(QDir::homePath()+"/Documents/Universita/P2");
 	QStringList projects = projectsDir.entryList(QDir::Files, QDir::Time);
 
 	projects.prepend(projectsDir.absolutePath());
@@ -203,14 +225,49 @@ void Controller::getExistingProjects() {
 }
 
 void Controller::onOpenProject(const QString& path) {
-	_model->load(path);
+
+	qDebug() << path;
+	QJsonDocument document;
+	QFile file(path);
+	if (file.open(QIODevice::ReadOnly)){
+		document = QJsonDocument::fromJson(file.readAll());
+		qDebug() << "File opened";
+	}
+	file.close();
+	_model->load(document);
 	qDebug() << "Model loaded";
 	auto projectInfo = _model->getProjectInfo();
 	emit sendProjectInfo(std::pair<unsigned short, QString>(projectInfo.first, QString::fromStdString(projectInfo.second)));
 }
 
-void Controller::saveProject(const unsigned short idProject) {
-	_model->save(idProject);
+void Controller::onImportProject(const QString& path) {
+	QString filename = path.mid(path.lastIndexOf("/"));
+	QString importedFileNewPath(projectsDir.absolutePath()+"/"+filename);
+	if (!QFile::copy(path, importedFileNewPath)) {
+//		Segnalare esistenza del progetto con nome uguale
+	} else {
+		onOpenProject(importedFileNewPath);
+	}
+}
+
+void Controller::onExportProject(const unsigned short projectId, const QString& exportPath) {
+	QFile exportFile(exportPath);
+	if (exportFile.exists()) {
+//		File già esistente
+	} else {
+		if (exportFile.open(QIODevice::WriteOnly)) {
+			exportFile.write(_model->save(projectId));
+		}
+	}
+	exportFile.close();
+}
+
+void Controller::saveProject(const unsigned short projectId) {
+	QFile file(projectsDir.absolutePath()+QString::fromStdString(_model->getProjectName(projectId)));
+	if (file.open(QIODevice::WriteOnly)) {
+		file.write(_model->save(projectId));
+	}
+	file.close();
 }
 
 void Controller::onGetLists(const unsigned short projectId) {
@@ -240,21 +297,20 @@ void Controller::onAddNewList(const unsigned short projectId) {
 
 void Controller::onProjectNameChanged(const unsigned short projectId, const QString& newProjectName) {
 //	Controllare che sia un nome valido e stuffing
-//	if (validName()) {
-	_model->setProjectName(projectId, newProjectName.toStdString());
-	//	} else { emit setProjectName(projectId, QString::fromStdString(_model->getProjectName(projectId))); }inutile aggiornare la lista a meno che il nome no vada bene (mettere vecchio nome)
+	if (isValidName(newProjectName)) {
+		_model->setProjectName(projectId, newProjectName.toStdString());
+	} else {
+		emit setProjectName(projectId, QString::fromStdString(_model->getProjectName(projectId)));
+	}
 }
 
 void Controller::onListNameChanged(const unsigned short projectId, const unsigned short listId, const QString &newListName) {
-//	Controllare che sia un nome valido e stuffing
-//	if (validName()) {
 	_model->setListName(projectId, listId, newListName.toStdString());
-//	} else { emit setListName(listId, QString::fromStdString(_model->getListName(projectId, listId))); }inutile aggiornare la lista a meno che il nome no vada bene (mettere vecchio nome)
 }
 
 void Controller::onNewProject(const QString& projectName) {
 
-	if (isValidProjectName(projectName)) {
+	if (isValidName(projectName)) {
 		_model->createNewProject(projectName.toStdString());
 		auto projectInfo = _model->getProjectInfo();
 		emit projectNameValid();
