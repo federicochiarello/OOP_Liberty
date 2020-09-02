@@ -7,6 +7,9 @@ void TasksListWidget::setup() {
 //	_title->setFocus();
 
 	_menu->addAction(_actionNewTask);
+	_menu->addAction(_actionMoveListLeft);
+	_menu->addAction(_actionMoveListRight);
+
 	_buttonActions->setMenu(_menu);
 
 	_header->setAlignment(Qt::AlignVCenter);
@@ -53,6 +56,14 @@ void TasksListWidget::connects() {
 
 	connect(_controller, SIGNAL(sendTasksIds(const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>&)),
 			this, SLOT(fetchTasksIds(const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>&)));
+	connect(_actionMoveListLeft, SIGNAL(triggered()),
+			this, SLOT(onMoveListLeft()));
+
+	connect(_actionMoveListRight, SIGNAL(triggered()),
+			this, SLOT(onMoveListRight()));
+
+	connect(this, SIGNAL(moveList(const unsigned short, const unsigned short, const Direction&)),
+			_controller, SLOT(onMoveList(const unsigned short, const unsigned short, const Direction&)));
 }
 
 //TasksListWidget::TasksListWidget(QString listName, QWidget* parent) :
@@ -75,6 +86,8 @@ TasksListWidget::TasksListWidget(const unsigned short listId, const unsigned sho
 	_buttonActions(new QPushButton("Actions", this)),
 	_menu(new QMenu(_buttonActions)),
 	_actionNewTask(new QAction(tr("Nuovo task"), _menu)),
+	_actionMoveListLeft(new QAction(tr("Sposta lista a sinistra"), _menu)),
+	_actionMoveListRight(new QAction(tr("Sposta lista a destra"), _menu)),
 	_list(new TasksList(_id, _projectId, controller, this)) {
 
 	setup();
@@ -129,3 +142,10 @@ void TasksListWidget::onListNameChanged() {
 	emit listNameChanged(_projectId, _id, _title->text());
 }
 
+void TasksListWidget::onMoveListLeft() {
+	emit moveList(_projectId, _id, LEFT);
+}
+
+void TasksListWidget::onMoveListRight() {
+	emit moveList(_projectId, _id, RIGHT);
+}

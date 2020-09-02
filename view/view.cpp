@@ -10,6 +10,9 @@ void View::connects() {
 	connect(this, SIGNAL(getProjectsDir()),
 			_controller, SLOT(onGetProjectsDir()));
 
+	connect(_centralWidget, SIGNAL(tabCloseRequested(int)),
+			this, SLOT(onCloseTab(int)));
+
 	connect(_controller, SIGNAL(sendProjectsDir(const QDir&)),
 			this, SLOT(fetchProjectsDir(const QDir&)));
 
@@ -123,6 +126,10 @@ void View::addToolBar() {
 	_windowLayout->addWidget(toolB2);
 }
 
+void View::onCloseTab(int index) {
+	_centralWidget->removeTab(index);
+}
+
 void View::fetchProjectsDir(const QDir &projectsDir) {
 	_projectsDir = projectsDir;
 }
@@ -134,7 +141,8 @@ void View::fetchExistingProjects(const QStringList& projects) {
 	for (int i=1; i<projects.size(); i++) {
 		ProjectPreview* tmp = new ProjectPreview(_controller, projects.at(i), projects.at(0), startingWidget);
 		startingWidgetLayout->addWidget(tmp);
-//		connect(tmp, SIGNAL(openProject(const QString)), this, SIGNAL(openProject(const QString))); eliminato
+//		connect(tmp, SIGNAL(openProject(const QString)), this, SIGNAL(openProject(const QString)));
+
 	}
 
 	startingWidget->setLayout(startingWidgetLayout);
@@ -210,7 +218,7 @@ void View::setup() {
 	// Menu
 
 	// Declaration menus and actions
-
+	_centralWidget->setTabsClosable(true);
 	createMenus();
 //	QMenuBar* menuBar = new QMenuBar(this);
 //	QMenu* fileMenu = new QMenu(tr("File"), menuBar);

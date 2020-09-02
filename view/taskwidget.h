@@ -25,8 +25,15 @@ class TaskWidget : public QWidget {
 	const Controller* _controller;
 
 	QVBoxLayout*	_layout;
+	QHBoxLayout* _header;
 	QLineEdit*		_name;
 	TextHolder*		_desc;
+
+	QPushButton* _options;
+	QMenu* _menu;
+	QAction* _actionMoveLeft;
+	QAction* _actionMoveRight;
+	QAction* _actionDelete;
 
 	void setup();
 	void connects();

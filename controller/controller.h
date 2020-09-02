@@ -51,7 +51,8 @@ signals:
 	void sendNewTasksList(const unsigned short newListId, const std::pair<unsigned short, TaskType>& taskId);
 	void sendDeleteTaskFromList(const unsigned short listId, const unsigned short taskId);
 	void updateTaskPreviewName(const unsigned short taskId, const QString& newTaskName);
-	void moveTask(const unsigned short);
+	void moveTask(const unsigned short taskId);
+	void moveList(const unsigned short projectId, const unsigned short listId, const Direction& moveDirection);
 
 public slots:
 
@@ -78,6 +79,8 @@ public slots:
 	void		onMoveTask(const unsigned short projectId, const unsigned short listId, const std::pair<unsigned short, TaskType>& taskId, const Direction& moveDirection);
 	void		onTaskNameChanged(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const QString& newTaskName);
 	void		onUpdateTaskPreviewName(const unsigned short taskId, const QString& newTaskName);
+
+	void		onMoveList(const unsigned short projectId, const unsigned short listId, const Direction& moveDirection);
 
 	void        setActiveProject(const unsigned short projectId);
 	void        closeProject(const unsigned short projectId);

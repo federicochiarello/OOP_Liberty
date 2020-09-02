@@ -35,13 +35,14 @@ class ProjectView : public QWidget {
 	QMenu* _optionMenu;
 	QAction* _actionExportProject;
 	QPushButton* _buttonAddList;
+	QScrollArea* _centralWidget;
+	QWidget* _listsWidget;
 
 	void connects();
 	void setup();
 
 public:
-//	explicit ProjectView(QWidget *parent = nullptr);
-//	ProjectView(const unsigned short id, const Controller* controller, QWidget* parent);
+
 	ProjectView(const std::pair<unsigned short, QString>& projectInfo, const Controller* controller, QWidget* parent =nullptr);
 
 	unsigned short getId() const;
@@ -78,6 +79,7 @@ public slots:
 	void fetchListId(const unsigned short projectId, const unsigned short listId);
 	void onProjectNameChanged();
 	void onSetProjectName(const unsigned short projectId, const QString& projectName);
+	void onMoveList(const unsigned short projectId, const unsigned short listId, const Direction& moveDirection);
 
 //	void onGetListName(const unsigned short listId);
 //	void fetchListName(const unsigned short projectId, const unsigned short listId, const QString& listName);

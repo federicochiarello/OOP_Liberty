@@ -67,6 +67,10 @@ signals:
 	void newProjectInfo(const QString&);
 	void openProject(const QString&);
 
+private slots:
+
+	void onCloseTab(int index);
+
 public slots:
 
 	void fetchProjectsDir(const QDir& projectsDir);

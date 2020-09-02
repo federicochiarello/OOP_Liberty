@@ -20,7 +20,9 @@ ProjectView::ProjectView(const std::pair<unsigned short, QString>& projectInfo, 
 	_options(new QPushButton(this)),
 	_optionMenu(new QMenu(_options)),
 	_actionExportProject(new QAction(tr("Esporta progetto"), _optionMenu)),
-	_buttonAddList(new QPushButton(tr("+"), this)){
+	_buttonAddList(new QPushButton(tr("+"), this)),
+	_centralWidget(new QScrollArea(this)),
+	_listsWidget(new QWidget(_centralWidget)) {
 
 	setup();
 	connects();
@@ -64,6 +66,9 @@ void ProjectView::connects() {
 	connect(_buttonAddList, SIGNAL(clicked()),
 			this, SLOT(onAddNewList()));
 
+	connect(_controller, SIGNAL(moveList(const unsigned short, const unsigned short, const Direction&)),
+			this, SLOT(onMoveList(const unsigned short, const unsigned short, const Direction&)));
+
 }
 
 void ProjectView::setup() {
@@ -77,9 +82,14 @@ void ProjectView::setup() {
 	_headerLayout->addWidget(_options);
 
 	_centralLayout->addWidget(_buttonAddList);
+	_listsWidget->setLayout(_centralLayout);
+	_listsWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+	_centralWidget->setWidgetResizable(true);
+	_centralWidget->setWidget(_listsWidget);
 
 	_mainLayout->addLayout(_headerLayout);
-	_mainLayout->addLayout(_centralLayout);
+	_mainLayout->addWidget(_centralWidget);
 }
 
 //ProjectView::ProjectView(const unsigned short id, const Controller *controller, QWidget *parent) :
@@ -108,13 +118,12 @@ void ProjectView::onAddNewList() {
 }
 
 void ProjectView::fetchListId(const unsigned short projectId, const unsigned short listId) {
-	_centralLayout->removeWidget(_buttonAddList);
 	if (projectId == _id) {
 		TasksListWidget* newList = new TasksListWidget(listId, projectId, true, _controller, this);
 		_lists.push_back(newList);
-		_centralLayout->addWidget(newList);
+		_centralLayout->insertWidget(_centralLayout->count()-1, newList);
+		_centralWidget->setWidget(_listsWidget);
 	}
-	_centralLayout->addWidget(_buttonAddList);
 }
 
 void ProjectView::onProjectNameChanged() {
@@ -127,14 +136,34 @@ void ProjectView::onSetProjectName(const unsigned short projectId, const QString
 	}
 }
 
+void ProjectView::onMoveList(const unsigned short projectId, const unsigned short listId, const Direction& moveDirection) {
+	if (projectId == _id) {
+		TasksListWidget* tmp;
+		for (auto i = 0; i < _centralLayout->count()-1; i++) {
+			if ((tmp = dynamic_cast<TasksListWidget*>(_centralLayout->itemAt(i)->widget())) && (tmp->getId() == listId)) {
+				switch (moveDirection) {
+					case LEFT:
+						_centralLayout->removeWidget(tmp);
+						_centralLayout->insertWidget(i-1, tmp);
+						break;
+					case RIGHT:
+						_centralLayout->removeWidget(tmp);
+						_centralLayout->insertWidget(++i, tmp);
+						break;
+				}
+			}
+		}
+	}
+}
+
 void ProjectView::fetchListsIds(const unsigned short projectId, std::vector<unsigned short> listsIds) {
 	if (_id == projectId) {
-		_centralLayout->removeWidget(_buttonAddList);
 		qDebug() << "fetchLists";
 		for (auto listId : listsIds) {
 			TasksListWidget* list = new TasksListWidget(listId, _id, false, _controller, this);
 			_lists.push_back(list);
-			_centralLayout->addWidget(list);
+			_centralLayout->insertWidget(_centralLayout->count()-1, list);
+			_centralWidget->setWidget(_listsWidget);
 //			connect(list, SIGNAL(getListName(const unsigned short)),
 //					this, SIGNAL(getListName(const unsigned short)));
 
@@ -148,7 +177,6 @@ void ProjectView::fetchListsIds(const unsigned short projectId, std::vector<unsi
 //			emit list->getListName(list->getId());
 		}
 	}
-	_centralLayout->addWidget(_buttonAddList);
 }
 
 //void ProjectView::onGetListName(const unsigned short listId) {

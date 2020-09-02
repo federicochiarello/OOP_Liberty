@@ -31,6 +31,8 @@ class TasksListWidget : public QWidget {
 	QPushButton* _buttonActions;
 	QMenu* _menu;
 	QAction* _actionNewTask;
+	QAction* _actionMoveListLeft;
+	QAction* _actionMoveListRight;
 	TasksList* _list;
 
 	void setup();
@@ -53,8 +55,7 @@ signals:
 	void sendTaskName(const unsigned short, const QString&);
 	void listNameChanged(const unsigned short, const unsigned short, const QString&);
 
-	void moveTaskForward(const unsigned short);
-	void moveTaskBackward(const unsigned short);
+	void moveList(const unsigned short, const unsigned short, const Direction&);
 
 public slots:
 
@@ -62,6 +63,8 @@ public slots:
 	void fetchTaskId(const unsigned short listId, const std::pair<unsigned short, TaskType>& taskId);
 	void fetchTasksIds(const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>>& tasksIds);
 	void onListNameChanged();
+	void onMoveListLeft();
+	void onMoveListRight();
 
 //	void onGetTaskName(const unsigned short taskId);
 //	void onSendTaskName(const unsigned short listId, const unsigned short taskId, const QString& taskName);

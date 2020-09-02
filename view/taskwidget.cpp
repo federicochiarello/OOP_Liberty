@@ -17,14 +17,7 @@
 //}
 
 void TaskWidget::setup() {
-	//QTextEdit* name = new TextHolder(tr("Inserire il nome del task"), this);
-	//QTextEdit* desc = new TextHolder(tr("Descrizione"), this);
-	QHBoxLayout* firstRow = new QHBoxLayout();
-	QPushButton* options = new QPushButton(this);
-	QMenu* menu = new QMenu(options);
-	QAction* forward = new QAction(tr("Sposta avanti"), menu);
-	QAction* backward = new QAction(tr("Sposta indietro"), menu);
-	QAction* remove = new QAction(tr("Elimina"), menu);
+
 
 	/* Connect delle varie QAction */
 	//connect(forward, SIGNAL(triggered()));
@@ -37,30 +30,25 @@ void TaskWidget::setup() {
 	*/
 
 	/* Aggiunta QAction a menu */
-	menu->addAction(forward);
-	menu->addAction(backward);
-	menu->addAction(remove);
+	_menu->addAction(_actionMoveLeft);
+	_menu->addAction(_actionMoveRight);
+	_menu->addAction(_actionDelete);
 
 	/* Aggiunta menu a pulsante e settaggio delle relative impostazioni */
-	options->setMenu(menu);
-	options->setFixedSize(25, 25);
+	_options->setMenu(_menu);
 
 	/* Settaggio impostazioni TextHolder _name */
-	_name->setFixedHeight(25);
-	_name->setMinimumWidth(150);
-	_name->setMaximumWidth(300);
-	_name->resize(150, 30);
 
 	/* Aggiunta elementi a layout della prima riga e settaggi */
-	firstRow->addWidget(_name);
-	firstRow->addWidget(options);
-	firstRow->setAlignment(Qt::AlignCenter);
+	_header->addWidget(_name);
+	_header->addWidget(_options);
+	_header->setAlignment(Qt::AlignCenter);
 
 	/* Aggiunta elementi a layout principale e settaggi */
-	_layout->addLayout(firstRow);
+	_layout->addLayout(_header);
 	_layout->addWidget(_desc);
 	setLayout(_layout);
-	setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
+	setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding));
 }
 
 void TaskWidget::connects() {
@@ -81,8 +69,14 @@ TaskWidget::TaskWidget(const unsigned short id, const unsigned short listId, con
 	_projectId(projectId),
 	_controller(controller),
 	_layout(new QVBoxLayout()),
+	_header(new QHBoxLayout()),
 	_name(new QLineEdit((taskInfo.size()>1?taskInfo[1]:""), this)),
-	_desc(new TextHolder((taskInfo.size()>2?taskInfo[2]:""), this)) {
+	_desc(new TextHolder((taskInfo.size()>2?taskInfo[2]:""), this)),
+	_options(new QPushButton(this)),
+	_menu(new QMenu(_options)),
+	_actionMoveLeft(new QAction(tr("Sposta a sinistra"), _menu)),
+	_actionMoveRight(new QAction(tr("Sposta a destra"), _menu)),
+	_actionDelete(new QAction(tr("Elimina"), _menu)) {
 
 	setup();
 }

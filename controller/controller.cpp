@@ -139,6 +139,14 @@ void Controller::onUpdateTaskPreviewName(const unsigned short taskId, const QStr
 	emit updateTaskPreviewName(taskId, newTaskName);
 }
 
+void Controller::onMoveList(const unsigned short projectId, const unsigned short listId, const Direction &moveDirection) {
+	if (_model->changeListOrder(projectId, listId, moveDirection)) {
+		emit moveList(projectId, listId, moveDirection);
+	} else {
+		// unable to move list
+	}
+}
+
 void Controller::setActiveProject(const unsigned short projectId) {
 	 _model->setActiveProject(projectId);
 }
