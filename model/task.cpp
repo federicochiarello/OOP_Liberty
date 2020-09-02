@@ -20,7 +20,7 @@ Task *Task::clone() const { return new Task(*this); }
 QJsonObject Task::toJson() const {
 	QJsonObject taskObject = AbsTask::toJson();
 	taskObject.insert("taskType", 1);
-
+	qDebug() << "obj da Task";
     return taskObject;
 }
 

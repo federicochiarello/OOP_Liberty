@@ -1,7 +1,7 @@
 #include "abstask.h"
 
 unsigned short AbsTask::nextID = 0;
-QString AbsTask::dateTimeFormat = "dd/MM/yyyy hh:mm:ss";
+QString AbsTask::dateTimeFormat = "dd.MM.yyyy hh:mm:ss";
 
 AbsTask::AbsTask(List* list, AbsTask* parent) :
 	_id(++nextID),
@@ -50,11 +50,17 @@ QJsonObject AbsTask::toJson() const {
 	QJsonObject taskObject;
 
 	taskObject.insert("taskId", _id);
-	taskObject.insert("taskLabel", QString::fromStdString(m_label));
+	qDebug()<<"Id";
+	taskObject.insert("taskLabel", QJsonValue(QString::fromStdString(m_label)));
+	qDebug()<<"Label";
 	taskObject.insert("taskDescription", QString::fromStdString(m_desc));
+	qDebug()<<"Description";
 	taskObject.insert("taskEta", m_eta.toString(dateTimeFormat));
-	taskObject.insert("taskParentID", m_parent->getId());
+	qDebug()<<"Eta";
+	taskObject.insert("taskParentId", (m_parent?m_parent->getId():0));
+	qDebug()<<"Parent";
 
+	qDebug() << "obj da AbsTask";
 	return taskObject;
 }
 

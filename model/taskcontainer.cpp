@@ -37,8 +37,9 @@ QJsonObject TaskContainer::toJson() const {
 		childrenIds.append(QJsonValue(child->getId()));
 	}
 
-	taskContainerObject.insert("childrenTasks", childrenIds);
+	taskContainerObject.insert("tasksIds", childrenIds);
 
+	qDebug() << "obj da TaskContainer";
 	return taskContainerObject;
 }
 

@@ -45,6 +45,18 @@ void TaskPreview::connects() {
 
 	connect(_controller, SIGNAL(moveTask(const unsigned short)),
 			this, SLOT(onMoveTask(const unsigned short)));
+
+	connect(_delete, SIGNAL(triggered()),
+			this, SLOT(onDeleteTask()));
+
+	connect(this, SIGNAL(deleteTask(const unsigned short, const unsigned short, const unsigned short)),
+			_controller, SLOT(onDeleteTask(const unsigned short, const unsigned short, const unsigned short)));
+
+	connect(_duplicate, SIGNAL(triggered()),
+			this, SLOT(onDuplicateTask()));
+
+	connect(this, SIGNAL(duplicateTask(const unsigned short, const unsigned short, const unsigned short)),
+			_controller, SLOT(onDuplicateTask(const unsigned short, const unsigned short, const unsigned short)));
 }
 
 TaskPreview::TaskPreview(const unsigned short id, const unsigned short listId, const unsigned short projectId, const Controller* controller, QWidget *parent) :
@@ -69,14 +81,6 @@ TaskPreview::TaskPreview(const unsigned short id, const unsigned short listId, c
 unsigned short TaskPreview::getId() const {
 	return _id;
 }
-
-//TaskPreview::TaskPreview(QString taskName, const unsigned short id, const Controller* controller, QWidget *parent) :
-//	QLineEdit(taskName, parent),
-//	_id(id),
-//	_controller(controller) {
-
-//	connects();
-//}
 
 void TaskPreview::mouseDoubleClickEvent(QMouseEvent*) {
 	emit taskNameChanged(_projectId, _listId, _id, text());
@@ -126,22 +130,10 @@ void TaskPreview::onMoveTask(const unsigned short taskId) {
 	}
 }
 
-/*
-void TPreview::mouseMoveEvent(QMouseEvent *event) {
-	if (event->button() == Qt::LeftButton) {
-		dragStartPos = event->pos();
-	}
+void TaskPreview::onDeleteTask() {
+	emit deleteTask(_projectId, _listId, _id);
 }
 
-void TPreview::mousePressEvent(QMouseEvent *event) {
-	if (!(event->buttons() & Qt::LeftButton)) {
-		return;
-	}
-	if ((event->pos()-dragStartPos).manhattanLength() < QApplication::startDragDistance()) {
-		return;
-	}
-		QDrag* drag = new QDrag(this);
-		QMimeData* mimeData = new QMimeData();
-
+void TaskPreview::onDuplicateTask() {
+	emit duplicateTask(_projectId, _listId, _id);
 }
-*/

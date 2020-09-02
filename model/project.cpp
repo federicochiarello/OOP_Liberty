@@ -353,6 +353,6 @@ QJsonObject Project::object() {
 	}
 	projectObject.insert("lists", lists);
 	_modified = false;
-
+	qDebug() << "JsonObject da progetto";
 	return projectObject;
 }

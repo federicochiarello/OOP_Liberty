@@ -67,15 +67,16 @@ List::~List() {
 QJsonObject List::toJson() const {
 	QJsonObject jsonObject;
 
-//	jsonObject.insert("listId", _id);
+	jsonObject.insert("listId", _id);
 	jsonObject.insert("listName", QString::fromStdString(m_name));
 
 	QJsonArray tasks;
 	for (auto it = m_tasks.begin(); it != m_tasks.end(); it++) {
+		qDebug() << it->first;
 		tasks.append(it->second->toJson());
 	}
 	jsonObject.insert("tasks", tasks);
-
+	qDebug() << "QJsonObject da lista";
 	return jsonObject;
 }
 

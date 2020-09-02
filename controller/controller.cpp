@@ -1,7 +1,7 @@
 #include "controller.h"
 #include "view/view.h"
 
-QDir Controller::projectsDir = QDir::homePath()+"/Documents/Universita/P2";
+QDir Controller::projectsDir = QDir(QDir::homePath()+"/Documents/Universita/P2");
 //	QStandardPaths::displayName(QStandardPaths::AppDataLocation)
 
 bool Controller::isValidName(const QString &projectName) {
@@ -134,7 +134,7 @@ void Controller::onMoveTask(const unsigned short projectId, const unsigned short
 }
 
 void Controller::onTaskNameChanged(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const QString &newTaskName) {
-	_model->setTaskName(projectId, listId, taskId, newTaskName.toStdString());
+	_model->setTaskName(projectId, listId, taskId, stuffing(newTaskName).toStdString());
 }
 
 void Controller::onUpdateTaskPreviewName(const unsigned short taskId, const QString& newTaskName) {
@@ -147,6 +147,15 @@ void Controller::onMoveList(const unsigned short projectId, const unsigned short
 	} else {
 		// unable to move list
 	}
+}
+
+void Controller::onDeleteTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) {
+//	_model->deleteTask(projectId, listId, taskId);
+	emit removeTask(listId, taskId);
+}
+
+void Controller::onDuplicateTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) {
+//	emit duplicatedTask(listId, _model->duplicateTask(projectId, listId, taskId));
 }
 
 void Controller::setActiveProject(const unsigned short projectId) {
@@ -233,7 +242,7 @@ void Controller::onOpenProject(const QString& path) {
 	QFile file(path);
 	if (file.open(QIODevice::ReadOnly)){
 		document = QJsonDocument::fromJson(file.readAll());
-		qDebug() << "File opened";
+		qDebug() << "File aperto (load)";
 	}
 	file.close();
 	_model->load(document);
@@ -258,18 +267,20 @@ void Controller::onExportProject(const unsigned short projectId, const QString& 
 //		File già esistente
 	} else {
 		if (exportFile.open(QIODevice::WriteOnly)) {
-			exportFile.write(_model->save(projectId));
+			exportFile.write(_model->save(projectId).toBinaryData());
 		}
 	}
 	exportFile.close();
 }
 
 void Controller::onSaveProject(const unsigned short projectId) {
-	QFile file(projectsDir.absolutePath()+QString::fromStdString(_model->getProjectName(projectId)));
+	QFile file(projectsDir.absolutePath()+"/"+QString::fromStdString(_model->getProjectName(projectId))+".json");
 	if (file.open(QIODevice::WriteOnly)) {
-		file.write(_model->save(projectId));
+		qDebug() << "File aperto (save)" << file.fileName();
+		file.write(_model->save(projectId).toBinaryData());
 	}
 	file.close();
+	qDebug() << "File chiuso (save)";
 }
 
 void Controller::onSaveAllProjects() {
@@ -304,14 +315,14 @@ void Controller::onAddNewList(const unsigned short projectId) {
 void Controller::onProjectNameChanged(const unsigned short projectId, const QString& newProjectName) {
 //	Controllare che sia un nome valido e stuffing
 	if (isValidName(newProjectName)) {
-		_model->setProjectName(projectId, newProjectName.toStdString());
+		_model->setProjectName(projectId, stuffing(newProjectName).toStdString());
 	} else {
-		emit setProjectName(projectId, QString::fromStdString(_model->getProjectName(projectId)));
+		emit setProjectName(projectId, deStuffing(QString::fromStdString(_model->getProjectName(projectId))));
 	}
 }
 
 void Controller::onListNameChanged(const unsigned short projectId, const unsigned short listId, const QString &newListName) {
-	_model->setListName(projectId, listId, newListName.toStdString());
+	_model->setListName(projectId, listId, stuffing(newListName).toStdString());
 }
 
 void Controller::onNewProject(const QString& projectName) {

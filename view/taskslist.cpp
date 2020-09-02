@@ -22,6 +22,12 @@ void TasksList::connects() {
 
 	connect(_controller, SIGNAL(sendDeleteTaskFromList(const unsigned short, const unsigned short)),
 			this, SLOT(fetchDeleteTaskFromList(const unsigned short, const unsigned short)));
+
+	connect(_controller, SIGNAL(removeTask(const unsigned short, const unsigned short)),
+			this, SLOT(fetchDeleteTaskFromList(const unsigned short, const unsigned short)));
+
+	connect(_controller, SIGNAL(duplicatedTask(const unsigned short, const unsigned short)),
+			this, SLOT());
 }
 
 void TasksList::removeTask(const unsigned short taskId) {

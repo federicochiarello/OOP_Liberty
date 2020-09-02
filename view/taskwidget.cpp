@@ -4,7 +4,7 @@
 //	QWidget(parent),
 //	_layout(new QVBoxLayout()),
 //	_name(new QLineEdit(this)),
-//	_desc(new TextHolder(this)) {
+//	_description(new TextHolder(this)) {
 //	setup();
 //}
 
@@ -12,12 +12,13 @@
 //	QWidget(parent),
 //	_layout(new QVBoxLayout()),
 //	_name(new QLineEdit(name, this)),
-//	_desc(new TextHolder(desc, this)) {
+//	_description(new TextHolder(desc, this)) {
 //	setup();
 //}
 
 void TaskWidget::setup() {
 
+	_name->setMinimumWidth(100);
 
 	/* Connect delle varie QAction */
 	//connect(forward, SIGNAL(triggered()));
@@ -46,7 +47,7 @@ void TaskWidget::setup() {
 
 	/* Aggiunta elementi a layout principale e settaggi */
 	_layout->addLayout(_header);
-	_layout->addWidget(_desc);
+	_layout->addWidget(_description);
 	setLayout(_layout);
 	setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding));
 }
@@ -71,7 +72,7 @@ TaskWidget::TaskWidget(const unsigned short id, const unsigned short listId, con
 	_layout(new QVBoxLayout()),
 	_header(new QHBoxLayout()),
 	_name(new QLineEdit((taskInfo.size()>1?taskInfo[1]:""), this)),
-	_desc(new TextHolder((taskInfo.size()>2?taskInfo[2]:""), this)),
+	_description(new QTextEdit((taskInfo.size()>2?taskInfo[2]:""), this)),
 	_options(new QPushButton(this)),
 	_menu(new QMenu(_options)),
 	_actionMoveLeft(new QAction(tr("Sposta a sinistra"), _menu)),
@@ -89,7 +90,7 @@ TaskWidget::TaskWidget(const unsigned short id, const unsigned short listId, con
 	_controller(controller),
 	_layout(new QVBoxLayout()),
 	_name(new QLineEdit(taskName, this)),
-	_desc(new TextHolder(this)) {
+	_description(new QTextEdit(this)) {
 
 	setup();
 }

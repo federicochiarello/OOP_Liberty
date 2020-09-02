@@ -41,31 +41,32 @@ protected:
 
 	virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
 
-	//virtual void mousePressEvent(QMouseEvent *event) override;
-	//virtual void mouseMoveEvent(QMouseEvent *event) override;
-
 signals:
 
 	void getTaskName(const unsigned short, const unsigned short, const unsigned short);
 	void openTask(const unsigned short, const unsigned short, const unsigned short);
-
+	void taskNameChanged(const unsigned short, const unsigned short, const unsigned short, const QString&);
 	void moveTask(const unsigned short, const unsigned short, const std::pair<unsigned short, TaskType>&, const Direction&);
+	void deleteTask(const unsigned short, const unsigned short, const unsigned short);
+	void duplicateTask(const unsigned short, const unsigned short, const unsigned short);
+
 
 	void openTaskInfo(const unsigned short);
-	void taskNameChanged(const unsigned short, const unsigned short, const unsigned short, const QString&);
 
 public slots:
 
-	void fetchTaskName(const unsigned short taskId, const QString& taskName);
-	virtual void fetchTaskInfo(const unsigned short taskId, const QStringList& taskInfo);
+	void			customMenu(const QPoint& position);
+	void			fetchTaskName(const unsigned short taskId, const QString& taskName);
+	virtual void	fetchTaskInfo(const unsigned short taskId, const QStringList& taskInfo);
+	void			onTaskNameChanged();
+	void			setName(const unsigned short taskId, const QString& newTaskName);
+	virtual void	onMoveLeft();
+	virtual void	onMoveRight();
+	void			onMoveTask(const unsigned short taskId);
+	void			onDeleteTask();
+	void			onDuplicateTask();
 
-	void customMenu(const QPoint& position);
-	virtual void onMoveLeft();
-	virtual void onMoveRight();
 
-	void onTaskNameChanged();
-	void setName(const unsigned short taskId, const QString& newTaskName);
-	void onMoveTask(const unsigned short taskId);
 };
 
 #endif // TASKPREVIEW_H

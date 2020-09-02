@@ -75,6 +75,8 @@ void View::createMenus() {
 
 	_file->addAction(_newProject);
 	_file->addAction(_openProject);
+	_file->addAction(_saveProject);
+	_file->addAction(_saveAllProjects);
 
 //	_edit->addAction();
 	_menuBar->addMenu(_file);

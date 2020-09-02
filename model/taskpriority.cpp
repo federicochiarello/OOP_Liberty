@@ -25,7 +25,7 @@ QJsonObject TaskPriority::toJson() const {
 
 	taskPriorityObject.insert("taskType", 3);
 	taskPriorityObject.insert("taskPriority", m_priority.toString(dateTimeFormat));
-
+	qDebug() << "obj da TaskPriority";
 	return taskPriorityObject;
 }
 

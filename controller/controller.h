@@ -53,6 +53,8 @@ signals:
 	void updateTaskPreviewName(const unsigned short taskId, const QString& newTaskName);
 	void moveTask(const unsigned short taskId);
 	void moveList(const unsigned short projectId, const unsigned short listId, const Direction& moveDirection);
+	void removeTask(const unsigned short listId, const unsigned short taskId);
+	void duplicatedTask(const unsigned short listId, const unsigned short duplicatedTaskId);
 
 public slots:
 
@@ -81,6 +83,9 @@ public slots:
 	void		onUpdateTaskPreviewName(const unsigned short taskId, const QString& newTaskName);
 
 	void		onMoveList(const unsigned short projectId, const unsigned short listId, const Direction& moveDirection);
+
+	void		onDeleteTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId);
+	void		onDuplicateTask(const unsigned short projecId, const unsigned short listId, const unsigned short taskId);
 
 	void        setActiveProject(const unsigned short projectId);
 	void        closeProject(const unsigned short projectId);

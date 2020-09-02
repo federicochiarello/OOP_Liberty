@@ -8,6 +8,8 @@
 
 #include "src/globalenums.h"
 
+#include <QDebug>
+
 class List;
 
 class AbsTask {

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QWidget>
+#include <QDialog>
 #include <QLayout>
 #include <QLineEdit>
 #include <QTextEdit>
@@ -27,7 +28,7 @@ class TaskWidget : public QWidget {
 	QVBoxLayout*	_layout;
 	QHBoxLayout* _header;
 	QLineEdit*		_name;
-	TextHolder*		_desc;
+	QTextEdit*		_description;
 
 	QPushButton* _options;
 	QMenu* _menu;

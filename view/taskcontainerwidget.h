@@ -3,6 +3,7 @@
 
 #include "taskwidget.h"
 
+
 class TaskContainerWidget : public TaskWidget {
 	Q_OBJECT
 public:

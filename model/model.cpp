@@ -125,8 +125,14 @@ void Model::load(const QJsonDocument& document) {
 	}
 }
 
-QByteArray Model::save(const unsigned short projectId) {
-	return QJsonDocument((projectId?m_projects.at(projectId):m_activeProject)->object()).toJson();
+QJsonDocument Model::save(const unsigned short projectId) {
+	Project* project;
+	if (projectId) {
+		project = m_projects.at(projectId);
+	} else {
+		project = m_activeProject;
+	}
+	return QJsonDocument(project->object());
 }
 
 std::pair<unsigned short, std::string> Model::getProjectInfo(const unsigned short projectId) {

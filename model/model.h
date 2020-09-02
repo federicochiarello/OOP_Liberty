@@ -59,8 +59,8 @@ public:
     void                dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short taskId, const unsigned short Posizione);
     unsigned short      moveTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const Direction& moveDirection);
 
-    void                load(const QJsonDocument& document);
-    QByteArray          save(const unsigned short projectId);
+	void	load(const QJsonDocument& document);
+	QJsonDocument	save(const unsigned short projectId);
 
 	std::pair<unsigned short, std::string> getProjectInfo(const unsigned short projectId =0);
 	// se projectId =0 allora si richiedono le info di activeProject

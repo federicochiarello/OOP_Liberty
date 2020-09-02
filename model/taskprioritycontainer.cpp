@@ -28,8 +28,8 @@ QJsonObject TaskPriorityContainer::toJson() const {
 		childrenIds.append(task->getId());
 	}
 
-	jsonObject.insert("childrenTasks", childrenIds);
-
+	jsonObject.insert("tasksIds", childrenIds);
+	qDebug() << "obj da TaskPriorityContainer";
 	return jsonObject;
 }
 
