@@ -4,7 +4,10 @@
 #include <QDebug>
 
 TaskPriority::TaskPriority(const std::string p_label, const std::string p_desc, List *p_list, AbsTask *p_parent,QDateTime p_priority)
-	:   AbsTask(p_label,p_desc,p_list,p_parent), m_priority(p_priority) {}
+    :   AbsTask(p_label,p_desc,p_list,p_parent), m_priority(p_priority) {}
+
+TaskPriority::TaskPriority(const unsigned short id, const std::string p_label, const std::string p_desc)
+    :   AbsTask(id,p_label,p_desc) {}
 
 TaskPriority::TaskPriority(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap) :
 	AbsTask(object, idsMap),
@@ -41,7 +44,9 @@ QStringList TaskPriority::getTaskInfo() const {
 }
 
 AbsTask *TaskPriority::convertToContainer() const {
-    return new TaskPriorityContainer(getLabel(),getDesc(),nullptr,nullptr,getPriority());
+    TaskPriorityContainer* t = new TaskPriorityContainer(getId(),getLabel(),getDesc());
+    t->setPriority(getPriority());
+    return t;
 }
 
 AbsTask *TaskPriority::convertToPriority() const { return nullptr; }

@@ -58,10 +58,9 @@ public:
     std::string                             getTaskName(const unsigned short idList, const unsigned short idTask) const;
     QDateTime                               getTaskPriority(const unsigned short idList, const unsigned short idTask) const;
     void                                    aggiornaTask(const unsigned short idList, const unsigned short idTask, const QStringList info);
-    unsigned short                          verifyContainer(const unsigned short idList, const unsigned short idTask);
 
-    unsigned short                          convertToPriority(const unsigned short idList, const unsigned short idTask);
-    unsigned short                          convertToContainer(const unsigned short idList, const unsigned short idTask);
+    void                          convertToPriority(const unsigned short idList, const unsigned short idTask);
+    void                          convertToContainer(const unsigned short idList, const unsigned short idTask);
 
 	void            dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione);
 		 unsigned short  moveTask(const unsigned short idList, const unsigned short idTask, const Direction &moveDirection);

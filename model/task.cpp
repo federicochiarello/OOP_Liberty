@@ -32,11 +32,11 @@ QStringList Task::getTaskInfo() const {
 }
 
 AbsTask *Task::convertToContainer() const {
-    return new TaskContainer(getLabel(),getDesc());
+    return new TaskContainer(getId(),getLabel(),getDesc());
 }
 
 AbsTask *Task::convertToPriority() const {
-	return new TaskPriority(getLabel(),getDesc());
+    return new TaskPriority(getId(),getLabel(),getDesc());
 }
 
 TaskType Task::getType() const {

@@ -52,9 +52,8 @@ public:
 
     void                aggiornaTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask, const QStringList info);
 
-    unsigned short      convertToPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
-    unsigned short      convertToContainer(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
-    unsigned short      verifyContainer(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
+    void                convertToPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
+    void                convertToContainer(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
 
     void    dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione);
 	unsigned short moveTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask, const Direction& moveDirection);

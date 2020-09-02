@@ -173,13 +173,6 @@ void Project::aggiornaTask(const unsigned short idList, const unsigned short idT
 	m_lists.at(idList)->getTask(idTask)->aggiornaTask(info);
 }
 
-unsigned short Project::verifyContainer(const unsigned short idList, const unsigned short idTask) {
-	_modified = true;
-	// se idTask è un TaskContainer -> ritorna il il suo id
-    //                   altrimenti -> lo converte a TaskContainer e ritorna il nuovo id
-    return (dynamic_cast<TaskContainer*>(m_lists.at(idList)->getTask(idTask)) == nullptr ? convertToPriority(idList,idTask) : idTask );
-}
-
 std::string Project::getName() const { return m_name; }
 
 std::vector<unsigned short> Project::getLists() const {
@@ -262,30 +255,38 @@ unsigned short Project::addNewList() {
     return id;
 }
 
-unsigned short Project::convertToPriority(const unsigned short idList, const unsigned short idTask) {
-	_modified = true;
+void Project::convertToPriority(const unsigned short idList, const unsigned short idTask) {
     List* l = m_lists.at(idList);
     AbsTask* t = l->getTask(idTask);
     AbsTask* tNew = t->convertToPriority();
 
-    if(!tNew) return 0;
-    else {
+    if(tNew) {
+        _modified = true;
         //  Sostituito t (non Priority) con tNew (Priority)
-        l->updateTask(idTask,tNew);
+        l->aggiornaMap(tNew);
         //  Se t ha (parent != nullptr) va aggiornato il padre
         if(t->getParent())
             dynamic_cast<TaskContainer*>(t->getParent())->updateChild(t,tNew);
         delete t;
-        return tNew->getId();
     }
 }
 
-unsigned short Project::convertToContainer(const unsigned short idList, const unsigned short idTask) {
-	_modified = true;
+void Project::convertToContainer(const unsigned short idList, const unsigned short idTask) {
     List* l = m_lists.at(idList);
     AbsTask* t = l->getTask(idTask);
     AbsTask* tNew = t->convertToContainer();
 
+    if(tNew) {
+        _modified = true;
+        //  Sostituito t (non Priority) con tNew (Priority)
+        l->aggiornaMap(tNew);
+        //l->updateTask(idTask,tNew);
+        //  Se t ha (parent != nullptr) va aggiornato il padre
+        if(t->getParent())
+            dynamic_cast<TaskContainer*>(t->getParent())->updateChild(t,tNew);
+        delete t;
+    }
+ /*
     if(!tNew) return 0;
     else {
         l->updateTask(idTask,tNew);
@@ -293,7 +294,7 @@ unsigned short Project::convertToContainer(const unsigned short idList, const un
             dynamic_cast<TaskContainer*>(t->getParent())->updateChild(t,tNew);
         delete t;
         return tNew->getId();
-    }
+    }*/
 }
 
 void Project::dragAndDrop(const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione) {

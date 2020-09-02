@@ -10,6 +10,7 @@ protected:
 
 public:
 	explicit TaskPriority(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr, QDateTime p_priority =QDateTime());
+    explicit TaskPriority(const unsigned short id,const std::string p_label =std::string(), const std::string p_desc =std::string());
     explicit TaskPriority(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap);
 
     TaskPriority*                   clone() const override;

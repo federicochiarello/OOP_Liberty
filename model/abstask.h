@@ -30,6 +30,7 @@ public:
 //	Constructors and destructors
 										explicit AbsTask(List* p_list =nullptr, AbsTask* p_parent =nullptr);
 										explicit AbsTask(const std::string p_label =std::string(), const std::string p_desc =std::string(), List* p_list =nullptr, AbsTask* p_parent =nullptr);
+                                        explicit AbsTask(const unsigned short id, const std::string p_label =std::string(), const std::string p_desc =std::string());
                                         AbsTask(const QJsonObject& p_obj, std::map<unsigned short,unsigned short>& idsMap);
                                         AbsTask(const AbsTask& p_task);
     virtual								~AbsTask() =0;

@@ -43,7 +43,7 @@ public:
 	std::vector<std::pair<unsigned short, TaskType>> getTasksIds() const;
     void                                    addTask(AbsTask* p_task);
     void                                    removeTask(const unsigned short idTask);
-    void                                    updateTask(const unsigned short idTask, AbsTask* p_task);
+    void                                    aggiornaMap(AbsTask* p_task);
     void                                    insertTask(const unsigned short Posizione,const unsigned short idTask);
     void                                    setAsDirectTask(const unsigned short idTask);
     AbsTask*                                getTask(const unsigned short idTask);

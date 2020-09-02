@@ -116,18 +116,10 @@ void List::removeTask(const unsigned short idTask) {
     m_tasks.erase(idTask);
 }
 
-void List::updateTask(const unsigned short idTask, AbsTask *p_task) {
-    if(!m_tasks.at(idTask)->getParent()) {
-		for(auto i = m_tasksOrder.begin(); i < m_tasksOrder.end(); ++i) {
-            if (*i == idTask) {
-                m_tasksOrder.insert(i,p_task->getId());
-				m_tasksOrder.erase(++i);
-                //*i = p_task->getId();     USATO QUANDO AVEVA IL const
-                i = m_tasksOrder.end();
-            }
-		}
-    }
-    m_tasks.erase(idTask);
+void List::aggiornaMap(AbsTask *p_task) {
+    // essendo che il task "convertito" mantiene l'id, lo si sfrutta per eliminare dal map
+    // il pair con il puntatore alla versione non convertita e poi si aggiunge quello nuovo
+    m_tasks.erase(p_task->getId());
     addTask(p_task);
 }
 

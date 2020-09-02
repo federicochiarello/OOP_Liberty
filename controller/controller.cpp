@@ -124,10 +124,12 @@ void Controller::createNewProject(const std::string& p_name) {
 void Controller::onMoveTask(const unsigned short projectId, const unsigned short listId, const std::pair<unsigned short, TaskType>& taskId, const Direction& moveDirection) {
 	const unsigned short newListId = _model->moveTask(projectId, listId, taskId.first, moveDirection);
 
-	if (newListId) {
+    if (newListId) {
+        qDebug() << "ENTRATO in onMoveTask";
 		emit moveTask(taskId.first);
 		emit sendDeleteTaskFromList(listId, taskId.first);
 		emit sendNewTasksList(newListId, taskId);
+        qDebug() << "USCITO da onMoveTask";
 	}
 }
 
@@ -166,13 +168,10 @@ void Controller::onNewTask(const unsigned short projectId, const unsigned short 
 }
 
 void Controller::addTaskChild(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-	unsigned short tParent = _model->verifyContainer(projectId,idList,idTask);
-	unsigned short tChild = _model->addNewTaskChild(projectId,idList,tParent);
+    _model->convertToContainer(projectId,idList,idTask);
+    unsigned short tChild = _model->addNewTaskChild(projectId,idList,idTask);
 
-	// necessario settare nella vista sia l'id del nuovo task (tChild) che l'id del task padre che potrebbe
-	// essere stato cambiato se non era un TaskContainer (tParent)
-
-	// ......
+    // AGGIUNGERE ID FIGLIO ALLA VISTA
 }
 
 //void Controller::setProjectName(const std::string& p_name) {
@@ -188,17 +187,11 @@ bool Controller::changeListOrder(const unsigned short projectId, const unsigned 
  }
 
 void Controller::convertToPrio(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-	// ritorna l'id del nuovo task "convertito"
-	// se il task non necessitava della conversione ritorna 0
 	_model->convertToPriority(projectId,idList,idTask);
-	//_view->aggId(_model->convertToPriority(idList,idTask));
 }
 
 void Controller::convertToCont(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-	// ritorna l'id del nuovo task "convertito"
-	// se il task non necessitava della conversione ritorna 0
 	_model->convertToContainer(projectId,idList,idTask);
-	//_view->aggId(_model->convertToContainer(idList,idTask));
 }
 
 //void Controller::getTaskName(const unsigned short idList, const unsigned short idTask) const {

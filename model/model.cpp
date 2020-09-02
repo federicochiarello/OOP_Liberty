@@ -97,16 +97,12 @@ void Model::aggiornaTask(const unsigned short projectId, const unsigned short id
     m_projects.at(projectId)->aggiornaTask(idList,idTask,info);
 }
 
-unsigned short Model::convertToPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-    return m_projects.at(projectId)->convertToPriority(idList,idTask);
+void Model::convertToPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
+    m_projects.at(projectId)->convertToPriority(idList,idTask);
 }
 
-unsigned short Model::convertToContainer(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-    return m_projects.at(projectId)->convertToContainer(idList,idTask);
-}
-
-unsigned short Model::verifyContainer(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-    return m_projects.at(projectId)->verifyContainer(idList,idTask);
+void Model::convertToContainer(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
+    m_projects.at(projectId)->convertToContainer(idList,idTask);
 }
 
 void Model::dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione) {

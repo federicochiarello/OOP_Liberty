@@ -17,7 +17,15 @@ AbsTask::AbsTask(const std::string p_label, const std::string p_desc, List* p_li
     m_desc(p_desc),
     m_eta(QDateTime::currentDateTime()),
     m_parent(p_parent),
-	m_list(p_list) {}
+    m_list(p_list) {}
+
+AbsTask::AbsTask(const unsigned short id, const std::string p_label, const std::string p_desc) :
+    _id(id),
+    m_label(p_label),
+    m_desc(p_desc),
+    m_eta(QDateTime::currentDateTime()),
+    m_parent(),
+    m_list() {}
 
 AbsTask::AbsTask(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap) :
 	_id(++nextID),

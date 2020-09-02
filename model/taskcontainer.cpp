@@ -14,8 +14,11 @@ TaskContainer::TaskContainer(const QJsonObject& object, std::map<unsigned short,
 		childsIds.push_back(childId.toInt());
 	}
 	childsMap.insert(std::pair<unsigned short, std::vector<unsigned short>>(_id, childsIds));
-	qDebug() << "TaskContainer creato";
+    qDebug() << "TaskContainer creato";
 }
+
+TaskContainer::TaskContainer(const unsigned short id, const std::string p_label, const std::string p_desc) :
+    AbsTask(id,p_label,p_desc) {}
 
 TaskContainer::TaskContainer(const TaskContainer & p_task) :
 	AbsTask(p_task),
@@ -63,7 +66,7 @@ QStringList TaskContainer::getTaskInfo() const {
 AbsTask *TaskContainer::convertToContainer() const { return nullptr; }
 
 AbsTask *TaskContainer::convertToPriority() const {
-    TaskPriorityContainer* t = new TaskPriorityContainer(getLabel(),getDesc());
+    TaskPriorityContainer* t = new TaskPriorityContainer(getId(),getLabel(),getDesc());
     t->addChildList(getChilds());
 	return t;
 }
