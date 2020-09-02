@@ -62,14 +62,15 @@ Project::~Project() {
 }
 
 void Project::addList(List *p_list) {
-//	std::map<unsigned short,List*>::value_type l(p_list->getId(),p_list);
+	_modified = true;
 	m_lists.insert(std::pair<unsigned short, List*>(p_list->getId(), p_list));
 	m_listsOrder.push_back(p_list->getId());
 }
 
 void Project::removeList(unsigned short idList) {
+	_modified = true;
 
-    // Se p_list ha figli -> eliminali
+	// Se p_list ha figli -> eliminali
     delete m_lists.at(idList);
 
     // Elimina da m_listOrder
@@ -84,13 +85,17 @@ unsigned short Project::getId() const {
 	return _id;
 }
 
-void Project::setName(const std::string& p_name) { m_name = p_name; }
+void Project::setName(const std::string& p_name) {
+	_modified = true;
+	m_name = p_name;
+}
 
 QString Project::getListName(const unsigned short listId) const {
 	return QString::fromStdString(m_lists.at(listId)->getName());
 }
 
 void Project::setListName(const unsigned short idList, const std::string& p_name) {
+	_modified = true;
 	m_lists.at(idList)->setName(p_name);
 }
 
@@ -98,7 +103,32 @@ void Project::setTaskName(const unsigned short listId, const unsigned short task
 	m_lists.at(listId)->setTaskName(taskId, newTaskName);
 }
 
-void Project::changeListOrder(const unsigned short listToMove, const unsigned short Posizione) {
+bool Project::changeListOrder(const unsigned short listToMove, const Direction& moveDirection) {
+ // Ho interpretato che moveDirection = LEFT voglia dire invertire listToMove con quella alla sua sx
+ // specularmente per RIGHT
+	 for (auto i = m_listsOrder.begin(); i < m_listsOrder.end(); ++i) {
+		 if(*i == listToMove) {
+			 if(moveDirection == LEFT  && (i-1) >= m_listsOrder.begin()) {
+				 _modified = true;
+
+				 unsigned short tmp = *i;
+				 *i = *(i-1);
+				 *(i-1) = tmp;
+
+				 return true;
+			 } else if(moveDirection == RIGHT  && (i+1) < m_listsOrder.end()) {
+				 _modified = true;
+
+				 unsigned short tmp = *i;
+				 *i = *(i+1);
+				 *(i+1) = tmp;
+
+				 return true;
+			 }
+		 }
+	 }
+ /*  OLD
+	 _modified = true;
 	if(!Posizione) {
         m_listsOrder.insert(m_listsOrder.begin(),listToMove);
 	} else {
@@ -109,6 +139,7 @@ void Project::changeListOrder(const unsigned short listToMove, const unsigned sh
             }
 		}
 	}
+*/
 }
 
 std::vector<std::pair<unsigned short, TaskType> > Project::getTasksIds(const unsigned short listId) const {

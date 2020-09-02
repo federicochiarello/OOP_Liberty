@@ -65,8 +65,8 @@ void Model::setTaskName(const unsigned short projectId, const unsigned short lis
 	m_projects.at(projectId)->setTaskName(listId, taskId, newTaskName);
 }
 
-void Model::changeListOrder(const unsigned short projectId, const unsigned short listToMove, const unsigned short Posizione) {
-    m_projects.at(projectId)->changeListOrder(listToMove,Posizione);
+bool Model::changeListOrder(const unsigned short projectId, const unsigned short listToMove, const Direction& moveDirection) {
+	 return m_projects.at(projectId)->changeListOrder(listToMove,moveDirection);
 }
 
 std::string Model::getProjectName(const unsigned short projectId) const {
@@ -112,6 +112,10 @@ unsigned short Model::verifyContainer(const unsigned short projectId, const unsi
 void Model::dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione) {
     m_projects.at(projectId)->dragAndDrop(LPartenza,LArrivo,idTask,Posizione);
 }
+
+unsigned short Model::moveTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask, const Direction &moveDirection) {
+	 return m_projects.at(projectId)->moveTask(idList,idTask,moveDirection);
+ }
 
 void Model::load(const QJsonDocument& document) {
 	if (document.isObject()) {

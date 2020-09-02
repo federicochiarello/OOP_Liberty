@@ -174,9 +174,9 @@ void Controller::addTaskChild(const unsigned short projectId, const unsigned sho
 //    _model->setListName(idList,p_name);
 //}
 
-void Controller::changeListOrder(const unsigned short projectId, const unsigned short listToMove, const unsigned short Posizione) {
-	_model->changeListOrder(projectId,listToMove,Posizione);
-}
+bool Controller::changeListOrder(const unsigned short projectId, const unsigned short listToMove, const Direction& moveDirection) {
+	 return _model->changeListOrder(projectId,listToMove,moveDirection);
+ }
 
 void Controller::convertToPrio(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
 	// ritorna l'id del nuovo task "convertito"
