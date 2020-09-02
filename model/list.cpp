@@ -148,3 +148,7 @@ AbsTask *List::getTask(const unsigned short idTask) {
 	return m_tasks.at(idTask);
 }
 
+void List::setTaskName(const unsigned short taskId, const std::string &newTaskName) {
+	m_tasks.at(taskId)->setLabel(newTaskName);
+}
+

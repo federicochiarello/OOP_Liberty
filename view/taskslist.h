@@ -27,10 +27,14 @@ class TasksList : public QScrollArea {
 	QVBoxLayout* _layout;
 	QWidget* _widget;
 
+	void setup();
+	void connects();
+	void removeTask(const unsigned short taskId);
+
 public:
 	explicit TasksList(const unsigned short id, const unsigned short projectId, const Controller* controller, QWidget* parent = nullptr);
 
-	void addWidget(QLineEdit* widget);
+	void addWidget(TaskPreview* task);
 protected:
 	virtual void dragMoveEvent(QDragMoveEvent* event) override;
 	virtual void dragEnterEvent(QDragEnterEvent* event) override;
@@ -42,15 +46,17 @@ signals:
 
 	void getTaskName(const unsigned short);
 
-//	void newTask(unsigned short);
-	void deleteTask(unsigned short);
+	void newTask(const unsigned short, const unsigned short);
+	void deleteTask(const unsigned short);
 
 public slots:
 
 //	void fetchTaskName(const unsigned short taskId, const QString& taskName);
 
-	void addTask();
+	void onNewTask();
 	void addTask(const std::pair<unsigned short, TaskType>& taskId);
+	void fetchNewTasksList(const unsigned short newListId, const std::pair<unsigned short, TaskType>& taskId);
+	void fetchDeleteTaskFromList(const unsigned short listId, const unsigned short taskId);
 
 };
 

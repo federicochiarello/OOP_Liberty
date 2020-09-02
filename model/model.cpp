@@ -61,6 +61,10 @@ void Model::setListName(const unsigned short projectId,const unsigned short idLi
 	m_projects.at(projectId)->setListName(idList,p_name);
 }
 
+void Model::setTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const std::string &newTaskName) {
+	m_projects.at(projectId)->setTaskName(listId, taskId, newTaskName);
+}
+
 void Model::changeListOrder(const unsigned short projectId, const unsigned short listToMove, const unsigned short Posizione) {
     m_projects.at(projectId)->changeListOrder(listToMove,Posizione);
 }
@@ -109,27 +113,16 @@ void Model::dragAndDrop(const unsigned short projectId, const unsigned short LPa
     m_projects.at(projectId)->dragAndDrop(LPartenza,LArrivo,idTask,Posizione);
 }
 
-void Model::load(const QString& filename) {
-	qDebug() << filename;
-	QFile file(filename);
-	if (file.open(QIODevice::ReadOnly)){
-		QJsonDocument document = QJsonDocument::fromJson(file.readAll());
-		qDebug() << "File opened";
-		if (document.isObject()) {
-			Project* tmp = new Project(document.object());
-			m_projects.insert(std::pair<unsigned short,Project*>(tmp->getId(), tmp));
-			setActiveProject(tmp);
-		}
+void Model::load(const QJsonDocument& document) {
+	if (document.isObject()) {
+		Project* tmp = new Project(document.object());
+		m_projects.insert(std::pair<unsigned short,Project*>(tmp->getId(), tmp));
+		setActiveProject(tmp);
 	}
-	file.close();
 }
 
-void Model::save(const unsigned short projectId) const {
-	QFile file(QString::fromStdString(path+m_projects.at(projectId)->getName()));
-	if (file.open(QIODevice::WriteOnly)) {
-		file.write(QJsonDocument(m_activeProject->object()).toJson());
-	}
-	file.close();
+QByteArray Model::save(const unsigned short projectId) {
+	return QJsonDocument(m_projects.at(projectId)->object()).toJson();
 }
 
 std::pair<unsigned short, std::string> Model::getProjectInfo(const unsigned short projectId) {

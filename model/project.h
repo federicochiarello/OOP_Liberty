@@ -50,6 +50,7 @@ public:
     void                                    setName(const std::string& p_name);
 	QString									getListName(const unsigned short listId) const;
     void                                    setListName(const unsigned short idList, const std::string& p_name);
+	void									setTaskName(const unsigned short listId, const unsigned short taskId, const std::string& newTaskName);
     void                                    changeListOrder(const unsigned short listToMove, const unsigned short Posizione);
 
 	std::vector<std::pair<unsigned short, TaskType>> getTasksIds(const unsigned short listId) const;

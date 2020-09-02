@@ -9,3 +9,11 @@ void TaskPriorityContainerPreview::fetchTaskInfo(const unsigned short taskId, co
 		_task->show();
 	}
 }
+
+void TaskPriorityContainerPreview::onMoveLeft() {
+	emit moveTask(_projectId, _listId, std::pair<unsigned short, TaskType>(_id, TASK_PRIORITY_CONTAINER), LEFT);
+}
+
+void TaskPriorityContainerPreview::onMoveRight() {
+	emit moveTask(_projectId, _listId, std::pair<unsigned short, TaskType>(_id, TASK_PRIORITY_CONTAINER), RIGHT);
+}

@@ -91,7 +91,11 @@ QString Project::getListName(const unsigned short listId) const {
 }
 
 void Project::setListName(const unsigned short idList, const std::string& p_name) {
-    m_lists.at(idList)->setName(p_name);
+	m_lists.at(idList)->setName(p_name);
+}
+
+void Project::setTaskName(const unsigned short listId, const unsigned short taskId, const std::string &newTaskName) {
+	m_lists.at(listId)->setTaskName(taskId, newTaskName);
 }
 
 void Project::changeListOrder(const unsigned short listToMove, const unsigned short Posizione) {
@@ -190,12 +194,12 @@ Project* Project::fromJson(const QJsonObject& object) {
 
 unsigned short Project::addNewTask(const unsigned short idList) {
     // aggiunto un nuovo task alla lista (figlio diretto)
-    AbsTask* t = new Task;
-    List* l = m_lists.at(idList);
+	List* list = m_lists.at(idList);
+	AbsTask* task = new Task(list);
 
-    l->addTask(t);
-    l->setAsDirectTask(t->getId());
-    return t->getId();
+	list->addTask(task);
+	list->setAsDirectTask(task->getId());
+	return task->getId();
 }
 
 unsigned short Project::addNewTask(const unsigned short idList, const unsigned short idTask) {

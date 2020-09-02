@@ -47,6 +47,7 @@ public:
     void                                    insertTask(const unsigned short Posizione,const unsigned short idTask);
     void                                    setAsDirectTask(const unsigned short idTask);
     AbsTask*                                getTask(const unsigned short idTask);
+	void									setTaskName(const unsigned short taskId, const std::string& newTaskName);
 };
 
 #endif // LIST_H

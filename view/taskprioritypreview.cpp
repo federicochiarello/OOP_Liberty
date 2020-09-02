@@ -9,3 +9,11 @@ void TaskPriorityPreview::fetchTaskInfo(const unsigned short taskId, const QStri
 		_task->show();
 	}
 }
+
+void TaskPriorityPreview::onMoveLeft() {
+	emit moveTask(_projectId, _listId, std::pair<unsigned short, TaskType>(_id, TASK_PRIORITY), LEFT);
+}
+
+void TaskPriorityPreview::onMoveRight() {
+	emit moveTask(_projectId, _listId, std::pair<unsigned short, TaskType>(_id, TASK_PRIORITY), RIGHT);
+}

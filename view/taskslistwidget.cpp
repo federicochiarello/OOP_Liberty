@@ -6,13 +6,8 @@ void TasksListWidget::setup() {
 
 //	_title->setFocus();
 
-	QMenu* menu = new QMenu(_buttonActions);
-	QAction* add = new QAction(tr("Add Task"), menu);
-
-	menu->addAction(add);
-	_buttonActions->setMenu(menu);
-
-	connect(add, SIGNAL(triggered()), _list, SLOT(addTask()));
+	_menu->addAction(_actionNewTask);
+	_buttonActions->setMenu(_menu);
 
 	_header->setAlignment(Qt::AlignVCenter);
 	_header->addWidget(_title);
@@ -35,8 +30,14 @@ void TasksListWidget::setup() {
 }
 
 void TasksListWidget::connects() {
-	connect(_title, SIGNAL(textChanged(const QString&)),
-			this, SLOT(onListNameChanged(const QString&)));
+	connect(_actionNewTask, SIGNAL(triggered()),
+			_list, SLOT(onNewTask()));
+
+	connect(_controller, SIGNAL(sendTaskId(const unsigned short, const std::pair<unsigned short, TaskType>&)),
+			this, SLOT(fetchTaskId(const unsigned short, const std::pair<unsigned short, TaskType>&)));
+
+	connect(_title, SIGNAL(editingFinished()),
+			this, SLOT(onListNameChanged()));
 
 	connect(this, SIGNAL(listNameChanged(const unsigned short, const unsigned short, const QString&)),
 			_controller, SLOT(onListNameChanged(const unsigned short, const unsigned short, const QString&)));
@@ -72,6 +73,8 @@ TasksListWidget::TasksListWidget(const unsigned short listId, const unsigned sho
 	_header(new QHBoxLayout()),
 	_title(new QLineEdit(this)),
 	_buttonActions(new QPushButton("Actions", this)),
+	_menu(new QMenu(_buttonActions)),
+	_actionNewTask(new QAction(tr("Nuovo task"), _menu)),
 	_list(new TasksList(_id, _projectId, controller, this)) {
 
 	setup();
@@ -107,6 +110,13 @@ void TasksListWidget::fetchListName(const unsigned short listId, const QString &
 	}
 }
 
+void TasksListWidget::fetchTaskId(const unsigned short listId, const std::pair<unsigned short, TaskType> &taskId) {
+	if (listId == _id) {
+		_list->addTask(taskId);
+		qDebug() << "Nuovo Task Id" << taskId.first;
+	}
+}
+
 void TasksListWidget::fetchTasksIds(const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>>& tasksIds) {
 	if (listId == _id) {
 		for (auto taskId: tasksIds) {
@@ -115,7 +125,7 @@ void TasksListWidget::fetchTasksIds(const unsigned short listId, const std::vect
 	}
 }
 
-void TasksListWidget::onListNameChanged(const QString &newListName) {
-	emit listNameChanged(_projectId, _id, newListName);
+void TasksListWidget::onListNameChanged() {
+	emit listNameChanged(_projectId, _id, _title->text());
 }
 

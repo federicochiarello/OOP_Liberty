@@ -14,12 +14,16 @@ ProjectView::ProjectView(const std::pair<unsigned short, QString>& projectInfo, 
 	_lists(),
 	_controller(controller),
 	_mainLayout(new QVBoxLayout()),
+	_headerLayout(new QHBoxLayout()),
 	_centralLayout(new QHBoxLayout()),
 	_projectName(new QLineEdit(projectInfo.second, this)),
+	_options(new QPushButton(this)),
+	_optionMenu(new QMenu(_options)),
+	_actionExportProject(new QAction(tr("Esporta progetto"), _optionMenu)),
 	_buttonAddList(new QPushButton(tr("+"), this)){
 
-	connects();
 	setup();
+	connects();
 	qDebug() << "Project created";
 
 	emit getLists(_id);
@@ -29,8 +33,9 @@ unsigned short ProjectView::getId() const { return _id; }
 
 void ProjectView::connects() {
 
-	connect(_projectName, SIGNAL(textChanged(const QString&)),
-			this, SLOT(onProjectNameChanged(const QString&)));
+//	Usare editingFinished() per determinare quando cambiare nome
+	connect(_projectName, SIGNAL(editingFinished()),
+			this, SLOT(onProjectNameChanged()));
 
 	connect(this, SIGNAL(projectNameChanged(const unsigned short, const QString&)),
 			_controller, SLOT(onProjectNameChanged(const unsigned short, const QString&)));
@@ -50,6 +55,12 @@ void ProjectView::connects() {
 	connect(_controller, SIGNAL(sendListsIds(const unsigned short, std::vector<unsigned short>)),
 			this, SLOT(fetchListsIds(const unsigned short, std::vector<unsigned short>)));
 
+	connect(_actionExportProject, SIGNAL(triggered()),
+			this, SLOT(onExportProject()));
+
+	connect(this, SIGNAL(exportProject(const unsigned short, const QString&)),
+			_controller, SLOT(onExportProject(const unsigned short, const QString&)));
+
 	connect(_buttonAddList, SIGNAL(clicked()),
 			this, SLOT(onAddNewList()));
 
@@ -59,8 +70,15 @@ void ProjectView::setup() {
 	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 	setLayout(_mainLayout);
 
-	_mainLayout->addWidget(_projectName);
+	_options->setMenu(_optionMenu);
+	_optionMenu->addAction(_actionExportProject);
+
+	_headerLayout->addWidget(_projectName);
+	_headerLayout->addWidget(_options);
+
 	_centralLayout->addWidget(_buttonAddList);
+
+	_mainLayout->addLayout(_headerLayout);
 	_mainLayout->addLayout(_centralLayout);
 }
 
@@ -76,7 +94,11 @@ void ProjectView::newList() {
 //	_lists.push_back(new TasksListWidget(this));
 	//QLineEdit* listName = new QLineEdit(tr(""), this);
 	//connect(_lists.back(), SIGNAL(newList()), this, SLOT(addList()));
-//	_centralLayout->insertWidget(_centralLayout->count()-1, _lists.back());
+	//	_centralLayout->insertWidget(_centralLayout->count()-1, _lists.back());
+}
+
+void ProjectView::onExportProject() {
+	emit exportProject(_id, QFileDialog::getExistingDirectory(this, tr("Esporta"), QDir::homePath())+_projectName->text());
 }
 
 
@@ -95,8 +117,8 @@ void ProjectView::fetchListId(const unsigned short projectId, const unsigned sho
 	_centralLayout->addWidget(_buttonAddList);
 }
 
-void ProjectView::onProjectNameChanged(const QString& projectName) {
-	emit projectNameChanged(_id, projectName);
+void ProjectView::onProjectNameChanged() {
+	emit projectNameChanged(_id, _projectName->text());
 }
 
 void ProjectView::onSetProjectName(const unsigned short projectId, const QString& projectName) {

@@ -4,6 +4,11 @@
 #include <string>
 #include <map>
 
+enum Direction {
+	LEFT = -1,
+	RIGHT = +1
+};
+
 enum TaskType {
 	TASK = 1,
 	TASK_CONTAINER,

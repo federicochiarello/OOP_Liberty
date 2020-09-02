@@ -6,6 +6,7 @@
 #include <QListWidget>
 #include <QHBoxLayout>
 #include <QShortcut>
+#include <QFileDialog>
 
 #include <vector>
 #include <string>
@@ -26,9 +27,13 @@ class ProjectView : public QWidget {
 	const Controller* _controller;
 
 	QVBoxLayout* _mainLayout;
+	QHBoxLayout* _headerLayout;
 	QHBoxLayout* _centralLayout;
 
 	QLineEdit* _projectName;
+	QPushButton* _options;
+	QMenu* _optionMenu;
+	QAction* _actionExportProject;
 	QPushButton* _buttonAddList;
 
 	void connects();
@@ -44,6 +49,7 @@ public:
 signals:
 
 //	Creazione liste
+	void exportProject(const unsigned short, const QString&);
 	void getLists(const unsigned short);
 	void addNewList(const unsigned short);
 	void projectNameChanged(const unsigned short, const QString&);
@@ -66,10 +72,11 @@ private slots:
 
 public slots:
 
+	void onExportProject();
 	void fetchListsIds(const unsigned short projectId, std::vector<unsigned short> listsIds);
 	void onAddNewList();
 	void fetchListId(const unsigned short projectId, const unsigned short listId);
-	void onProjectNameChanged(const QString& projectName);
+	void onProjectNameChanged();
 	void onSetProjectName(const unsigned short projectId, const QString& projectName);
 
 //	void onGetListName(const unsigned short listId);

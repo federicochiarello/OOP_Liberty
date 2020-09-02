@@ -2,6 +2,40 @@
 
 static inline QString libertyMimeType() {return QStringLiteral("application/x-Liberty");}
 
+void TasksList::setup() {
+
+	//	setDragEnabled(true);
+		setAcceptDrops(true);
+		setWidgetResizable(true);
+
+		_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+		_widget->setLayout(_layout);
+		_widget->autoFillBackground();
+		setWidget(_widget);
+
+}
+
+void TasksList::connects() {
+	connect(this, SIGNAL(newTask(const unsigned short, const unsigned short)),
+			_controller, SLOT(onNewTask(const unsigned short, const unsigned short)));
+
+	connect(_controller, SIGNAL(sendNewTasksList(const unsigned short, const std::pair<unsigned short, TaskType>&)),
+			this, SLOT(fetchNewTasksList(const unsigned short, const std::pair<unsigned short, TaskType>&)));
+
+	connect(_controller, SIGNAL(sendDeleteTaskFromList(const unsigned short, const unsigned short)),
+			this, SLOT(fetchDeleteTaskFromList(const unsigned short, const unsigned short)));
+}
+
+void TasksList::removeTask(const unsigned short taskId) {
+	auto children = _layout->children();
+	for (auto child : children) {
+		TaskPreview* tmp = dynamic_cast<TaskPreview*>(child);
+		if (tmp && (tmp->getId() == taskId)) {
+			delete tmp;
+		}
+	}
+}
+
 TasksList::TasksList(const unsigned short id, const unsigned short projectId, const Controller* controller, QWidget *parent) :
 	QScrollArea(parent),
 	_id(id),
@@ -10,21 +44,13 @@ TasksList::TasksList(const unsigned short id, const unsigned short projectId, co
 	_layout(new QVBoxLayout()),
 	_widget(new QWidget(this)) {
 
-//	setDragEnabled(true);
-	setAcceptDrops(true);
-	setWidgetResizable(true);
-
-	_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-	_widget->setLayout(_layout);
-	_widget->autoFillBackground();
-	setWidget(_widget);
-
-//	addWidget(new TaskPreview(tr("Insert task name"), 0, this));
+	setup();
+	connects();
 
 }
 
-void TasksList::addWidget(QLineEdit* wdgt) {
-	dynamic_cast<QVBoxLayout*>(widget()->layout())->addWidget(wdgt);
+void TasksList::addWidget(TaskPreview* task) {
+	_layout->addWidget(task);
 }
 
 void TasksList::dragMoveEvent(QDragMoveEvent* event) { // spostamento task all'interno della lista
@@ -59,13 +85,9 @@ void TasksList::mousePressEvent(QMouseEvent *event) {
 //	mimeData->setText(child->getData());
 }
 
-void TasksList::addTask() {
-//	// add request and get id
-//	unsigned short id = 0;
-//	TaskPreview* newTask = new TaskPreview(tr(""), id, this);
-//	addWidget(newTask);
-//	newTask->setFocus();
-	//	//dynamic_cast<TaskPreview*>(widget()->layout()->itemAt(widget()->layout()->count()))->setFocus();
+void TasksList::onNewTask() {
+	qDebug() << "Richiesta nuovo task";
+	emit newTask(_projectId, _id);
 }
 
 void TasksList::addTask(const std::pair<unsigned short, TaskType>& taskId) {
@@ -83,8 +105,25 @@ void TasksList::addTask(const std::pair<unsigned short, TaskType>& taskId) {
 		case TASK_PRIORITY_CONTAINER:
 			task = new TaskPriorityContainerPreview(taskId.first, _id, _projectId, _controller, this);
 			break;
+		default:
+			task = nullptr;
+			break;
 	}
-	addWidget(task);
+	if (task) {
+		addWidget(task);
+	}
+}
+
+void TasksList::fetchNewTasksList(const unsigned short newListId, const std::pair<unsigned short, TaskType>& taskId) {
+	if (newListId == _id) {
+		addTask(taskId);
+	}
+}
+
+void TasksList::fetchDeleteTaskFromList(const unsigned short listId, const unsigned short taskId) {
+	if (listId == _id) {
+		removeTask(taskId);
+	}
 }
 
 DragDrop::DragDrop(QWidget* parent) : QWidget(parent) {

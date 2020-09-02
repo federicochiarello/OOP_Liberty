@@ -3,6 +3,14 @@
 unsigned short AbsTask::nextID = 0;
 QString AbsTask::dateTimeFormat = "dd/MM/yyyy hh:mm:ss";
 
+AbsTask::AbsTask(List* list, AbsTask* parent) :
+	_id(++nextID),
+	m_label(),
+	m_desc(),
+	m_eta(QDateTime::currentDateTime()),
+	m_parent(parent),
+	m_list(list) {}
+
 AbsTask::AbsTask(const std::string p_label, const std::string p_desc, List* p_list, AbsTask* p_parent) :
 	_id(++nextID),
     m_label(p_label),

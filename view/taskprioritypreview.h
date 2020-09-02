@@ -13,6 +13,8 @@ public:
 public slots:
 
 	void fetchTaskInfo(const unsigned short taskId, const QStringList &taskInfo) override;
+	void onMoveLeft() override;
+	void onMoveRight() override;
 };
 
 #endif // TASKPRIORITYPREVIEW_H

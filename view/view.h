@@ -11,6 +11,7 @@
 #include <QToolButton>
 #include <QDesktopWidget>
 #include <QTabWidget>
+#include <QFileDialog>
 #include <QDialogButtonBox>
 
 #include "projectpreview.h"
@@ -25,19 +26,22 @@ class View : public QMainWindow {
 	Q_OBJECT
 
 	const Controller* _controller;
+	QDir _projectsDir;
 	QVBoxLayout* _windowLayout;
 	QHBoxLayout* _mainLayout;
 	QTabWidget* _centralWidget;
 
+	QMenuBar* _menuBar;
 	QMenu* _file;
 	QMenu* _edit;
 
 	QAction* _newProject;
 	QAction* _openProject;
+	QAction* _importProject;
+	QAction* _exportProject;
 
 	void setup();
 	void connects();
-	void openProject();
 
 	void createActions();
 	void createMenus();
@@ -54,15 +58,22 @@ public:
 signals:
 
 	void appStart();
+	void getProjectsDir();
 	void getStartingWidget();
+	void importProject(const QString&);
+	void exportProject(const QString&);
 	void newProjectInfo(const QString&);
-//	void openProject(const QString); eliminato
+	void openProject(const QString&);
 
 public slots:
 
+	void fetchProjectsDir(const QDir& projectsDir);
 	void fetchExistingProjects(const QStringList&);
 	void fetchProjectInfo(std::pair<unsigned short, QString> projectInfo);
-	void newProject();
+	void onNewProject();
+	void onOpenProject();
+	void onImportProject();
+	void onExportProject();
 	void getNewProjectName(const QString& projectName);
 };
 

@@ -9,3 +9,11 @@ void TaskContainerPreview::fetchTaskInfo(const unsigned short taskId, const QStr
 		_task->show();
 	}
 }
+
+void TaskContainerPreview::onMoveLeft() {
+	emit moveTask(_projectId, _listId, std::pair<unsigned short, TaskType>(_id, TASK_CONTAINER), LEFT);
+}
+
+void TaskContainerPreview::onMoveRight() {
+	emit moveTask(_projectId, _listId, std::pair<unsigned short, TaskType>(_id, TASK_CONTAINER), RIGHT);
+}

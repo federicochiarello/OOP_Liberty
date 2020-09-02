@@ -39,6 +39,7 @@ public:
 
 	void                setProjectName(const unsigned short, const std::string& p_name);
 	void                setListName(const unsigned short projectId, const unsigned short idList, const std::string& p_name);
+	void				setTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const std::string& newTaskName);
     void                changeListOrder(const unsigned short projectId, const unsigned short listToMove, const unsigned short Posizione);
 
     std::string         getProjectName(const unsigned short projectId) const;
@@ -57,8 +58,8 @@ public:
 
     void    dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione);
 
-	void	load(const QString& filename);
-	void	save(const unsigned short projectId) const;
+	void	load(const QJsonDocument& document);
+	QByteArray	save(const unsigned short projectId);
 
 	std::pair<unsigned short, std::string> getProjectInfo(const unsigned short projectId =0);
 	// se projectId =0 allora si richiedono le info di activeProject

@@ -63,6 +63,17 @@ void TaskWidget::setup() {
 	setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
 }
 
+void TaskWidget::connects() {
+	connect(_name, SIGNAL(editingFinished()),
+			this, SLOT(onTaskNameChanged()));
+
+	connect(this, SIGNAL(taskNameChanged(const unsigned short, const unsigned short, const unsigned short, const QString&)),
+			_controller, SLOT(onTaskNameChanged(const unsigned short, const unsigned short, const unsigned short, const QString&)));
+
+	connect(this, SIGNAL(updateTaskPreviewName(const unsigned short, const QString&)),
+			_controller, SLOT(onUpdateTaskPreviewName(const unsigned short, const QString&)));
+}
+
 TaskWidget::TaskWidget(const unsigned short id, const unsigned short listId, const unsigned short projectId, const Controller *controller, const QStringList& taskInfo, QWidget *parent) :
 	QWidget(parent),
 	_id(id),
@@ -87,4 +98,9 @@ TaskWidget::TaskWidget(const unsigned short id, const unsigned short listId, con
 	_desc(new TextHolder(this)) {
 
 	setup();
+}
+
+void TaskWidget::onTaskNameChanged() {
+	emit taskNameChanged(_projectId, _listId, _id, _name->text());
+	emit updateTaskPreviewName(_id, _name->text());
 }

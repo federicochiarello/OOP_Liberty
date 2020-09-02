@@ -29,6 +29,8 @@ class TasksListWidget : public QWidget {
 
 	QLineEdit* _title;
 	QPushButton* _buttonActions;
+	QMenu* _menu;
+	QAction* _actionNewTask;
 	TasksList* _list;
 
 	void setup();
@@ -57,8 +59,9 @@ signals:
 public slots:
 
 	void fetchListName(const unsigned short listId, const QString& listName);
+	void fetchTaskId(const unsigned short listId, const std::pair<unsigned short, TaskType>& taskId);
 	void fetchTasksIds(const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>>& tasksIds);
-	void onListNameChanged(const QString& newListName);
+	void onListNameChanged();
 
 //	void onGetTaskName(const unsigned short taskId);
 //	void onSendTaskName(const unsigned short listId, const unsigned short taskId, const QString& taskName);

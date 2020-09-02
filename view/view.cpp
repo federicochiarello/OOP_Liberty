@@ -7,6 +7,12 @@ void View::connects() {
 	connect(this, SIGNAL(appStart()), // cambiare appStart() con getStartingWidget() e cambiare in controller
 			_controller, SLOT(onAppStart()));
 
+	connect(this, SIGNAL(getProjectsDir()),
+			_controller, SLOT(onGetProjectsDir()));
+
+	connect(_controller, SIGNAL(sendProjectsDir(const QDir&)),
+			this, SLOT(fetchProjectsDir(const QDir&)));
+
 	connect(_controller, SIGNAL(sendExistingProjects(const QStringList&)),
 			this, SLOT(fetchExistingProjects(const QStringList&)));
 
@@ -15,30 +21,59 @@ void View::connects() {
 
 	connect(this, SIGNAL(newProjectInfo(const QString&)),
 			_controller, SLOT(onNewProject(const QString&)));
+
+	connect(this, SIGNAL(openProject(const QString&)),
+			_controller, SLOT(onOpenProject(const QString&)));
+
+	connect(this, SIGNAL(importProject(const QString&)),
+			_controller, SLOT(onImportProject(const QString&)));
 }
 
 void View::createActions() {
-	_newProject = new QAction(tr("&New project"), this);
+	_newProject = new QAction(tr("&New project"), _file);
 	_newProject->setShortcut(QKeySequence::New);
 	_newProject->setStatusTip(tr("Create new project"));
 	connect(_newProject, SIGNAL(triggered()),
-			this, SLOT(newProject()));
+			this, SLOT(onNewProject()));
+
+	_openProject = new QAction(tr("&Open project"), _file);
+	_openProject->setShortcut(QKeySequence::Open);
+	_openProject->setStatusTip(tr("Open existing project"));
+	connect(_openProject, SIGNAL(triggered()),
+			this, SLOT(onOpenProject()));
+
+	_importProject = new QAction(tr("Import project"), _file);
+//	_importProject->setShortcut();
+	_importProject->setStatusTip(tr("Import existing project from file"));
+	connect(_importProject, SIGNAL(triggered()),
+			this, SLOT(onImportProject()));
+
+	_exportProject = new QAction(tr("Export project"), _file);
+//	_exportProject->setShortcut();
+	_exportProject->setStatusTip(tr("Export project file to directory"));
+	connect(_exportProject, SIGNAL(triggered()),
+			this, SLOT(onExportProject()));
 }
 
 void View::createMenus() {
 	createActions();
 
-	_file = menuBar()->addMenu(tr("&File"));
 	_file->addAction(_newProject);
+	_file->addAction(_openProject);
 
-	_edit = menuBar()->addMenu(tr("&Edit"));
+//	_edit->addAction();
+	_menuBar->addMenu(_file);
+	_menuBar->addMenu(_edit);
 }
 
 View::View(const Controller* controller,QWidget* parent) :
 	QMainWindow(parent),
 	_controller(controller),
 	_windowLayout(new QVBoxLayout()),
-	_centralWidget(new QTabWidget(this)) {
+	_centralWidget(new QTabWidget(this)),
+	_menuBar(new QMenuBar(this)),
+	_file(new QMenu(tr("&File"), _menuBar)),
+	_edit(new QMenu(tr("&Edit"), _menuBar)) {
 
 	setup();
 	connects();
@@ -74,6 +109,10 @@ void View::addToolBar() {
 	/* Add toolbar to layout */
 	_windowLayout->addWidget(toolB1);
 	_windowLayout->addWidget(toolB2);
+}
+
+void View::fetchProjectsDir(const QDir &projectsDir) {
+	_projectsDir = projectsDir;
 }
 
 void View::fetchExistingProjects(const QStringList& projects) {
@@ -128,9 +167,24 @@ void View::fetchProjectInfo(std::pair<unsigned short, QString> projectInfo) {
 	//	emit project->getLists(project->getId());
 }
 
-void View::newProject() {
+void View::onNewProject() {
 	NewProjectDialog* project = new NewProjectDialog(_controller, this);
 	project->show();
+}
+
+void View::onOpenProject() {
+	if (_projectsDir == QDir::currentPath()) { //_projectsDir non inizializzata
+		emit getProjectsDir();
+	}
+	emit openProject(QFileDialog::getOpenFileName(this, tr("Apri progetto"), _projectsDir.absolutePath(), tr("Projects(*.json)")));
+}
+
+void View::onImportProject() {
+	emit importProject(QFileDialog::getOpenFileName(this, tr("Importa progetto"), QDir::homePath(), tr("Projects(*.json)")));
+}
+
+void View::onExportProject() {
+
 }
 
 void View::getNewProjectName(const QString& projectName) {
