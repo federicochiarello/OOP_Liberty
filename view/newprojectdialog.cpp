@@ -3,7 +3,6 @@
 void NewProjectDialog::setup() {
 
 	setModal(true);
-//	setWindowModality(true);
 
 	_layout->addWidget(_description);
 	_layout->addWidget(_projectName);

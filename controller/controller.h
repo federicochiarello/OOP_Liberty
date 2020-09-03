@@ -10,8 +10,6 @@
 #include "src/globalenums.h"
 #include "model/model.h"
 
-#include <QDebug>
-
 class View;
 
 class Controller : public QObject {
@@ -67,47 +65,30 @@ public slots:
 	void		onGetListName(const unsigned short projectId, const unsigned short listId);
 	void		onGetTasksIds(const unsigned short projectId, const unsigned short listId);
 	void		onGetTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId);
-
 	void		onOpenTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId);
 	void        onAddNewList(const unsigned short projectId);
-
 	void		onProjectNameChanged(const unsigned short projectId, const QString& newProjectName);
 	void		onListNameChanged(const unsigned short projectId, const unsigned short listId, const QString& newListName);
-
 	void		onNewProject(const QString& projectName);
-	void        createNewProject(const std::string& = std::string()); // forse da sostituire a onNewProject(), da decidere se avere finestra per il nome e se averla in controller o in view (probabilmente meglio)
-
+	void        createNewProject(const std::string& = std::string());
 	void		onMoveTask(const unsigned short projectId, const unsigned short listId, const std::pair<unsigned short, TaskType>& taskId, const Direction& moveDirection);
 	void		onTaskNameChanged(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const QString& newTaskName);
 	void		onUpdateTaskPreviewName(const unsigned short taskId, const QString& newTaskName);
-
 	void		onMoveList(const unsigned short projectId, const unsigned short listId, const Direction& moveDirection);
-
 	void		onDeleteTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId);
 	void		onDuplicateTask(const unsigned short projecId, const unsigned short listId, const unsigned short taskId);
-
 	void        setActiveProject(const unsigned short projectId);
 	void        closeProject(const unsigned short projectId);
-
 	void        addTaskChild(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
-
 	void        onNewTask(const unsigned short projectId, const unsigned short idList);
-
-//  void        setProjectName(const std::string& p_name);
-//  void        setListName(const unsigned short idList, const std::string& p_name);
 	bool        changeListOrder(const unsigned short projectId, const unsigned short listToMove, const Direction& moveDirection);
-
 	void        convertToPrio(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
 	void        convertToCont(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
     void        cloneTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
-
-//  void        getTaskName(const unsigned short idList, const unsigned short idTask) const;
 	void        getTaskPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const;
 	void        getTaskInfo(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const;
 	void        aggiornaTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask, const QStringList);
-
 	void        dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short idTask, const unsigned short Posizione =0);
-
 	void		onSaveProject(const unsigned short idProject =0);
 	void		onSaveAllProjects();
 };

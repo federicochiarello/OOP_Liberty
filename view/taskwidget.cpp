@@ -1,55 +1,24 @@
 #include "taskwidget.h"
 
-//TaskWidget::TaskWidget(QWidget* parent) :
-//	QWidget(parent),
-//	_layout(new QVBoxLayout()),
-//	_name(new QLineEdit(this)),
-//	_description(new TextHolder(this)) {
-//	setup();
-//}
-
-//TaskWidget::TaskWidget(const QString& name, const QString& desc, QWidget* parent) :
-//	QWidget(parent),
-//	_layout(new QVBoxLayout()),
-//	_name(new QLineEdit(name, this)),
-//	_description(new TextHolder(desc, this)) {
-//	setup();
-//}
-
 void TaskWidget::setup() {
 
 	_name->setMinimumWidth(100);
 
-	/* Connect delle varie QAction */
-	//connect(forward, SIGNAL(triggered()));
-
-	/* Scorciatoie per le QAction */
-	/*
-	forward->setShortcut(QKeySequence("Ctrl+L"));
-	backward->setShortcut(QKeySequence(""));
-	remove->setShortcut(QKeySequence("Shift+Ctrl+X"));
-	*/
-
-	/* Aggiunta QAction a menu */
 	_menu->addAction(_actionMoveLeft);
 	_menu->addAction(_actionMoveRight);
 	_menu->addAction(_actionDelete);
 
-	/* Aggiunta menu a pulsante e settaggio delle relative impostazioni */
 	_options->setMenu(_menu);
 
-	/* Settaggio impostazioni TextHolder _name */
-
-	/* Aggiunta elementi a layout della prima riga e settaggi */
 	_header->addWidget(_name);
 	_header->addWidget(_options);
 	_header->setAlignment(Qt::AlignCenter);
 
-	/* Aggiunta elementi a layout principale e settaggi */
 	_layout->addLayout(_header);
 	_layout->addWidget(_description);
 	setLayout(_layout);
 	setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding));
+
 }
 
 void TaskWidget::connects() {

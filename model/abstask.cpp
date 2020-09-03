@@ -54,17 +54,11 @@ QJsonObject AbsTask::toJson() const {
 	QJsonObject taskObject;
 
 	taskObject.insert("taskId", _id);
-	qDebug()<<"Id";
 	taskObject.insert("taskLabel", QJsonValue(QString::fromStdString(m_label)));
-	qDebug()<<"Label";
 	taskObject.insert("taskDescription", QString::fromStdString(m_desc));
-	qDebug()<<"Description";
 	taskObject.insert("taskEta", m_eta.toString(dateTimeFormat));
-	qDebug()<<"Eta";
 	taskObject.insert("taskParentId", (m_parent?m_parent->getId():0));
-	qDebug()<<"Parent";
 
-	qDebug() << "obj da AbsTask";
 	return taskObject;
 }
 

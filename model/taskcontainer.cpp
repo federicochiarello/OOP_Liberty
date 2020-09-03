@@ -14,7 +14,6 @@ TaskContainer::TaskContainer(const QJsonObject& object, std::map<unsigned short,
 		childsIds.push_back(childId.toInt());
 	}
     childsMap.insert(std::pair<unsigned short, veqtor<unsigned short>>(getId(), childsIds));
-    qDebug() << "TaskContainer creato";
 }
 
 TaskContainer::TaskContainer(const unsigned short id, const std::string p_label, const std::string p_desc) :
@@ -49,7 +48,6 @@ QJsonObject TaskContainer::toJson() const {
 
 	taskContainerObject.insert("tasksIds", childrenIds);
 
-	qDebug() << "obj da TaskContainer";
 	return taskContainerObject;
 }
 

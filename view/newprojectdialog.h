@@ -6,7 +6,6 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QDialogButtonBox>
-#include <QPushButton>
 #include <QMessageBox>
 
 #include "controller/controller.h"

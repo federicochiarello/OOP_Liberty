@@ -10,12 +10,7 @@
 #include <QMenu>
 #include <QPushButton>
 
-//#include <QLabel>
-//#include <QToolButton>
-
 #include "controller/controller.h"
-
-#include "textholder.h"
 
 class TaskWidget : public QWidget {
 	Q_OBJECT

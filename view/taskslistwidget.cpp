@@ -1,10 +1,8 @@
 #include "taskslistwidget.h"
 
 void TasksListWidget::setup() {
-	// setMinimumSize()
-	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
-//	_title->setFocus();
+	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
 	_menu->addAction(_actionNewTask);
 	_menu->addAction(_actionMoveListLeft);
@@ -16,16 +14,6 @@ void TasksListWidget::setup() {
 	_header->setAlignment(Qt::AlignVCenter);
 	_header->addWidget(_title);
 	_header->addWidget(_buttonActions);
-
-	/*
-	_list->setDragEnabled(true);
-	_list->setAcceptDrops(true);
-	_list->setDropIndicatorShown(true);
-	_list->setDefaultDropAction(Qt::MoveAction);
-	_list->setModel(new QStringListModel());
-	_list->setWidget(widget);
-	*/
-
 
 	_layout->setAlignment(Qt::AlignLeft);
 	_layout->addLayout(_header);
@@ -60,21 +48,12 @@ void TasksListWidget::connects() {
 	connect(_actionMoveListLeft, SIGNAL(triggered()),
 			this, SLOT(onMoveListLeft()));
 
-	connect(_actionMoveListRight, SIGNAL(triggered()),
-			this, SLOT(onMoveListRight()));
+//	connect(_actionMoveListRight, SIGNAL(triggered()),
+//			this, SLOT(onMoveListRight()));
 
-	connect(this, SIGNAL(moveList(const unsigned short, const unsigned short, const Direction&)),
-			_controller, SLOT(onMoveList(const unsigned short, const unsigned short, const Direction&)));
+//	connect(this, SIGNAL(moveList(const unsigned short, const unsigned short, const Direction&)),
+//			_controller, SLOT(onMoveList(const unsigned short, const unsigned short, const Direction&)));
 }
-
-//TasksListWidget::TasksListWidget(QString listName, QWidget* parent) :
-//	QWidget(parent),
-//	_title(new QLineEdit(listName, this)),
-//	_layout(new QVBoxLayout()),
-//	_list(new TasksList(this)) {
-
-//	setup();
-//}
 
 TasksListWidget::TasksListWidget(const unsigned short listId, const unsigned short projectId, const bool& isNew, const Controller* controller, QWidget *parent) :
 	QWidget(parent),
@@ -100,19 +79,6 @@ TasksListWidget::TasksListWidget(const unsigned short listId, const unsigned sho
 	}
 }
 
-
-//TasksListWidget::TasksListWidget(QWidget* parent) :
-//	QWidget(parent),
-//	_layout(new QVBoxLayout()),
-//	_name(std::string()),
-//	_list(new TasksList(this)) {
-//	setup();
-//}
-
-//void TasksListWidget::addTask() {
-//	_list->widget()->layout()->addWidget(new QLineEdit(tr("prova"), this));
-//}
-
 TasksListWidget::~TasksListWidget() {}
 
 unsigned short TasksListWidget::getId() const { return _id; }
@@ -127,7 +93,6 @@ void TasksListWidget::fetchListName(const unsigned short listId, const QString &
 void TasksListWidget::fetchTaskId(const unsigned short listId, const std::pair<unsigned short, TaskType> &taskId) {
 	if (listId == _id) {
 		_list->addTask(taskId);
-		qDebug() << "Nuovo Task Id" << taskId.first;
 	}
 }
 

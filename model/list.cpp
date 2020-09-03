@@ -20,8 +20,6 @@ List::List(const QJsonObject& object, veqtor<AbsTask*>& tasks, std::map<unsigned
 	m_tasks(std::map<unsigned short, AbsTask*>()),
     m_tasksOrder(veqtor<unsigned short>()) {
 
-	qDebug() << "Lista creata";
-
 	AbsTask* tmp = nullptr;
 	for (const QJsonValue task : object.value("tasks").toArray()) {
 		switch(task.toObject().value("taskType").toInt()) {
@@ -72,11 +70,9 @@ QJsonObject List::toJson() const {
 
 	QJsonArray tasks;
 	for (auto it = m_tasks.begin(); it != m_tasks.end(); it++) {
-		qDebug() << it->first;
 		tasks.append(it->second->toJson());
 	}
 	jsonObject.insert("tasks", tasks);
-	qDebug() << "QJsonObject da lista";
 	return jsonObject;
 }
 

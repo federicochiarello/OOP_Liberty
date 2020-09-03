@@ -1,8 +1,8 @@
 #include "controller.h"
 #include "view/view.h"
 
-QDir Controller::projectsDir = QDir("../Liberty/projects");
-//	QStandardPaths::displayName(QStandardPaths::AppDataLocation)
+QDir Controller::projectsDir = QDir("../Liberty/projects");//
+//QDir(QStandardPaths::displayName(QStandardPaths::AppDataLocation)
 
 bool Controller::isValidName(const QString &projectName) {
 	QString illegal=".,<>:\"|?*";
@@ -14,26 +14,10 @@ bool Controller::isValidName(const QString &projectName) {
 	return true;
 }
 
-Controller::Controller(Model* m, QObject *parent) : QObject(parent), _view(nullptr), _model(m) {
-
-//	connect(VistaDiPartenza, SIGNAL(requestNewProject(const std::string&)), this, SLOT(createNewProject(const std::string&)));
-//	connect(VistaDiPartenza, SIGNAL(requestSetActiveProject(const unsigned int)), this, SLOT(setActiveProject(const unsigned int)));
-//	connect(VistaDiPartenza, SIGNAL(requestDeleteProject(const unsigned int)), this, SLOT(deleteProject(const unsigned int)));
-
-//	connect(VistaDiPartenza, SIGNAL(requestNewList()), this, SLOT(addNewList()));
-//	connect(VistaDiPartenza, SIGNAL(requestNewTask(const unsigned int)), this, SLOT(addNewTask(const unsigned int)));
-
-//	connect(VistaDiPartenza, SIGNAL(requestChangePName(const std::string)), this, SLOT(setProjectName(const std::string)));
-//	connect(VistaDiPartenza, SIGNAL(requestChangeLName(const unsigned int,const std::string)), this, SLOT(setListName(const unsigned int,const std::string)));
-
-//	connect(VistaDiPartenza, SIGNAL(convertToPriority(const unsigned short int,const unsigned short int)), this, SLOT(convertToPrio(const unsigned short int, const unsigned short int)));
-//  connect(VistaDiPartenza, SIGNAL(convertToContainer(const unsigned short int,const unsigned short int)), this, SLOT(convertToCont(const unsigned short int, const unsigned short int)));
-
-//	connect(VistaDiPartenza, SIGNAL(requestShowTask(const unsigned int,const std::string)), this, SLOT(showTask(const unsigned int,const std::string)));
-//	connect(VistaDiPartenza, SIGNAL(requestAggTask(const unsigned int,const std::string,const QStringList)), this, SLOT(aggiornaTask(const unsigned int,const std::string,const QStringList)));
-
-
-}
+Controller::Controller(Model* m, QObject *parent) :
+	QObject(parent),
+	_view(nullptr),
+	_model(m) {}
 
 void Controller::setView(View* view) {
 	_view = view;
@@ -125,16 +109,14 @@ void Controller::onMoveTask(const unsigned short projectId, const unsigned short
 	const unsigned short newListId = _model->moveTask(projectId, listId, taskId.first, moveDirection);
 
     if (newListId) {
-        qDebug() << "ENTRATO in onMoveTask";
 		emit moveTask(taskId.first);
 		emit sendDeleteTaskFromList(listId, taskId.first);
 		emit sendNewTasksList(newListId, taskId);
-        qDebug() << "USCITO da onMoveTask";
 	}
 }
 
 void Controller::onTaskNameChanged(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const QString &newTaskName) {
-	_model->setTaskName(projectId, listId, taskId, stuffing(newTaskName).toStdString());
+	_model->setTaskName(projectId, listId, taskId, newTaskName.toStdString());
 }
 
 void Controller::onUpdateTaskPreviewName(const unsigned short taskId, const QString& newTaskName) {
@@ -150,7 +132,7 @@ void Controller::onMoveList(const unsigned short projectId, const unsigned short
 }
 
 void Controller::onDeleteTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) {
-//	_model->deleteTask(projectId, listId, taskId);
+	_model->deleteTask(projectId, listId, taskId);
 	emit removeTask(listId, taskId);
 }
 
@@ -165,14 +147,7 @@ void Controller::setActiveProject(const unsigned short projectId) {
 void Controller::closeProject(const unsigned short projectId) {
 	_model->closeProject(projectId);
 }
-
-//void Controller::addNewList() {
-//    _model->addNewList();
-//    //_view->getLastListId(_model->addNewList());
-//}
-
 void Controller::onNewTask(const unsigned short projectId, const unsigned short listId) {
-	qDebug() << "Nuovo Task creato";
 	emit sendTaskId(listId, std::pair<unsigned short, TaskType>(_model->addNewTask(projectId, listId), TASK));
 }
 
@@ -182,14 +157,6 @@ void Controller::addTaskChild(const unsigned short projectId, const unsigned sho
 
     // AGGIUNGERE ID FIGLIO ALLA VISTA
 }
-
-//void Controller::setProjectName(const std::string& p_name) {
-//	_model->setActiveProjName(p_name);
-//}
-
-//void Controller::setListName(const unsigned short idList, const std::string& p_name) {
-//    _model->setListName(idList,p_name);
-//}
 
 bool Controller::changeListOrder(const unsigned short projectId, const unsigned short listToMove, const Direction& moveDirection) {
 	 return _model->changeListOrder(projectId,listToMove,moveDirection);
@@ -207,11 +174,6 @@ void Controller::cloneTask(const unsigned short projectId, const unsigned short 
     unsigned short cloneId = _model->cloneTask(projectId,idList,idTask);
     // da inserire come ultimo elemento di idList
 }
-
-//void Controller::getTaskName(const unsigned short idList, const unsigned short idTask) const {
-//    // ritorna un std::string
-//    _model->getTaskName(idList,idTask);
-//}
 
 void Controller::getTaskPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const {
 	// ritorna un QDateTime
@@ -233,7 +195,6 @@ void Controller::dragAndDrop(const unsigned short projectId, const unsigned shor
 
 void Controller::getExistingProjects() {
 
-	qDebug() << projectsDir.absolutePath();
 	QStringList projects = projectsDir.entryList(QDir::Files, QDir::Time);
 
 	projects.prepend(projectsDir.absolutePath());
@@ -243,16 +204,13 @@ void Controller::getExistingProjects() {
 
 void Controller::onOpenProject(const QString& path) {
 
-	qDebug() << path;
 	QJsonDocument document;
 	QFile file(path);
 	if (file.open(QIODevice::ReadOnly)){
 		document = QJsonDocument::fromJson(file.readAll());
-		qDebug() << "File aperto (load)";
 	}
 	file.close();
 	_model->load(document);
-	qDebug() << "Model loaded";
 	auto projectInfo = _model->getProjectInfo();
 	emit sendProjectInfo(std::pair<unsigned short, QString>(projectInfo.first, QString::fromStdString(projectInfo.second)));
 }
@@ -282,11 +240,9 @@ void Controller::onExportProject(const unsigned short projectId, const QString& 
 void Controller::onSaveProject(const unsigned short projectId) {
 	QFile file(projectsDir.absolutePath()+"/"+QString::fromStdString(_model->getProjectName(projectId))+".json");
 	if (file.open(QIODevice::WriteOnly)) {
-		qDebug() << "File aperto (save)" << file.fileName();
 		file.write(_model->save(projectId).toBinaryData());
 	}
 	file.close();
-	qDebug() << "File chiuso (save)";
 }
 
 void Controller::onSaveAllProjects() {

@@ -177,7 +177,7 @@ void View::fetchProjectInfo(std::pair<unsigned short, QString> projectInfo) {
 	ProjectView* project = new ProjectView(projectInfo, _controller, _centralWidget);
 	if (_centralWidget) { // vi sono già dei progetti aperti
 		_centralWidget->addTab(project, projectInfo.second);
-	} else { // non vi sono progetti aperti, bisogna creare il QTabWidget che conterrá i progetti
+	} else { // non vi sono finestre aperte, bisogna creare il QTabWidget che conterrá i progetti
 		setCentralWidget(new QTabWidget(this));
 		_centralWidget->addTab(project, projectInfo.second);
 		project->setParent(_centralWidget);

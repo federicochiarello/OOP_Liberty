@@ -1,13 +1,5 @@
 #include "projectview.h"
 
-//ProjectView::ProjectView(QWidget *parent) :
-//	QWidget(parent),
-//	_mainLayout(new QVBoxLayout()),
-//	_centralLayout(new QHBoxLayout()) {
-//	setup();
-//	//addList("Prova");
-//}
-
 ProjectView::ProjectView(const std::pair<unsigned short, QString>& projectInfo, const Controller* controller, QWidget *parent) :
 	QWidget(parent),
 	_id(projectInfo.first),
@@ -26,7 +18,6 @@ ProjectView::ProjectView(const std::pair<unsigned short, QString>& projectInfo, 
 
 	setup();
 	connects();
-	qDebug() << "Project created";
 
 	emit getLists(_id);
 }
@@ -35,7 +26,6 @@ unsigned short ProjectView::getId() const { return _id; }
 
 void ProjectView::connects() {
 
-//	Usare editingFinished() per determinare quando cambiare nome
 	connect(_projectName, SIGNAL(editingFinished()),
 			this, SLOT(onProjectNameChanged()));
 
@@ -81,6 +71,7 @@ void ProjectView::setup() {
 	_headerLayout->addWidget(_projectName);
 	_headerLayout->addWidget(_options);
 
+	_centralWidget->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 	_centralLayout->addWidget(_buttonAddList);
 	_listsWidget->setLayout(_centralLayout);
 	_listsWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -92,21 +83,6 @@ void ProjectView::setup() {
 	_mainLayout->addWidget(_centralWidget);
 }
 
-//ProjectView::ProjectView(const unsigned short id, const Controller *controller, QWidget *parent) :
-//	_id(id),
-//	_lists(),
-//	_controller(controller) {
-
-//}
-
-void ProjectView::newList() {
-	//TasksList* newTaskList = new TasksList(this);
-//	_lists.push_back(new TasksListWidget(this));
-	//QLineEdit* listName = new QLineEdit(tr(""), this);
-	//connect(_lists.back(), SIGNAL(newList()), this, SLOT(addList()));
-	//	_centralLayout->insertWidget(_centralLayout->count()-1, _lists.back());
-}
-
 void ProjectView::onExportProject() {
 	emit exportProject(_id, QFileDialog::getExistingDirectory(this, tr("Esporta"), QDir::homePath())+_projectName->text());
 }
@@ -114,7 +90,6 @@ void ProjectView::onExportProject() {
 
 void ProjectView::onAddNewList() {
 	emit addNewList(_id);
-	//	_mainLayout->addWidget(dynamic_cast<TasksListWidget*>(_lists.back()));
 }
 
 void ProjectView::fetchListId(const unsigned short projectId, const unsigned short listId) {
@@ -158,37 +133,11 @@ void ProjectView::onMoveList(const unsigned short projectId, const unsigned shor
 
 void ProjectView::fetchListsIds(const unsigned short projectId, veqtor<unsigned short> listsIds) {
 	if (_id == projectId) {
-		qDebug() << "fetchLists";
 		for (auto listId : listsIds) {
 			TasksListWidget* list = new TasksListWidget(listId, _id, false, _controller, this);
 			_lists.push_back(list);
 			_centralLayout->insertWidget(_centralLayout->count()-1, list);
 			_centralWidget->setWidget(_listsWidget);
-//			connect(list, SIGNAL(getListName(const unsigned short)),
-//					this, SIGNAL(getListName(const unsigned short)));
-
-//			connect(this, SIGNAL(sendListName(const unsigned short, const QString&)),
-//					list, SLOT(fetchListName(const unsigned short, const QString&)));
-
-//			connect(this, SIGNAL(sendTasksIds(const unsigned short, const veqtor<std::pair<unsigned short, TaskType>>)),
-//					list, SLOT(fetchTasksIds(const unsigned short, const veqtor<std::pair<unsigned short, TaskType>>))); eliminato
-
-
-//			emit list->getListName(list->getId());
 		}
 	}
 }
-
-//void ProjectView::onGetListName(const unsigned short listId) {
-//	emit getListName(_id, listId);
-//}
-
-//void ProjectView::fetchListName(const unsigned short projectId, const unsigned short listId, const QString& listName) {
-//	if (projectId == _id) {
-//		emit sendListName(listId, listName);
-//	}
-//}
-
-//void ProjectView::onGetTasksIds(const unsigned short listId) {
-//	emit getTasksIds(_id, listId);
-//}

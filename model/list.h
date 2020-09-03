@@ -14,8 +14,6 @@
 #include "taskpriority.h"
 #include "taskprioritycontainer.h"
 
-#include <QDebug>
-
 class AbsTask;
 
 class List {

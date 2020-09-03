@@ -15,8 +15,6 @@
 #include "taskpriority.h"
 #include "taskprioritycontainer.h"
 
-#include <QDebug>
-
 class Project {
 
     const unsigned short                _id;

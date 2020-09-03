@@ -38,7 +38,6 @@ SOURCES += \
         view/taskslist.cpp \
         view/taskslistwidget.cpp \
         view/taskwidget.cpp \
-        view/textholder.cpp \
         view/view.cpp
 
 # Default rules for deployment.
@@ -73,7 +72,6 @@ HEADERS += \
     view/taskslist.h \
     view/taskslistwidget.h \
     view/taskwidget.h \
-    view/textholder.h \
     view/view.h
     
 

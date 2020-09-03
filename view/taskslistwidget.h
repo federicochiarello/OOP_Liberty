@@ -15,8 +15,6 @@
 
 #include "taskslist.h"
 
-#include <QDebug>
-
 class TasksListWidget : public QWidget {
 	Q_OBJECT
 

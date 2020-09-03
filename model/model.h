@@ -13,8 +13,6 @@
 #include "taskpriority.h"
 #include "taskprioritycontainer.h"
 
-#include <QDebug>
-
 class Model {
 private:
 //  std::string                         m_basePath;

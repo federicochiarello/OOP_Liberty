@@ -4,9 +4,7 @@
 #include <QObject>
 #include <QLayout>
 #include <QScrollArea>
-#include <QDrag>
 #include <QDropEvent>
-#include <QMimeData>
 #include <QLineEdit>
 
 #include "src/globalenums.h"

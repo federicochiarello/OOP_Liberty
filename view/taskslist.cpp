@@ -2,7 +2,6 @@
 
 void TasksList::setup() {
 
-	//	setDragEnabled(true);
 		setAcceptDrops(true);
 		setWidgetResizable(true);
 
@@ -57,7 +56,6 @@ void TasksList::addWidget(TaskPreview* task) {
 }
 
 void TasksList::onNewTask() {
-	qDebug() << "Richiesta nuovo task";
 	emit newTask(_projectId, _id);
 }
 

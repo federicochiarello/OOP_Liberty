@@ -16,8 +16,6 @@ Project::Project(const QJsonObject& object) :
     m_listsOrder(veqtor<unsigned short>()),
 	_modified(false) {
 
-	qDebug() << "Progetto creato";
-
     veqtor<AbsTask*> tasks;
     std::map<unsigned short,unsigned short> idsMap;
     std::map<unsigned short, veqtor<unsigned short>> childsMap;
@@ -294,7 +292,6 @@ void Project::dragAndDrop(const unsigned short LPartenza, const unsigned short L
 unsigned short Project::moveTask(const unsigned short listId, const unsigned short taskId, const Direction &moveDirection) {
 	// trova posizione della lista target se esiste e la salva in it
 	// se non esiste it = m_listOrder.end() che funge da sentinella
-	qDebug() << "Move task started";
     veqtor<unsigned short>::iterator it = m_listsOrder.end();
 	for (auto i = m_listsOrder.begin(); i < m_listsOrder.end(); ++i) {
         if(*i == listId) {
@@ -306,7 +303,6 @@ unsigned short Project::moveTask(const unsigned short listId, const unsigned sho
 	}
 
 	if(it == m_listsOrder.end()) {
-		qDebug() << "Move task failed";
 		return 0;
 	} else {
 		_modified = true;
@@ -319,7 +315,6 @@ unsigned short Project::moveTask(const unsigned short listId, const unsigned sho
         l->removeTask(taskId);
 		targetList->addTask(t);
 		targetList->setAsDirectTask(idTargetList);
-		qDebug() << "Move task completed";
 
 		return idTargetList;
     }
@@ -343,6 +338,5 @@ QJsonObject Project::object() {
 	}
 	projectObject.insert("lists", lists);
 	_modified = false;
-	qDebug() << "JsonObject da progetto";
 	return projectObject;
 }
