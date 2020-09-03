@@ -10,6 +10,7 @@ void TasksListWidget::setup() {
 	_menu->addAction(_actionMoveListLeft);
 	_menu->addAction(_actionMoveListRight);
 
+	_buttonActions->setIcon(QIcon(":/icons/settings_icon.png"));
 	_buttonActions->setMenu(_menu);
 
 	_header->setAlignment(Qt::AlignVCenter);
@@ -83,7 +84,7 @@ TasksListWidget::TasksListWidget(const unsigned short listId, const unsigned sho
 	_layout(new QVBoxLayout()),
 	_header(new QHBoxLayout()),
 	_title(new QLineEdit(this)),
-	_buttonActions(new QPushButton("Actions", this)),
+	_buttonActions(new QPushButton(this)),
 	_menu(new QMenu(_buttonActions)),
 	_actionNewTask(new QAction(tr("Nuovo task"), _menu)),
 	_actionMoveListLeft(new QAction(tr("Sposta lista a sinistra"), _menu)),

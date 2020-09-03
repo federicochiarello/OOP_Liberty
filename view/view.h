@@ -42,11 +42,18 @@ class View : public QMainWindow {
 	QAction* _importProject;
 	QAction* _exportProject;
 
+	QToolBar* _toolBar;
+	QToolButton* _toolButtonNew;
+	QToolButton* _toolButtonOpen;
+	QToolButton* _toolButtonSave;
+	QToolButton* _toolButtonExport;
+
 	void setup();
 	void connects();
 
 	void createActions();
 	void createMenus();
+	void createToolBar();
 
 public:
 
@@ -54,7 +61,6 @@ public:
 
 	void addMainLayout();
 	void addMenu();
-	void addToolBar();
 	void addStatusBar();
 
 signals:

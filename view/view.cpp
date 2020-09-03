@@ -1,5 +1,17 @@
 #include "view.h"
 
+
+
+void View::setup() {
+
+	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+	_centralWidget->setTabsClosable(true);
+	createMenus();
+	createToolBar();
+
+	setLayout(_windowLayout);
+}
+
 void View::connects() {
 	connect(this, SIGNAL(appStart()),
 			this, SIGNAL(getStartingWidget()));
@@ -22,6 +34,36 @@ void View::connects() {
 	connect(_controller, SIGNAL(sendProjectInfo(std::pair<unsigned short, QString>)),
 			this, SLOT(fetchProjectInfo(std::pair<unsigned short, QString>)));
 
+	connect(_newProject, SIGNAL(triggered()),
+			this, SLOT(onNewProject()));
+
+	connect(_toolButtonNew, SIGNAL(clicked()),
+			this, SLOT(onNewProject()));
+
+	connect(_toolButtonSave, SIGNAL(clicked()),
+			_controller, SLOT(onSaveProject()));
+
+	connect(_toolButtonOpen, SIGNAL(clicked()),
+			this, SLOT(onOpenProject()));
+
+	connect(_toolButtonExport, SIGNAL(clicked()),
+			this, SLOT(onExportProject()));
+
+	connect(_openProject, SIGNAL(triggered()),
+			this, SLOT(onOpenProject()));
+
+	connect(_saveProject, SIGNAL(triggered()),
+			_controller, SLOT(onSaveProject()));
+
+	connect(_saveAllProjects, SIGNAL(triggered()),
+			_controller, SLOT(onSaveAllProjects()));
+
+	connect(_importProject, SIGNAL(triggered()),
+			this, SLOT(onImportProject()));
+
+	connect(_exportProject, SIGNAL(triggered()),
+			this, SLOT(onExportProject()));
+
 	connect(this, SIGNAL(newProjectInfo(const QString&)),
 			_controller, SLOT(onNewProject(const QString&)));
 
@@ -36,38 +78,27 @@ void View::createActions() {
 	_newProject = new QAction(tr("&New project"), _file);
 	_newProject->setShortcut(QKeySequence::New);
 	_newProject->setStatusTip(tr("Create new project"));
-	connect(_newProject, SIGNAL(triggered()),
-			this, SLOT(onNewProject()));
+
 
 	_openProject = new QAction(tr("&Open project"), _file);
 	_openProject->setShortcut(QKeySequence::Open);
 	_openProject->setStatusTip(tr("Open existing project"));
-	connect(_openProject, SIGNAL(triggered()),
-			this, SLOT(onOpenProject()));
 
 	_saveProject = new QAction(tr("Salva"), _file);
 	_saveProject->setShortcut(QKeySequence::Save);
 	_saveProject->setStatusTip(tr("Salva progetto corrente"));
-	connect(_saveProject, SIGNAL(triggered()),
-			_controller, SLOT(onSaveProject()));
+
 
 	_saveAllProjects = new QAction(tr("Salva tutti"), _file);
-//	_saveAllProjects->setShortcut(QKeySequence(QKeySequence::Save+);
 	_saveAllProjects->setStatusTip(tr("Salva tutti i progetti aperti"));
-	connect(_saveAllProjects, SIGNAL(triggered()),
-			_controller, SLOT(onSaveAllProjects()));
+
 
 	_importProject = new QAction(tr("Import project"), _file);
-//	_importProject->setShortcut();
 	_importProject->setStatusTip(tr("Import existing project from file"));
-	connect(_importProject, SIGNAL(triggered()),
-			this, SLOT(onImportProject()));
 
 	_exportProject = new QAction(tr("Export project"), _file);
-//	_exportProject->setShortcut();
 	_exportProject->setStatusTip(tr("Export project file to directory"));
-	connect(_exportProject, SIGNAL(triggered()),
-			this, SLOT(onExportProject()));
+
 }
 
 void View::createMenus() {
@@ -78,9 +109,8 @@ void View::createMenus() {
 	_file->addAction(_saveProject);
 	_file->addAction(_saveAllProjects);
 
-//	_edit->addAction();
 	_menuBar->addMenu(_file);
-	_menuBar->addMenu(_edit);
+//	_menuBar->addMenu(_edit);
 }
 
 View::View(const Controller* controller,QWidget* parent) :
@@ -90,7 +120,12 @@ View::View(const Controller* controller,QWidget* parent) :
 	_centralWidget(new QTabWidget(this)),
 	_menuBar(new QMenuBar(this)),
 	_file(new QMenu(tr("&File"), _menuBar)),
-	_edit(new QMenu(tr("&Edit"), _menuBar)) {
+	_edit(new QMenu(tr("&Edit"), _menuBar)),
+	_toolBar(new QToolBar(this)),
+	_toolButtonNew(new QToolButton(_toolBar)),
+	_toolButtonOpen(new QToolButton(_toolBar)),
+	_toolButtonSave(new QToolButton(_toolBar)),
+	_toolButtonExport(new QToolButton(_toolBar)) {
 
 	setup();
 	connects();
@@ -110,22 +145,24 @@ void View::addMainLayout() {
 //	_mainLayout->addWidget(taskHolder);
 //}
 
-void View::addToolBar() {
+void View::createToolBar() {
 	/* Declaration of toolbar and toolbuttons */
-	QToolBar* toolBar = new QToolBar(this);
-	QToolButton* toolB1 = new QToolButton(toolBar);
-	QToolButton* toolB2 = new QToolButton(toolBar);
 
+	_toolButtonNew->setIcon(QIcon(":/icons/new_icon.png"));
+	_toolButtonOpen->setIcon(QIcon(":/icons/open_icon.png"));
+	_toolButtonSave->setIcon(QIcon(":/icons/save_icon.png"));
+	_toolButtonExport->setIcon(QIcon(":/icons/export_icon.png"));
 	/* Set toolBar properties */
-	toolBar->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+	_toolBar->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
 
 	/* Add toolbuttons to toolbar */
-	toolBar->addWidget(toolB1);
-	toolBar->addWidget(toolB2);
+	_toolBar->addWidget(_toolButtonNew);
+	_toolBar->addWidget(_toolButtonOpen);
+	_toolBar->addWidget(_toolButtonSave);
+	_toolBar->addWidget(_toolButtonExport);
 
 	/* Add toolbar to layout */
-	_windowLayout->addWidget(toolB1);
-	_windowLayout->addWidget(toolB2);
+	addToolBar(_toolBar);
 }
 
 void View::onCloseTab(int index) {
@@ -214,70 +251,3 @@ void View::getNewProjectName(const QString& projectName) {
 //	emit newProjectInfo(projectName);
 }
 
-void View::setup() {
-
-	setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-	// Menu
-
-	// Declaration menus and actions
-	_centralWidget->setTabsClosable(true);
-	createMenus();
-//	QMenuBar* menuBar = new QMenuBar(this);
-//	QMenu* fileMenu = new QMenu(tr("File"), menuBar);
-//	QAction* newProAct = new QAction(tr("New project"), fileMenu);
-//	QAction* openProAct = new QAction(tr("Open project"), fileMenu);
-//	QAction* importProAct = new QAction(tr("Import project"), fileMenu);
-
-//	QMenu* editMenu = new QMenu(tr("Edit"), menuBar);
-//	QAction* undoAct = new QAction(tr("Undo"), editMenu);
-//	QAction* redoAct = new QAction(tr("Redo"), editMenu);
-
-	// Set shortcut
-
-//	newProAct->setShortcut(QKeySequence::New);
-
-
-//	// Set status tip
-
-//	newProAct->setStatusTip(tr(""));
-//	openProAct->setStatusTip(tr(""));
-//	importProAct->setStatusTip(tr(""));
-
-//	undoAct->setStatusTip(tr(""));
-//	redoAct->setStatusTip(tr(""));
-
-//	// Connect actions
-
-
-//	connect(newProAct, SIGNAL(triggered()),
-//			this, SLOT(newProject()));
-//	connect(openProAct, SIGNAL(triggered()), _controller, SLOT());
-//	connect(importProAct, SIGNAL(triggered()), _controller, SLOT());
-
-//	connect(undoAct, SIGNAL(triggered()), _controller, SLOT());
-//	connect(redoAct, SIGNAL(triggered()), _controller, SLOT());
-
-//	connect(this, SIGNAL(openProject(const QString)), _controller, SLOT(openProject(const QString))); eliminato
-
-	// Add actions to menu
-
-//	fileMenu->addAction(newProAct);
-//	fileMenu->addAction(openProAct);
-//	fileMenu->addAction(importProAct);
-
-//	editMenu->addAction(undoAct);
-//	editMenu->addAction(redoAct);
-
-	// Add menus to menuBar
-
-
-//	menuBar->addMenu(fileMenu);
-//	menuBar->addMenu(editMenu);
-
-	// Toolbar
-
-	// DockWidget
-
-	// Central widget
-	setCentralWidget(_centralWidget);
-}
