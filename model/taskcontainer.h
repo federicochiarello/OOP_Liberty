@@ -16,6 +16,7 @@ public:
                             explicit TaskContainer(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap, std::map<unsigned short, veqtor<unsigned short>>& childsMap);
                             explicit TaskContainer(const unsigned short id, const std::string p_label, const std::string p_desc);
                             TaskContainer(const TaskContainer& p_task);
+                            ~TaskContainer() override;
 
     TaskContainer*          clone() const override;
     QJsonObject             toJson() const override;

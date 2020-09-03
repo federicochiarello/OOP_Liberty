@@ -21,8 +21,18 @@ TaskContainer::TaskContainer(const unsigned short id, const std::string p_label,
     AbsTask(id,p_label,p_desc) {}
 
 TaskContainer::TaskContainer(const TaskContainer & p_task) :
-	AbsTask(p_task),
-	m_child(p_task.m_child) {}
+    AbsTask(p_task),
+    m_child(p_task.m_child) {}
+
+TaskContainer::~TaskContainer() {
+    for(auto i = m_child.begin(); i < m_child.end(); i++)
+        delete *i;
+    // Non viene prestata attenzione alla gestione del campo m_list dei figli
+    // perchè giunti a questo punto sarà per tutti = nullptr.
+    // La procedura deleteTask in List provvede a chiamare removeTask che
+    // chiama setList(nullptr) sul puntatore polimorfo del task da eliminare,
+    // assicurandosi cosi che tutti i task_figli vengano rimossi dalla lista.
+}
 
 TaskContainer *TaskContainer::clone() const { return new TaskContainer(*this); }
 
