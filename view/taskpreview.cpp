@@ -2,6 +2,7 @@
 
 void TaskPreview::setup() {
 	setContextMenuPolicy(Qt::CustomContextMenu);
+//	setStyleSheet("TaskPreview { background: rgb(150, 255, 140); selection-background-color: rgb(233, 99, 0); }");
 
 	_actions->addAction(_moveLeft);
 	_actions->addAction(_moveRight);

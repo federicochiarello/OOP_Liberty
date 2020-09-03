@@ -1,3 +1,15 @@
 <RCC>
     <qresource prefix="/src"/>
+    <qresource prefix="/">
+        <file>icons/add_icon.png</file>
+        <file>icons/container_icon.png</file>
+        <file>icons/export_icon.png</file>
+        <file>icons/logo_icon.png</file>
+        <file>icons/multiplethings_icon.png</file>
+        <file>icons/new_icon.png</file>
+        <file>icons/open_icon.png</file>
+        <file>icons/qtrello_typeface.png</file>
+        <file>icons/save_icon.png</file>
+        <file>icons/settings_icon.png</file>
+    </qresource>
 </RCC>

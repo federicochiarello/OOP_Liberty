@@ -1,7 +1,9 @@
 #include "taskprioritypreview.h"
 
 TaskPriorityPreview::TaskPriorityPreview(const unsigned short id, const unsigned short listId, const unsigned short projectId, const Controller *controller, QWidget *parent) :
-	TaskPreview(id, listId, projectId, controller, parent) {}
+	TaskPreview(id, listId, projectId, controller, parent) {
+	setStyleSheet("TaskPriorityPreview { background: rgb(3, 192, 60); selection-background-color: rgb(200, 92, 3); }");
+}
 
 void TaskPriorityPreview::fetchTaskInfo(const unsigned short taskId, const QStringList &taskInfo) {
 	if (taskId == _id) {
