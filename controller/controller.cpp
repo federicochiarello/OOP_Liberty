@@ -1,7 +1,7 @@
 #include "controller.h"
 #include "view/view.h"
 
-QDir Controller::projectsDir = QDir(QDir::homePath()+"/Documents/Universita/P2");
+QDir Controller::projectsDir = QDir("../projects");
 //	QStandardPaths::displayName(QStandardPaths::AppDataLocation)
 
 bool Controller::isValidName(const QString &projectName) {
@@ -233,6 +233,7 @@ void Controller::dragAndDrop(const unsigned short projectId, const unsigned shor
 
 void Controller::getExistingProjects() {
 
+	qDebug() << projectsDir.absolutePath();
 	QStringList projects = projectsDir.entryList(QDir::Files, QDir::Time);
 
 	projects.prepend(projectsDir.absolutePath());
