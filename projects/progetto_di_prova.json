@@ -4,7 +4,7 @@
 	"lists" : [
 		{
 			"listId" : 1,
-			"listName" : "Questa é una lista/ stato di avanzamento",
+			"listName" : "Questa é una lista",
 			"tasks" : [
 				{
 					"taskId" : 1,
@@ -45,7 +45,7 @@
 			]
 		},{
 			"listId" : 2,
-			"listName" : "Questa é una seconda lista/ stato di avanzamento",
+			"listName" : "Questa é una seconda lista",
 			"tasks" : [
 				{
 					"taskId" : 5,
@@ -87,7 +87,7 @@
 		},
 		{
 			"listId" : 3,
-			"listName" : "Questa é una terza lista/ stato di avanzamento",
+			"listName" : "Questa é una terza lista",
 			"tasks" : [
 				{
 					"taskId" : 9,

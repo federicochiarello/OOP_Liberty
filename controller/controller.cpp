@@ -1,7 +1,7 @@
 #include "controller.h"
 #include "view/view.h"
 
-QDir Controller::projectsDir = QDir("../projects");
+QDir Controller::projectsDir = QDir("../Liberty/projects");
 //	QStandardPaths::displayName(QStandardPaths::AppDataLocation)
 
 bool Controller::isValidName(const QString &projectName) {
