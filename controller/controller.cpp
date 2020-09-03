@@ -200,7 +200,12 @@ void Controller::convertToPrio(const unsigned short projectId, const unsigned sh
 }
 
 void Controller::convertToCont(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
-	_model->convertToContainer(projectId,idList,idTask);
+    _model->convertToContainer(projectId,idList,idTask);
+}
+
+void Controller::cloneTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) {
+    unsigned short cloneId = _model->cloneTask(projectId,idList,idTask);
+    // da inserire come ultimo elemento di idList
 }
 
 //void Controller::getTaskName(const unsigned short idList, const unsigned short idTask) const {

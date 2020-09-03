@@ -73,7 +73,7 @@ std::string Model::getProjectName(const unsigned short projectId) const {
 	return (projectId?m_projects.at(projectId):m_activeProject)->getName();
 }
 
-std::vector<unsigned short> Model::getLists(const unsigned short projectId) const {
+veqtor<unsigned short> Model::getLists(const unsigned short projectId) const {
 	return m_projects.at(projectId)->getLists();
 }
 
@@ -85,7 +85,7 @@ std::string Model::getTaskName(const unsigned short projectId, const unsigned sh
     return m_projects.at(projectId)->getTaskName(listId,taskId);
 }
 
-std::vector<std::pair<unsigned short, TaskType> > Model::getTasksIds(const unsigned short projectId, const unsigned short listId) const {
+veqtor<std::pair<unsigned short, TaskType> > Model::getTasksIds(const unsigned short projectId, const unsigned short listId) const {
 	return m_projects.at(projectId)->getTasksIds(listId);
 }
 
@@ -109,13 +109,21 @@ void Model::convertToContainer(const unsigned short projectId, const unsigned sh
     m_projects.at(projectId)->convertToContainer(listId,taskId);
 }
 
+unsigned short Model::cloneTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId) {
+    return m_projects.at(projectId)->cloneTask(listId,taskId);
+}
+
 void Model::dragAndDrop(const unsigned short projectId, const unsigned short LPartenza, const unsigned short LArrivo, const unsigned short taskId, const unsigned short Posizione) {
     m_projects.at(projectId)->dragAndDrop(LPartenza,LArrivo,taskId,Posizione);
 }
 
 unsigned short Model::moveTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const Direction &moveDirection) {
-     return m_projects.at(projectId)->moveTask(listId,taskId,moveDirection);
- }
+    return m_projects.at(projectId)->moveTask(listId,taskId,moveDirection);
+}
+
+bool Model::VmoveTask(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const VDirection &moveDirection) {
+    return m_projects.at(projectId)->VmoveTask(listId,taskId,moveDirection);
+}
 
 void Model::load(const QJsonDocument& document) {
 	if (document.isObject()) {

@@ -6,21 +6,21 @@ Project::Project(std::string p_name) :
 	_id(++nextID),
 	m_name(p_name),
     m_lists(std::map<unsigned short, List*>()),
-    m_listsOrder(std::vector<unsigned short>()),
+    m_listsOrder(veqtor<unsigned short>()),
 	_modified(true) {}
 
 Project::Project(const QJsonObject& object) :
 	_id(++nextID),
 	m_name(object.value("projectName").toString().toStdString()),
 	m_lists(std::map<unsigned short, List*>()),
-	m_listsOrder(std::vector<unsigned short>()),
+    m_listsOrder(veqtor<unsigned short>()),
 	_modified(false) {
 
 	qDebug() << "Progetto creato";
 
-	std::vector<AbsTask*> tasks;
+    veqtor<AbsTask*> tasks;
     std::map<unsigned short,unsigned short> idsMap;
-    std::map<unsigned short, std::vector<unsigned short>> childsMap;
+    std::map<unsigned short, veqtor<unsigned short>> childsMap;
 
 	const QJsonArray listsArray = object.value("lists").toArray();
 	for (const QJsonValue list : listsArray) {
@@ -36,7 +36,7 @@ Project::Project(const QJsonObject& object) :
 //		Verifico che il task considerato nell'i-esima iterazione sia un TaskContainer o una sua sottoclasse
 		if (taskContainer) {
 //			Ricavo il vector contenente gli Id dei Task figli
-            std::vector<unsigned short> taskContainerChildsId = childsMap.find(taskContainer->getId())->second;
+            veqtor<unsigned short> taskContainerChildsId = childsMap.find(taskContainer->getId())->second;
 //			Itero nuovamente il vector contenente tutti i task per individuare i Task figli di taskContainer
 			for (auto childTask : tasks) {
                 const unsigned short childTaskId = childTask->getId();
@@ -104,9 +104,7 @@ void Project::setTaskName(const unsigned short listId, const unsigned short task
 }
 
 bool Project::changeListOrder(const unsigned short listToMove, const Direction& moveDirection) {
- // Ho interpretato che moveDirection = LEFT voglia dire invertire listToMove con quella alla sua sx
- // specularmente per RIGHT
-	 for (auto i = m_listsOrder.begin(); i < m_listsOrder.end(); ++i) {
+     for (auto i = m_listsOrder.begin(); i < m_listsOrder.end(); ++i)
 		 if(*i == listToMove) {
 			 if(moveDirection == LEFT  && (i-1) >= m_listsOrder.begin()) {
 				 _modified = true;
@@ -126,24 +124,10 @@ bool Project::changeListOrder(const unsigned short listToMove, const Direction& 
 				 return true;
 			 }
 		 }
-	 }
- /*  OLD
-	 _modified = true;
-	if(!Posizione) {
-        m_listsOrder.insert(m_listsOrder.begin(),listToMove);
-	} else {
-		for(auto i = m_listsOrder.begin(); i < m_listsOrder.end(); i++) {
-            if (*i == Posizione) {
-                m_listsOrder.insert(i,listToMove);
-                i = m_listsOrder.end();
-            }
-		}
-	}
-*/
 	 return false;
 }
 
-std::vector<std::pair<unsigned short, TaskType>> Project::getTasksIds(const unsigned short listId) const {
+veqtor<std::pair<unsigned short, TaskType>> Project::getTasksIds(const unsigned short listId) const {
 	return m_lists.at(listId)->getTasksIds();
 }
 
@@ -157,15 +141,6 @@ std::string Project::getTaskName(const unsigned short listId, const unsigned sho
 
 QDateTime Project::getTaskPriority(const unsigned short listId, const unsigned short taskId) const {
     return dynamic_cast<TaskPriority*>(m_lists.at(listId)->getTask(taskId))->getPriority();
-    /*
-    TIPO DI RITORNO std::string
-
-    TaskPriority* t = dynamic_cast<TaskPriority*>(m_lists.at(idList)->getTask(idTask));
-    if(t)
-        return t->getPriority().toString("dd/MM/yyyy hh:mm:ss").toStdString();
-    else
-        return "ERROR";
-    */
 }
 
 void Project::aggiornaTask(const unsigned short listId, const unsigned short taskId, const QStringList info) {
@@ -178,17 +153,26 @@ void Project::deleteTask(const unsigned short listId, const unsigned short taskI
     m_lists.at(listId)->deleteTask(taskId);
 }
 
+unsigned short Project::cloneTask(const unsigned short listId, const unsigned short taskId) {
+    // crea una copia (con id differente) del task contraddistinto da taskId
+    List* l = m_lists.at(listId);
+    AbsTask* t = l->getTask(taskId)->clone();
+    l->addTask(t);
+    l->setAsDirectTask(t->getId());
+    return t->getId();
+}
+
 std::string Project::getName() const { return m_name; }
 
-std::vector<unsigned short> Project::getLists() const {
+veqtor<unsigned short> Project::getLists() const {
 	return m_listsOrder;
 }
 
 Project* Project::fromJson(const QJsonObject& object) {
 	_modified = true;
-	std::vector<AbsTask*> tasks;
+    veqtor<AbsTask*> tasks;
     std::map<unsigned short,unsigned short> idsMap;
-    std::map<unsigned short, std::vector<unsigned short>> childsMap;
+    std::map<unsigned short, veqtor<unsigned short>> childsMap;
 	m_name = object.value("projectName").toString().toStdString();
 	const QJsonArray listsArray = object.value("lists").toArray();
 
@@ -205,7 +189,7 @@ Project* Project::fromJson(const QJsonObject& object) {
 //		Verifico che il task considerato nell'i-esima iterazione sia un TaskContainer o una sua sottoclasse
 		if (taskContainer) {
 //			Ricavo il vector contenente gli Id dei Task figli
-            std::vector<unsigned short> taskContainerChildsId = childsMap.find(taskContainer->getId())->second;
+            veqtor<unsigned short> taskContainerChildsId = childsMap.find(taskContainer->getId())->second;
 //			Itero nuovamente il vector contenente tutti i task per individuare i Task figli di taskContainer
 			for (auto childTask : tasks) {
 				const unsigned short childTaskId = childTask->getId();
@@ -311,7 +295,7 @@ unsigned short Project::moveTask(const unsigned short listId, const unsigned sho
 	// trova posizione della lista target se esiste e la salva in it
 	// se non esiste it = m_listOrder.end() che funge da sentinella
 	qDebug() << "Move task started";
-	std::vector<unsigned short>::iterator it = m_listsOrder.end();
+    veqtor<unsigned short>::iterator it = m_listsOrder.end();
 	for (auto i = m_listsOrder.begin(); i < m_listsOrder.end(); ++i) {
         if(*i == listId) {
 			if(moveDirection == LEFT  && (i-1) >= m_listsOrder.begin())
@@ -338,8 +322,14 @@ unsigned short Project::moveTask(const unsigned short listId, const unsigned sho
 		qDebug() << "Move task completed";
 
 		return idTargetList;
-	}
+    }
 }
+
+bool Project::VmoveTask(const unsigned short listId, const unsigned short taskId, const VDirection &moveDirection) {
+    _modified = m_lists.at(listId)->VmoveTask(taskId,moveDirection);
+    return _modified;
+}
+
 
 QJsonObject Project::object() {
 

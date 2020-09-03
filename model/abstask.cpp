@@ -19,6 +19,8 @@ AbsTask::AbsTask(const std::string p_label, const std::string p_desc, List* p_li
     m_parent(p_parent),
     m_list(p_list) {}
 
+// Costruttore che consente di creare un oggetto con il campo _id desiderato
+// la responsabilità di garantire l'unicità dell'id viene delegata alla funzione che compie la chiamata
 AbsTask::AbsTask(const unsigned short id, const std::string p_label, const std::string p_desc) :
     _id(id),
     m_label(p_label),
@@ -37,6 +39,8 @@ AbsTask::AbsTask(const QJsonObject& object, std::map<unsigned short,unsigned sho
     idsMap.insert(std::pair<unsigned short,unsigned short>(object.value("taskId").toInt(), _id));
 }
 
+// Costruttore di copia: _id ha un valore differente dall' _id di p_task per garantire la coesistenza
+// di una copia di p_task mantenendo l'unicità degli _id
 AbsTask::AbsTask(const AbsTask &p_task) :
 	_id(++nextID),
     m_label(p_task.m_label),
@@ -66,6 +70,8 @@ QJsonObject AbsTask::toJson() const {
 
 AbsTask::~AbsTask() {}
 
+unsigned short  AbsTask::getId() const { return _id; }
+
 std::string		AbsTask::getLabel() const { return m_label; }
 
 std::string		AbsTask::getDesc() const { return m_desc; }
@@ -75,8 +81,6 @@ QDateTime		AbsTask::getEta() const { return m_eta; }
 AbsTask*		AbsTask::getParent() const { return m_parent; }
 
 List*           AbsTask::getList() const { return m_list; }
-
-unsigned short  AbsTask::getId() const { return _id; }
 
 void			AbsTask::setLabel(const std::string& p_label) { m_label = p_label; }
 

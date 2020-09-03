@@ -1,4 +1,3 @@
-
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
@@ -18,19 +17,19 @@ class View;
 class Controller : public QObject {
 	Q_OBJECT
 
-	View* _view;
-	Model* _model;
+    View*           _view;
+    Model*          _model;
 
-	bool isValidName(const QString& projectName);
+    bool            isValidName(const QString& projectName);
 
-	static QDir projectsDir;
+    static QDir     projectsDir;
 
 public:
-	explicit Controller(Model* m, QObject *parent = nullptr);
+    explicit        Controller(Model* m, QObject *parent = nullptr);
 
-	void setView(View* view);
-	QString             stuffing(const QString&) const;
-	QString             deStuffing(const QString&) const;
+    void            setView(View* view);
+    QString         stuffing(const QString&) const;
+    QString         deStuffing(const QString&) const;
 
 signals:
 
@@ -38,10 +37,10 @@ signals:
 	void sendExistingProjects(const QStringList& projectsNames);
 	void sendProjectInfo(std::pair<unsigned short, QString> projectInfo);
 	void sendListId(const unsigned short projectId, const unsigned short listId);
-	void sendListsIds(const unsigned short projectId, std::vector<unsigned short> listsIds);
+    void sendListsIds(const unsigned short projectId, veqtor<unsigned short> listsIds);
 	void sendListName(const unsigned short listId, const QString& listName);
 	void sendTaskId(const unsigned short listId, const std::pair<unsigned short, TaskType>& taskId);
-	void sendTasksIds(const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>>& tasksIds);
+    void sendTasksIds(const unsigned short listId, const veqtor<std::pair<unsigned short, TaskType>>& tasksIds);
 	void sendTaskName(const unsigned short taskId, const QString& taskName);
 	void sendTaskInfo(const unsigned short taskId, const QStringList& taskInfo);
 	void projectNameValid();
@@ -94,14 +93,15 @@ public slots:
 
 	void        onNewTask(const unsigned short projectId, const unsigned short idList);
 
-//    void        setProjectName(const std::string& p_name);
-//    void        setListName(const unsigned short idList, const std::string& p_name);
+//  void        setProjectName(const std::string& p_name);
+//  void        setListName(const unsigned short idList, const std::string& p_name);
 	bool        changeListOrder(const unsigned short projectId, const unsigned short listToMove, const Direction& moveDirection);
 
 	void        convertToPrio(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
 	void        convertToCont(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
+    void        cloneTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask);
 
-//    void        getTaskName(const unsigned short idList, const unsigned short idTask) const;
+//  void        getTaskName(const unsigned short idList, const unsigned short idTask) const;
 	void        getTaskPriority(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const;
 	void        getTaskInfo(const unsigned short projectId, const unsigned short idList, const unsigned short idTask) const;
 	void        aggiornaTask(const unsigned short projectId, const unsigned short idList, const unsigned short idTask, const QStringList);
@@ -110,8 +110,6 @@ public slots:
 
 	void		onSaveProject(const unsigned short idProject =0);
 	void		onSaveAllProjects();
-
-
 };
 
 #endif // CONTROLLER_H

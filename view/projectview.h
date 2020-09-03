@@ -23,7 +23,7 @@ class ProjectView : public QWidget {
 	Q_OBJECT
 
 	const unsigned short _id;
-	std::vector<TasksListWidget*> _lists;
+    veqtor<TasksListWidget*> _lists;
 	const Controller* _controller;
 
 	QVBoxLayout* _mainLayout;
@@ -59,7 +59,7 @@ signals:
 
 //	Creazione tasks
 	void getTasksIds(const unsigned short, const unsigned short);
-	void sendTasksIds(const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>);
+    void sendTasksIds(const unsigned short, const veqtor<std::pair<unsigned short, TaskType>>);
 	void getTaskName(const unsigned short, const unsigned short, const unsigned short);
 	void sendTaskName(const unsigned short, const unsigned short, const QString&);
 	void changeProjectName(unsigned short, std::string);
@@ -74,7 +74,7 @@ private slots:
 public slots:
 
 	void onExportProject();
-	void fetchListsIds(const unsigned short projectId, std::vector<unsigned short> listsIds);
+    void fetchListsIds(const unsigned short projectId, veqtor<unsigned short> listsIds);
 	void onAddNewList();
 	void fetchListId(const unsigned short projectId, const unsigned short listId);
 	void onProjectNameChanged();
@@ -84,7 +84,7 @@ public slots:
 //	void onGetListName(const unsigned short listId);
 //	void fetchListName(const unsigned short projectId, const unsigned short listId, const QString& listName);
 //	void onGetTasksIds(const unsigned short listId);
-//	void onSendTasksIds(const unsigned short projectId, const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>> tasksIds);
+//	void onSendTasksIds(const unsigned short projectId, const unsigned short listId, const veqtor<std::pair<unsigned short, TaskType>> tasksIds);
 //	void onGetTaskName(const unsigned short listId, const unsigned short taskId);
 //	void onSentTaskName(const unsigned short projectId, const unsigned short listId, const unsigned short taskId, const QString& taskName);
 };

@@ -5,15 +5,15 @@
 TaskContainer::TaskContainer(const std::string p_label, const std::string p_desc, List* p_list, AbsTask* p_parent) :
 	AbsTask(p_label,p_desc,p_list,p_parent) {}
 
-TaskContainer::TaskContainer(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap, std::map<unsigned short, std::vector<unsigned short>>& childsMap) :
+TaskContainer::TaskContainer(const QJsonObject& object, std::map<unsigned short,unsigned short>& idsMap, std::map<unsigned short, veqtor<unsigned short>>& childsMap) :
 	AbsTask(object, idsMap),
-	m_child(std::vector<AbsTask*>()) {
+    m_child(veqtor<AbsTask*>()) {
 
-	std::vector<unsigned short> childsIds;
+    veqtor<unsigned short> childsIds;
 	for (auto childId : object.value("tasksIds").toArray()) {
 		childsIds.push_back(childId.toInt());
 	}
-	childsMap.insert(std::pair<unsigned short, std::vector<unsigned short>>(_id, childsIds));
+    childsMap.insert(std::pair<unsigned short, veqtor<unsigned short>>(getId(), childsIds));
     qDebug() << "TaskContainer creato";
 }
 
@@ -76,7 +76,7 @@ TaskType TaskContainer::getType() const {
 	return TASK_CONTAINER;
 }
 
-std::vector<AbsTask *> TaskContainer::getChilds() const {
+veqtor<AbsTask *> TaskContainer::getChilds() const {
     return m_child;
 }
 
@@ -94,7 +94,7 @@ void TaskContainer::removeChild(AbsTask * p_child) {
         }
 }
 
-void TaskContainer::addChildList(std::vector<AbsTask *> p_child) {
+void TaskContainer::addChildList(veqtor<AbsTask *> p_child) {
     m_child = p_child;
 }
 

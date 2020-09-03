@@ -54,8 +54,8 @@ void ProjectView::connects() {
 	connect(this, SIGNAL(getLists(const unsigned short)),
 			_controller, SLOT(onGetLists(const unsigned short)));
 
-	connect(_controller, SIGNAL(sendListsIds(const unsigned short, std::vector<unsigned short>)),
-			this, SLOT(fetchListsIds(const unsigned short, std::vector<unsigned short>)));
+    connect(_controller, SIGNAL(sendListsIds(const unsigned short, veqtor<unsigned short>)),
+            this, SLOT(fetchListsIds(const unsigned short, veqtor<unsigned short>)));
 
 	connect(_actionExportProject, SIGNAL(triggered()),
 			this, SLOT(onExportProject()));
@@ -156,7 +156,7 @@ void ProjectView::onMoveList(const unsigned short projectId, const unsigned shor
 	}
 }
 
-void ProjectView::fetchListsIds(const unsigned short projectId, std::vector<unsigned short> listsIds) {
+void ProjectView::fetchListsIds(const unsigned short projectId, veqtor<unsigned short> listsIds) {
 	if (_id == projectId) {
 		qDebug() << "fetchLists";
 		for (auto listId : listsIds) {
@@ -170,8 +170,8 @@ void ProjectView::fetchListsIds(const unsigned short projectId, std::vector<unsi
 //			connect(this, SIGNAL(sendListName(const unsigned short, const QString&)),
 //					list, SLOT(fetchListName(const unsigned short, const QString&)));
 
-//			connect(this, SIGNAL(sendTasksIds(const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>)),
-//					list, SLOT(fetchTasksIds(const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>))); eliminato
+//			connect(this, SIGNAL(sendTasksIds(const unsigned short, const veqtor<std::pair<unsigned short, TaskType>>)),
+//					list, SLOT(fetchTasksIds(const unsigned short, const veqtor<std::pair<unsigned short, TaskType>>))); eliminato
 
 
 //			emit list->getListName(list->getId());

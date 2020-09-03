@@ -80,7 +80,7 @@ public:
 };
 
 template<class T>
-veqtor<T>::veqtor() : _size(0), _capacity(0), _pointer(nullptr) {}
+veqtor<T>::veqtor() : _pointer(nullptr), _size(0), _capacity(0) {}
 
 template<class T>
 veqtor<T>::veqtor(unsigned short s) : _pointer(s==0 ? nullptr : new T[s]), _size(s), _capacity(s) {}
@@ -98,7 +98,7 @@ veqtor<T>::veqtor(const veqtor<T>::iterator& it1, const veqtor<T>::iterator& it2
 
 template<class T>
 veqtor<T>::veqtor(const veqtor<T>& v) : _pointer(v.size() == 0 ? nullptr : new T[v.capacity()]),
-    _capacity(v.capacity()), _size(v.size()) {
+    _size(v.size()), _capacity(v.capacity()) {
     for(int i = 0; i < _size; ++i) _pointer[i] = v._pointer[i];
 }
 
@@ -111,7 +111,7 @@ template<class T>
 veqtor<T>& veqtor<T>::operator=(const veqtor<T> & v) {
     if(this != &v) {
           delete[] _pointer;
-          _pointer = v.size() == 0 ? nullptr : new int[v.capacity()];
+          _pointer = (v.size() == 0 ? nullptr : new T[v.capacity()]);
           _size = v.size();
           _capacity = v.capacity();
           for(int i = 0; i <_size ; ++i) _pointer[i] = v._pointer[i];

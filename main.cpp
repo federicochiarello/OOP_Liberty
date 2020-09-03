@@ -1,5 +1,4 @@
 #include <QApplication>
-#include <iostream>
 #include <QDateTime>
 
 #include "model/model.h"

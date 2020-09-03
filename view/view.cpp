@@ -170,8 +170,8 @@ void View::fetchProjectInfo(std::pair<unsigned short, QString> projectInfo) {
 //	connect(project, SIGNAL(getLists(const unsigned short)),
 //			_controller, SLOT(onGetLists(const unsigned short))); elminato
 
-//	connect(_controller, SIGNAL(sendListsIds(const unsigned short, std::vector<unsigned short>)),
-//			project, SLOT(fetchListsIds(const unsigned short, std::vector<unsigned short>))); eliminato
+//	connect(_controller, SIGNAL(sendListsIds(const unsigned short, veqtor<unsigned short>)),
+//			project, SLOT(fetchListsIds(const unsigned short, veqtor<unsigned short>))); eliminato
 
 //	connect(project, SIGNAL(getListName(const unsigned short, const unsigned short)),
 //			_controller, SLOT(onGetListName(const unsigned short, const unsigned short)));
@@ -183,8 +183,8 @@ void View::fetchProjectInfo(std::pair<unsigned short, QString> projectInfo) {
 //	connect(project, SIGNAL(getTasksIds(const unsigned short, const unsigned short)),
 //			_controller, SLOT(onGetTasksIds(const unsigned short, const unsigned short)));
 
-//	connect(_controller, SIGNAL(sendTasksIds(const unsigned short, const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>)),
-//			project, SLOT(onSendTasksIds(const unsigned short, const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>)));
+//	connect(_controller, SIGNAL(sendTasksIds(const unsigned short, const unsigned short, const veqtor<std::pair<unsigned short, TaskType>>)),
+//			project, SLOT(onSendTasksIds(const unsigned short, const unsigned short, const veqtor<std::pair<unsigned short, TaskType>>)));
 
 	//	emit project->getLists(project->getId());
 }

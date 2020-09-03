@@ -54,8 +54,8 @@ void TasksListWidget::connects() {
 	connect(this, SIGNAL(getTasksIds(const unsigned short, const unsigned short)),
 			_controller, SLOT(onGetTasksIds(const unsigned short, const unsigned short)));
 
-	connect(_controller, SIGNAL(sendTasksIds(const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>&)),
-			this, SLOT(fetchTasksIds(const unsigned short, const std::vector<std::pair<unsigned short, TaskType>>&)));
+    connect(_controller, SIGNAL(sendTasksIds(const unsigned short, const veqtor<std::pair<unsigned short, TaskType>>&)),
+            this, SLOT(fetchTasksIds(const unsigned short, const veqtor<std::pair<unsigned short, TaskType>>&)));
 	connect(_actionMoveListLeft, SIGNAL(triggered()),
 			this, SLOT(onMoveListLeft()));
 
@@ -130,7 +130,7 @@ void TasksListWidget::fetchTaskId(const unsigned short listId, const std::pair<u
 	}
 }
 
-void TasksListWidget::fetchTasksIds(const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>>& tasksIds) {
+void TasksListWidget::fetchTasksIds(const unsigned short listId, const veqtor<std::pair<unsigned short, TaskType>>& tasksIds) {
 	if (listId == _id) {
 		for (auto taskId: tasksIds) {
 			_list->addTask(taskId);

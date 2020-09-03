@@ -6,19 +6,19 @@ List::List(const unsigned short id, const std::string& name) :
 	_id(id),
 	m_name(name),
 	m_tasks(std::map<unsigned short, AbsTask*>()),
-	m_tasksOrder(std::vector<unsigned short>()) {}
+    m_tasksOrder(veqtor<unsigned short>()) {}
 
 List::List(const std::string& p_name) :
 	_id(++nextID),
 	m_name(p_name),
 	m_tasks(std::map<unsigned short, AbsTask*>()),
-	m_tasksOrder(std::vector<unsigned short>()) {}
+    m_tasksOrder(veqtor<unsigned short>()) {}
 
-List::List(const QJsonObject& object, std::vector<AbsTask*>& tasks, std::map<unsigned short,unsigned short>& idsMap, std::map<unsigned short, std::vector<unsigned short>>& childsMap) :
+List::List(const QJsonObject& object, veqtor<AbsTask*>& tasks, std::map<unsigned short,unsigned short>& idsMap, std::map<unsigned short, veqtor<unsigned short>>& childsMap) :
 	_id(++nextID),
 	m_name(object.value("listName").toString().toStdString()),
 	m_tasks(std::map<unsigned short, AbsTask*>()),
-	m_tasksOrder(std::vector<unsigned short>()) {
+    m_tasksOrder(veqtor<unsigned short>()) {
 
 	qDebug() << "Lista creata";
 
@@ -87,8 +87,8 @@ unsigned short List::getId() const { return _id; }
 
 void List::setName(const std::string & p_name) { m_name = p_name; }
 
-std::vector<std::pair<unsigned short, TaskType>> List::getTasksIds() const {
-	std::vector<std::pair<unsigned short, TaskType>> tasksIds;
+veqtor<std::pair<unsigned short, TaskType>> List::getTasksIds() const {
+    veqtor<std::pair<unsigned short, TaskType>> tasksIds;
 	for (auto it = m_tasks.begin(); it != m_tasks.end(); ++it) {
 		tasksIds.push_back(std::pair<unsigned short, TaskType>(it->first, it->second->getType()));
 	}
@@ -101,27 +101,27 @@ void List::addTask(AbsTask * p_task) {
 	m_tasks.insert(std::pair<unsigned short, AbsTask*>(p_task->getId(),p_task));
 }
 
-void List::setAsDirectTask(const unsigned short idTask) {
-    m_tasksOrder.push_back(idTask);
+void List::setAsDirectTask(const unsigned short taskId) {
+    m_tasksOrder.push_back(taskId);
 }
 
-void List::removeTask(const unsigned short idTask) {
-    AbsTask* t = m_tasks.at(idTask);
+void List::removeTask(const unsigned short taskId) {
+    AbsTask* t = m_tasks.at(taskId);
     t->setList(nullptr);
     if(!t->getParent())
 		for(auto i = m_tasksOrder.begin(); i < m_tasksOrder.end(); ++i)
-            if (*i == idTask) {
+            if (*i == taskId) {
                 m_tasksOrder.erase(i);
                 i = m_tasksOrder.end();
             }
-    m_tasks.erase(idTask);
+    m_tasks.erase(taskId);
 }
 
-void List::deleteTask(const unsigned short idTask) {
-    AbsTask* t = getTask(idTask);
+void List::deleteTask(const unsigned short taskId) {
+    AbsTask* t = getTask(taskId);
     if(t->getParent())
         dynamic_cast<TaskContainer*>(t->getParent())->removeChild(t);
-    removeTask(idTask);
+    removeTask(taskId);
     delete t;
 }
 
@@ -132,24 +132,41 @@ void List::aggiornaMap(AbsTask *p_task) {
     addTask(p_task);
 }
 
-void List::insertTask(const unsigned short idTask, const unsigned short Posizione) {
+void List::insertTask(const unsigned short taskId, const unsigned short Posizione) {
 	if(!Posizione) {
-        m_tasksOrder.insert(m_tasksOrder.begin(),idTask);
+        m_tasksOrder.insert(m_tasksOrder.begin(),taskId);
 	} else {
 		for(auto i = m_tasksOrder.begin(); i < m_tasksOrder.end(); i++) {
             if (*i == Posizione) {
-                m_tasksOrder.insert(i,idTask);
+                m_tasksOrder.insert(i,taskId);
                 i = m_tasksOrder.end();
             }
 		}
 	}
 }
 
-AbsTask *List::getTask(const unsigned short idTask) {
-	return m_tasks.at(idTask);
+AbsTask *List::getTask(const unsigned short taskId) {
+    return m_tasks.at(taskId);
 }
 
 void List::setTaskName(const unsigned short taskId, const std::string &newTaskName) {
-	m_tasks.at(taskId)->setLabel(newTaskName);
+    m_tasks.at(taskId)->setLabel(newTaskName);
 }
 
+bool List::VmoveTask(const unsigned short taskId, const VDirection &moveDirection) {
+    for (auto i = m_tasksOrder.begin(); i < m_tasksOrder.end(); ++i)
+        if(*i == taskId) {
+            if(moveDirection == UP  && (i-1) >= m_tasksOrder.begin()) {
+                unsigned short tmp = *i;
+                *i = *(i-1);
+                *(i-1) = tmp;
+                return true;
+            } else if(moveDirection == DOWN  && (i+1) < m_tasksOrder.end()) {
+                unsigned short tmp = *i;
+                *i = *(i+1);
+                *(i+1) = tmp;
+                return true;
+            }
+        }
+    return false;
+}

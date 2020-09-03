@@ -9,6 +9,10 @@ enum Direction {
 	 RIGHT = 1
  };
 
+enum VDirection {
+     UP,
+     DOWN
+ };
 
 enum TaskType {
 	TASK = 1,

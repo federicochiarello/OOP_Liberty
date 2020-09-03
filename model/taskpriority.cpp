@@ -15,7 +15,6 @@ TaskPriority::TaskPriority(const QJsonObject& object, std::map<unsigned short,un
 	qDebug() << "TaskPriority creato";
 }
 
-
 TaskPriority *TaskPriority::clone() const {
 	return new TaskPriority(*this);
 }

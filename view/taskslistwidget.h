@@ -61,7 +61,7 @@ public slots:
 
 	void fetchListName(const unsigned short listId, const QString& listName);
 	void fetchTaskId(const unsigned short listId, const std::pair<unsigned short, TaskType>& taskId);
-	void fetchTasksIds(const unsigned short listId, const std::vector<std::pair<unsigned short, TaskType>>& tasksIds);
+    void fetchTasksIds(const unsigned short listId, const veqtor<std::pair<unsigned short, TaskType>>& tasksIds);
 	void onListNameChanged();
 	void onMoveListLeft();
 	void onMoveListRight();
