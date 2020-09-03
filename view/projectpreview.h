@@ -3,10 +3,7 @@
 
 #include <QWidget>
 #include <QLayout>
-#include <QLineEdit>
 #include <QLabel>
-#include <QKeyEvent>
-#include <QShortcut>
 
 #include "controller/controller.h"
 
@@ -23,15 +20,15 @@ class ProjectPreview : public QWidget {
 	void connects();
 
 public:
-	explicit ProjectPreview(QWidget* parent = nullptr);
 
 	ProjectPreview(const Controller* controller, const QString& name, const QString& path, QWidget* parent =nullptr);
 
 protected:
+
 	virtual void mouseDoubleClickEvent(QMouseEvent*) override;
-//	virtual void keyPressEvent(QKeyEvent* key) override;
 
 signals:
+
 	void openProject(const QString&);
 };
 

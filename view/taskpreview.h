@@ -9,7 +9,6 @@
 
 #include "controller/controller.h"
 
-#include "textholder.h"
 #include "taskwidget.h"
 
 class TaskPreview : public QLineEdit {
@@ -34,9 +33,9 @@ protected:
 public:
 
 	TaskPreview(const unsigned short id, const unsigned short listId, const unsigned short projectId, const Controller* controller, QWidget* parent = nullptr);
-//	explicit TaskPreview(QString taskName, const unsigned short id, const Controller* controller, QWidget* parent = nullptr);
 
 	unsigned short getId() const;
+
 protected:
 
 	virtual void mouseDoubleClickEvent(QMouseEvent* event) override;
@@ -49,8 +48,6 @@ signals:
 	void moveTask(const unsigned short, const unsigned short, const std::pair<unsigned short, TaskType>&, const Direction&);
 	void deleteTask(const unsigned short, const unsigned short, const unsigned short);
 	void duplicateTask(const unsigned short, const unsigned short, const unsigned short);
-
-
 	void openTaskInfo(const unsigned short);
 
 public slots:
