@@ -1,15 +1,11 @@
 #ifndef VIEW_H
 #define VIEW_H
 
-#include <QObject>
-#include <QWidget>
 #include <QMainWindow>
 #include <QLayout>
 #include <QMenuBar>
-#include <QPushButton>
 #include <QToolBar>
 #include <QToolButton>
-#include <QDesktopWidget>
 #include <QTabWidget>
 #include <QFileDialog>
 #include <QDialogButtonBox>
@@ -19,8 +15,6 @@
 #include "newprojectdialog.h"
 
 #include "controller/controller.h"
-
-#include <QDebug>
 
 class View : public QMainWindow {
 	Q_OBJECT
@@ -58,10 +52,6 @@ class View : public QMainWindow {
 public:
 
 	explicit View(const Controller* controller =nullptr, QWidget* parent =nullptr);
-
-	void addMainLayout();
-	void addMenu();
-	void addStatusBar();
 
 signals:
 

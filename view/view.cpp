@@ -8,15 +8,69 @@ void View::setup() {
 	_centralWidget->setTabsClosable(true);
 	createMenus();
 	createToolBar();
+}
 
-	setLayout(_windowLayout);
+void View::createActions() {
+
+	_newProject = new QAction(tr("&New project"), _file);
+	_newProject->setShortcut(QKeySequence::New);
+	_newProject->setStatusTip(tr("Create new project"));
+
+
+	_openProject = new QAction(tr("&Open project"), _file);
+	_openProject->setShortcut(QKeySequence::Open);
+	_openProject->setStatusTip(tr("Open existing project"));
+
+	_saveProject = new QAction(tr("Salva"), _file);
+	_saveProject->setShortcut(QKeySequence::Save);
+	_saveProject->setStatusTip(tr("Salva progetto corrente"));
+
+
+	_saveAllProjects = new QAction(tr("Salva tutti"), _file);
+	_saveAllProjects->setStatusTip(tr("Salva tutti i progetti aperti"));
+
+
+	_importProject = new QAction(tr("Import project"), _file);
+	_importProject->setStatusTip(tr("Import existing project from file"));
+
+	_exportProject = new QAction(tr("Export project"), _file);
+	_exportProject->setStatusTip(tr("Export project file to directory"));
+
+}
+
+void View::createMenus() {
+	createActions();
+
+	_file->addAction(_newProject);
+	_file->addAction(_openProject);
+	_file->addAction(_saveProject);
+	_file->addAction(_saveAllProjects);
+
+	_menuBar->addMenu(_file);
+}
+
+void View::createToolBar() {
+
+	_toolBar->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+
+	_toolButtonNew->setIcon(QIcon(":/icons/new_icon.png"));
+	_toolButtonOpen->setIcon(QIcon(":/icons/open_icon.png"));
+	_toolButtonSave->setIcon(QIcon(":/icons/save_icon.png"));
+	_toolButtonExport->setIcon(QIcon(":/icons/export_icon.png"));
+
+	_toolBar->addWidget(_toolButtonNew);
+	_toolBar->addWidget(_toolButtonOpen);
+	_toolBar->addWidget(_toolButtonSave);
+	_toolBar->addWidget(_toolButtonExport);
+
+	addToolBar(_toolBar);
 }
 
 void View::connects() {
 	connect(this, SIGNAL(appStart()),
 			this, SIGNAL(getStartingWidget()));
 
-	connect(this, SIGNAL(appStart()), // cambiare appStart() con getStartingWidget() e cambiare in controller
+	connect(this, SIGNAL(appStart()),
 			_controller, SLOT(onAppStart()));
 
 	connect(this, SIGNAL(getProjectsDir()),
@@ -74,50 +128,12 @@ void View::connects() {
 			_controller, SLOT(onImportProject(const QString&)));
 }
 
-void View::createActions() {
-	_newProject = new QAction(tr("&New project"), _file);
-	_newProject->setShortcut(QKeySequence::New);
-	_newProject->setStatusTip(tr("Create new project"));
-
-
-	_openProject = new QAction(tr("&Open project"), _file);
-	_openProject->setShortcut(QKeySequence::Open);
-	_openProject->setStatusTip(tr("Open existing project"));
-
-	_saveProject = new QAction(tr("Salva"), _file);
-	_saveProject->setShortcut(QKeySequence::Save);
-	_saveProject->setStatusTip(tr("Salva progetto corrente"));
-
-
-	_saveAllProjects = new QAction(tr("Salva tutti"), _file);
-	_saveAllProjects->setStatusTip(tr("Salva tutti i progetti aperti"));
-
-
-	_importProject = new QAction(tr("Import project"), _file);
-	_importProject->setStatusTip(tr("Import existing project from file"));
-
-	_exportProject = new QAction(tr("Export project"), _file);
-	_exportProject->setStatusTip(tr("Export project file to directory"));
-
-}
-
-void View::createMenus() {
-	createActions();
-
-	_file->addAction(_newProject);
-	_file->addAction(_openProject);
-	_file->addAction(_saveProject);
-	_file->addAction(_saveAllProjects);
-
-	_menuBar->addMenu(_file);
-//	_menuBar->addMenu(_edit);
-}
 
 View::View(const Controller* controller,QWidget* parent) :
 	QMainWindow(parent),
 	_controller(controller),
 	_windowLayout(new QVBoxLayout()),
-	_centralWidget(new QTabWidget(this)),
+	_centralWidget(new QTabWidget()),
 	_menuBar(new QMenuBar(this)),
 	_file(new QMenu(tr("&File"), _menuBar)),
 	_edit(new QMenu(tr("&Edit"), _menuBar)),
@@ -130,39 +146,7 @@ View::View(const Controller* controller,QWidget* parent) :
 	setup();
 	connects();
 
-	qDebug() << "Start";
 	emit appStart();
-}
-
-void View::addMainLayout() {
-	_mainLayout = new QHBoxLayout(this);
-
-	_windowLayout->addLayout(_mainLayout);
-}
-
-//void View::addList() {
-//	TaskHolder* taskHolder = new TaskHolder(this);
-//	_mainLayout->addWidget(taskHolder);
-//}
-
-void View::createToolBar() {
-	/* Declaration of toolbar and toolbuttons */
-
-	_toolButtonNew->setIcon(QIcon(":/icons/new_icon.png"));
-	_toolButtonOpen->setIcon(QIcon(":/icons/open_icon.png"));
-	_toolButtonSave->setIcon(QIcon(":/icons/save_icon.png"));
-	_toolButtonExport->setIcon(QIcon(":/icons/export_icon.png"));
-	/* Set toolBar properties */
-	_toolBar->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
-
-	/* Add toolbuttons to toolbar */
-	_toolBar->addWidget(_toolButtonNew);
-	_toolBar->addWidget(_toolButtonOpen);
-	_toolBar->addWidget(_toolButtonSave);
-	_toolBar->addWidget(_toolButtonExport);
-
-	/* Add toolbar to layout */
-	addToolBar(_toolBar);
 }
 
 void View::onCloseTab(int index) {
@@ -180,7 +164,6 @@ void View::fetchExistingProjects(const QStringList& projects) {
 	for (int i=1; i<projects.size(); i++) {
 		ProjectPreview* tmp = new ProjectPreview(_controller, projects.at(i), projects.at(0), startingWidget);
 		startingWidgetLayout->addWidget(tmp);
-//		connect(tmp, SIGNAL(openProject(const QString)), this, SIGNAL(openProject(const QString)));
 
 	}
 
@@ -191,8 +174,6 @@ void View::fetchExistingProjects(const QStringList& projects) {
 
 void View::fetchProjectInfo(std::pair<unsigned short, QString> projectInfo) {
 
-//	QTabWidget* widget = dynamic_cast<QTabWidget*>(centralWidget());
-	qDebug() << "Info passed: " <<projectInfo.first << " " << projectInfo.second;
 	ProjectView* project = new ProjectView(projectInfo, _controller, _centralWidget);
 	if (_centralWidget) { // vi sono già dei progetti aperti
 		_centralWidget->addTab(project, projectInfo.second);
@@ -203,27 +184,6 @@ void View::fetchProjectInfo(std::pair<unsigned short, QString> projectInfo) {
 	}
 	_centralWidget->setCurrentWidget(project);
 
-//	Creazione liste
-//	connect(project, SIGNAL(getLists(const unsigned short)),
-//			_controller, SLOT(onGetLists(const unsigned short))); elminato
-
-//	connect(_controller, SIGNAL(sendListsIds(const unsigned short, veqtor<unsigned short>)),
-//			project, SLOT(fetchListsIds(const unsigned short, veqtor<unsigned short>))); eliminato
-
-//	connect(project, SIGNAL(getListName(const unsigned short, const unsigned short)),
-//			_controller, SLOT(onGetListName(const unsigned short, const unsigned short)));
-
-//	connect(_controller, SIGNAL(sendListNqme(const unsigned short, const unsigned short, const QString&)),
-//			project, SLOT(fetchListName(const unsigned short, const unsigned short, const QString&)));
-
-////	Creazione tasks
-//	connect(project, SIGNAL(getTasksIds(const unsigned short, const unsigned short)),
-//			_controller, SLOT(onGetTasksIds(const unsigned short, const unsigned short)));
-
-//	connect(_controller, SIGNAL(sendTasksIds(const unsigned short, const unsigned short, const veqtor<std::pair<unsigned short, TaskType>>)),
-//			project, SLOT(onSendTasksIds(const unsigned short, const unsigned short, const veqtor<std::pair<unsigned short, TaskType>>)));
-
-	//	emit project->getLists(project->getId());
 }
 
 void View::onNewProject() {
@@ -247,7 +207,6 @@ void View::onExportProject() {
 }
 
 void View::getNewProjectName(const QString& projectName) {
-	qDebug() << projectName;
-//	emit newProjectInfo(projectName);
+	emit newProjectInfo(projectName);
 }
 
